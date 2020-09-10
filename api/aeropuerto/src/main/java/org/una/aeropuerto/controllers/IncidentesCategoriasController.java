@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.una.aeropuerto.dto.NotasDTO;
-import org.una.aeropuerto.entities.Notas;
-import org.una.aeropuerto.services.INotasService;
+import org.una.aeropuerto.dto.IncidentesCategoriasDTO;
+import org.una.aeropuerto.entities.IncidentesCategorias;
+import org.una.aeropuerto.services.IIncidentesCategoriasService;
 import org.una.tramites.utils.MapperUtils;
 
 /**
@@ -32,21 +32,21 @@ import org.una.tramites.utils.MapperUtils;
  * @author cordo
  */
 @RestController
-@RequestMapping("/notas")
-@Api(tags = {"Notas"})
-public class NotasController {
-    
+@RequestMapping("/incidentes_categorias")
+@Api(tags = {"Incidentes_Categorias"})
+public class IncidentesCategoriasController {
+
     @Autowired
-    private INotasService notasService;
-    
+    private IIncidentesCategoriasService incidenteService;
+
     @GetMapping()
-    @ApiOperation(value = "Obtiene una lista de todos las notas", response = NotasDTO.class, responseContainer = "List", tags = "Notas")
+    @ApiOperation(value = "Obtiene una lista de todos los Incidentes de Categorias", response = IncidentesCategoriasDTO.class, responseContainer = "List", tags = "Incidentes_Categorias")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Notas>> result = notasService.findAll();
+            Optional<List<IncidentesCategorias>> result = incidenteService.findAll();
             if (result.isPresent()) {
-                List<NotasDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(), NotasDTO.class);
+                List<IncidentesCategoriasDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(), IncidentesCategoriasDTO.class);
                 return new ResponseEntity<>(resultDto, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -57,14 +57,14 @@ public class NotasController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene una nota a travez de su identificador unico", response = NotasDTO.class, tags = "Notas")
+    @ApiOperation(value = "Obtiene un incidente de categoria a travez de su identificador unico", response = IncidentesCategoriasDTO.class, tags = "Incidentes_Categorias")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<Notas> notasFound = notasService.findById(id);
-            if (notasFound.isPresent()) {
-                NotasDTO gastosDTO = MapperUtils.DtoFromEntity(notasFound.get(), NotasDTO.class);
-                return new ResponseEntity<>(gastosDTO, HttpStatus.OK);
+            Optional<IncidentesCategorias> incidenteFound = incidenteService.findById(id);
+            if (incidenteFound.isPresent()) {
+                IncidentesCategoriasDTO incidenteDTO = MapperUtils.DtoFromEntity(incidenteFound.get(), IncidentesCategoriasDTO.class);
+                return new ResponseEntity<>(incidenteDTO, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -75,11 +75,11 @@ public class NotasController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Notas notas) {
+    public ResponseEntity<?> create(@RequestBody IncidentesCategorias incidentesCategorias) {
         try {
-            Notas notasCreated = notasService.create(notas);
-            NotasDTO notasDto = MapperUtils.DtoFromEntity(notasCreated,NotasDTO.class);
-            return new ResponseEntity<>(notasDto, HttpStatus.CREATED);
+            IncidentesCategorias incidenteCreated = incidenteService.create(incidentesCategorias);
+            IncidentesCategoriasDTO incidenteDto = MapperUtils.DtoFromEntity(incidenteCreated, IncidentesCategoriasDTO.class);
+            return new ResponseEntity<>(incidenteDto, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -87,11 +87,11 @@ public class NotasController {
 
     @PutMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Notas traModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody IncidentesCategorias traModified) {
         try {
-            Optional<Notas> traUpdated = notasService.update(traModified, id);
+            Optional<IncidentesCategorias> traUpdated = incidenteService.update(traModified, id);
             if (traUpdated.isPresent()) {
-                NotasDTO traDto = MapperUtils.DtoFromEntity(traUpdated.get(), NotasDTO.class);
+                IncidentesCategoriasDTO traDto = MapperUtils.DtoFromEntity(traUpdated.get(), IncidentesCategoriasDTO.class);
                 return new ResponseEntity<>(traDto, HttpStatus.OK);
 
             } else {
@@ -106,7 +106,7 @@ public class NotasController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
-            notasService.delete(id);
+            incidenteService.delete(id);
             if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
@@ -119,7 +119,7 @@ public class NotasController {
     @DeleteMapping("/")
     public ResponseEntity<?> deleteAll() {
         try {
-            notasService.deleteAll();
+            incidenteService.deleteAll();
             if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
@@ -129,13 +129,13 @@ public class NotasController {
         }
     }
 
-    @GetMapping("/notas_gastos_mantenimientos/{id}")
-    public ResponseEntity<?> findByGastosMantenimientosId(@PathVariable(value = "id") Long id) {
+    @GetMapping("/nombre")
+    public ResponseEntity<?> findByNombre(@PathVariable(value = "nombre") String nombre) {
         try {
-            Optional<List<Notas>> result = notasService.findByGastosMantenimientosId(id);
+            Optional<List<IncidentesCategorias>> result = incidenteService.findByNombre(nombre);
             if (result.isPresent()) {
-                List<NotasDTO> servDto = MapperUtils.DtoListFromEntityList(result.get(), NotasDTO.class);
-                return new ResponseEntity<>(servDto, HttpStatus.OK);
+                List<IncidentesCategoriasDTO> resultDTO = MapperUtils.DtoListFromEntityList(result.get(), IncidentesCategoriasDTO.class);
+                return new ResponseEntity<>(resultDTO, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception ex) {

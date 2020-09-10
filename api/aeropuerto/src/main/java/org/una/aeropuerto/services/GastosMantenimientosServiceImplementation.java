@@ -21,7 +21,7 @@ import org.una.aeropuerto.repositories.IGastosMantinimientosRepository;
 public class GastosMantenimientosServiceImplementation implements IGastosMantenimientosService {
 
     @Autowired
-    IGastosMantinimientosRepository gastosRepository;
+    private IGastosMantinimientosRepository gastosRepository;
 
     @Override
     @Transactional(readOnly = true)

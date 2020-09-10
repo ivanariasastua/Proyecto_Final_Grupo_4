@@ -60,8 +60,8 @@ public class ServiciosController {
 
             Optional<Servicios> serviciosFound = serviciosService.findById(id);
             if (serviciosFound.isPresent()) {
-                ServiciosDTO serviciosnDto = MapperUtils.DtoFromEntity(serviciosFound.get(), ServiciosDTO.class);
-                return new ResponseEntity<>(serviciosnDto, HttpStatus.OK);
+                ServiciosDTO serviciosDto = MapperUtils.DtoFromEntity(serviciosFound.get(), ServiciosDTO.class);
+                return new ResponseEntity<>(serviciosDto, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }

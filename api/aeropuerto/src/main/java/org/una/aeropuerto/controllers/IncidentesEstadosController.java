@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.una.aeropuerto.dto.ServiciosPreciosDTO;
-import org.una.aeropuerto.entities.ServiciosPrecios;
-import org.una.aeropuerto.services.ServiciosPreciosServiceImplementation;
+import org.una.aeropuerto.dto.IncidentesEstadosDTO;
+import org.una.aeropuerto.entities.IncidentesEstados;
+import org.una.aeropuerto.services.IIncidentesEstadosService;
 import org.una.tramites.utils.MapperUtils;
 
 /**
@@ -32,54 +32,54 @@ import org.una.tramites.utils.MapperUtils;
  * @author cordo
  */
 @RestController
-@RequestMapping("/servicios_precios")
-@Api(tags = {"Servicios_Precios"})
-public class ServiciosPreciosController {
+@RequestMapping("/incidentes_estados")
+@Api(tags = {"Incidentes_Estados"})
+public class IncidentesEstadosController {
 
     @Autowired
-    private ServiciosPreciosServiceImplementation servService;
+    private IIncidentesEstadosService incidenteService;
 
     @GetMapping()
-    @ApiOperation(value = "Obtiene una lista de todos los servicios precios", response = ServiciosPreciosDTO.class, responseContainer = "List", tags = "Servicios_Precios")
+    @ApiOperation(value = "Obtiene una lista de todos los Incidentes estados ", response = IncidentesEstadosDTO.class, responseContainer = "List", tags = "Incidentes_Estados")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<ServiciosPrecios>> result = servService.findAll();
+            Optional<List<IncidentesEstados>> result = incidenteService.findAll();
             if (result.isPresent()) {
-                List<ServiciosPreciosDTO> resultDTO = MapperUtils.DtoListFromEntityList(result.get(), ServiciosPreciosDTO.class);
-                return new ResponseEntity<>(resultDTO, HttpStatus.OK);
+                List<IncidentesEstadosDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(), IncidentesEstadosDTO.class);
+                return new ResponseEntity<>(resultDto, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene un servicio precios a travez de su identificador unico", response = ServiciosPreciosDTO.class, tags = "Servicios_Precios")
+    @ApiOperation(value = "Obtiene un incidente estado a travez de su identificador unico ", response = IncidentesEstadosDTO.class, tags = "Incidentes_Estados")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<ServiciosPrecios> servFound = servService.findById(id);
-            if (servFound.isPresent()) {
-                ServiciosPreciosDTO servDto = MapperUtils.DtoFromEntity(servFound.get(), ServiciosPreciosDTO.class);
-                return new ResponseEntity<>(servDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            Optional<IncidentesEstados> incidenteFound = incidenteService.findById(id);
+            if (incidenteFound.isPresent()) {
+                IncidentesEstadosDTO incidenteDTO = MapperUtils.DtoFromEntity(incidenteFound.get(), IncidentesEstadosDTO.class);
+                return new ResponseEntity<>(incidenteDTO, HttpStatus.OK);
             }
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody ServiciosPrecios serviciosPrecios) {
+    public ResponseEntity<?> create(@RequestBody IncidentesEstados incidentesEstados) {
         try {
-            ServiciosPrecios servCreated = servService.create(serviciosPrecios);
-            ServiciosPreciosDTO servDto = MapperUtils.DtoFromEntity(servCreated, ServiciosPreciosDTO.class);
-            return new ResponseEntity<>(servDto, HttpStatus.CREATED);
+            IncidentesEstados incidenteCreated = incidenteService.create(incidentesEstados);
+            IncidentesEstadosDTO incidenteDto = MapperUtils.DtoFromEntity(incidenteCreated, IncidentesEstadosDTO.class);
+            return new ResponseEntity<>(incidenteDto, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -87,14 +87,17 @@ public class ServiciosPreciosController {
 
     @PutMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ServiciosPrecios varModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody IncidentesEstados traModified) {
         try {
-            Optional<ServiciosPrecios> servUpdated = servService.update(varModified, id);
-            if (servUpdated.isPresent()) {
-                ServiciosPreciosDTO servDto = MapperUtils.DtoFromEntity(servUpdated.get(), ServiciosPreciosDTO.class);
-                return new ResponseEntity<>(servDto, HttpStatus.OK);
+            Optional<IncidentesEstados> traUpdated = incidenteService.update(traModified, id);
+            if (traUpdated.isPresent()) {
+                IncidentesEstadosDTO traDto = MapperUtils.DtoFromEntity(traUpdated.get(), IncidentesEstadosDTO.class);
+                return new ResponseEntity<>(traDto, HttpStatus.OK);
+
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -103,7 +106,7 @@ public class ServiciosPreciosController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
-            servService.delete(id);
+            incidenteService.delete(id);
             if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
@@ -116,7 +119,7 @@ public class ServiciosPreciosController {
     @DeleteMapping("/")
     public ResponseEntity<?> deleteAll() {
         try {
-            servService.deleteAll();
+            incidenteService.deleteAll();
             if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
@@ -126,13 +129,13 @@ public class ServiciosPreciosController {
         }
     }
 
-    @GetMapping("/servicios_precios_servicios/{id}")
-    public ResponseEntity<?> findByServiciosId(@PathVariable(value = "id") Long id) {
+    @GetMapping("/estado")
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") String estado) {
         try {
-            Optional<List<ServiciosPrecios>> result = servService.findByServiciosId(id);
+            Optional<List<IncidentesEstados>> result = incidenteService.findByEstado(estado);
             if (result.isPresent()) {
-                List<ServiciosPreciosDTO> servDto = MapperUtils.DtoListFromEntityList(result.get(), ServiciosPreciosDTO.class);
-                return new ResponseEntity<>(servDto, HttpStatus.OK);
+                List<IncidentesEstadosDTO> resultDTO = MapperUtils.DtoListFromEntityList(result.get(), IncidentesEstadosDTO.class);
+                return new ResponseEntity<>(resultDTO, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception ex) {
