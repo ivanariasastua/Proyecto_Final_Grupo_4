@@ -5,6 +5,8 @@
  */
 package org.una.aeropuerto.dto;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +24,5 @@ public class IncidentesEstadosDTO {
     
     private Long id;
     private String estado;
+     private List<IncidentesRegistradosEstadosDTO> incidentesRegistradosEstados = new ArrayList<>();
 }

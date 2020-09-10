@@ -6,7 +6,10 @@
 package org.una.aeropuerto.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -69,5 +73,9 @@ public class GastosMantenimientos implements Serializable{
     @ManyToOne 
     @JoinColumn(name="responsable_id")
     private Usuarios responsable;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gastos") 
+    private List<Notas> notas = new ArrayList<>();
+    
     
 }

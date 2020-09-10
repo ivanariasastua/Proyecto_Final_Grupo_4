@@ -5,7 +5,9 @@
  */
 package org.una.aeropuerto.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,5 +34,6 @@ public class GastosMantenimientosDTO {
     private String numeroContrato;
     private boolean perioricidad;
     private Usuarios responsable;
+    private List<NotasDTO> notas = new ArrayList<>();
 
 }
