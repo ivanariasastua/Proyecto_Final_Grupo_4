@@ -6,13 +6,11 @@
 package org.una.aeropuerto.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,31 +22,22 @@ import lombok.ToString;
  * @author cordo
  */
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "Servicios")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Usuarios implements Serializable {
+public class Servicios implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column
-    private boolean estado;
-    
-//    @ManyToOne 
-//    @JoinColumn(name="empleado_id")
-//    private Empleados empleado;
-    
-//    @ManyToOne 
-//    @JoinColumn(name="rol_id")
-//    private Roles rol;
-    
-    @PrePersist
-    public void prePersist() {
-        estado=true;
-    }
+
+    @Column(name = "nombre", length = 25)
+    private String nombre;
+
+    @Column(name = "descripcion", length = 100)
+    private String descripcion;
 }

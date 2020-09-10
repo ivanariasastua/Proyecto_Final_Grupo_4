@@ -6,13 +6,13 @@
 package org.una.aeropuerto.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,31 +24,23 @@ import lombok.ToString;
  * @author cordo
  */
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "Notas")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Usuarios implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Notas implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column
-    private boolean estado;
+    @Column(name = "observacion", length = 50)
+    private String observacion;
     
-//    @ManyToOne 
-//    @JoinColumn(name="empleado_id")
-//    private Empleados empleado;
-    
-//    @ManyToOne 
-//    @JoinColumn(name="rol_id")
-//    private Roles rol;
-    
-    @PrePersist
-    public void prePersist() {
-        estado=true;
-    }
+    @ManyToOne 
+    @JoinColumn(name="gasto_mantenimiento_id")
+    private GastosMantenimientos gastoMantenimiento;
 }
