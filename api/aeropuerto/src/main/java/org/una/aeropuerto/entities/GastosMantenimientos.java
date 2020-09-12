@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,7 +34,7 @@ import lombok.ToString;
  * @author cordo
  */
 @Entity
-@Table(name = "Gastos_Mantenimientos")
+@Table(name = "Servicios_Gastos")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -54,7 +55,7 @@ public class GastosMantenimientos implements Serializable{
     private String empresa;
     
     @Column(name = "fecha_registro", updatable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
     
@@ -70,12 +71,19 @@ public class GastosMantenimientos implements Serializable{
     @Column
     private boolean perioricidad;
     
+    @Column
+    private Long duracion;
+    
     @ManyToOne 
     @JoinColumn(name="responsable_id")
-    private Usuarios responsable;
+    private Empleados responsable;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gastos") 
     private List<Notas> notas = new ArrayList<>();
     
+    @PrePersist
+    public void PrePersist(){
+        estadoGasto = true;
+    }
     
 }

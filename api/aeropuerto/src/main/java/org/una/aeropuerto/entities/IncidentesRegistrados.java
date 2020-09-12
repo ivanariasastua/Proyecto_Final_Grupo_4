@@ -56,6 +56,10 @@ public class IncidentesRegistrados implements Serializable{
     @JoinColumn(name="responsable_id")
     private Usuarios responsable;
     
+    @ManyToOne 
+    @JoinColumn(name="area")
+    private AreasTrabajo area;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidentes_registrados") 
     private List<IncidentesRegistradosEstados> incidentesRegistradosEstados = new ArrayList<>();
 

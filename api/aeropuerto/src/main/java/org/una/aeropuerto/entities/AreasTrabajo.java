@@ -13,12 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,60 +26,32 @@ import lombok.ToString;
  * @author ivana
  */
 @Entity
-@Table(name = "Empleados")
+@Table(name = "Areas_Trabajo")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Empleados implements Serializable {
+public class AreasTrabajo implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(length = 50)
+    @Column(length = 35)
     private String nombre;
     
-    @Column(length = 15)
-    private String cedula;
+    @Column(length = 100)
+    private String descripcion;
     
     @Column
     private Boolean estado;
     
-    @Column
-    @ManyToOne
-    private Empleados jefe;
-    
-    @Column(name = "contrasena_encriptada", length = 100)
-    private String contrasenaEncriptada;
-    
-    @Column
-    @OneToOne
-    @JoinColumn(name = "empleado")
-    private Usuarios usuario;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "jefe")
-    private List<Empleados> empleados;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaTrabajo")
     private List<EmpleadosAreasTrabajo> empleadosAreasTrabajo;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleado")
-    private List<EmpleadosHorarios> horarios;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "emisor")
-    private List<IncidentesRegistrados> incidentesEmitidos;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "responsable")
-    private List<IncidentesRegistrados> incidentesResponsable;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "responsable")
-    private List<GastosMantenimientos> gastosResponsable;
-    
     @PrePersist
-    public void prePersist() {
+    public void PrePersist(){
         estado = true;
     }
-    
 }

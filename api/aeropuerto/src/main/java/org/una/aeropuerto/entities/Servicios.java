@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,9 +46,17 @@ public class Servicios implements Serializable {
     @Column(name = "descripcion", length = 100)
     private String descripcion;
     
+    @Column
+    private boolean estado;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicios") 
     private List<ServiciosPrecios> serviciosPrecios = new ArrayList<>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicios") 
     private List<GastosMantenimientos> gastosMantenimientos = new ArrayList<>();
+
+    @PrePersist
+    public void PrePersist(){
+        estado = true;
+    }
 }

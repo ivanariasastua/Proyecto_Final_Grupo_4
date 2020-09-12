@@ -43,7 +43,7 @@ public class IncidentesEstados implements Serializable{
     private String estado;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidentes_estados") 
-    private List<IncidentesRegistradosEstados> incidentesRegistradosEstados = new ArrayList<>();
+    private List<IncidentesRegistradosEstados> incidentesRegistradosEstados;
 
     
 }
