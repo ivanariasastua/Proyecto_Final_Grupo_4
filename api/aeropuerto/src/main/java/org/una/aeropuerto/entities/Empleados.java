@@ -6,9 +6,6 @@
 package org.una.aeropuerto.entities;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,9 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,36 +24,45 @@ import lombok.ToString;
 
 /**
  *
- * @author cordo
+ * @author ivana
  */
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "Empleados")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Usuarios implements Serializable {
+public class Empleados implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(length = 50)
+    private String nombre;
+    
+    @Column(length = 15)
+    private String cedula;
+    
     @Column
-    private boolean estado;
+    private Boolean estado;
     
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private Empleados empleado;
+    @Column
+    @ManyToOne
+    private Empleados jefe;
     
-    @ManyToOne 
-    @JoinColumn(name="rol")
-    private Roles rol;
+    @Column(name = "contrasena_encriptada", length = 100)
+    private String contrasenaEncriptada;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private List<Transacciones> transacciones;
+    @Column
+    @OneToOne
+    @JoinColumn(name = "empleado")
+    private Usuarios usuario;
     
     @PrePersist
     public void prePersist() {
-        estado=true;
+        estado = true;
     }
+    
 }

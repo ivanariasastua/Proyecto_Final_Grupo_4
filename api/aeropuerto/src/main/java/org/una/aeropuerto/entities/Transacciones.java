@@ -6,9 +6,6 @@
 package org.una.aeropuerto.entities;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,9 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,36 +21,26 @@ import lombok.ToString;
 
 /**
  *
- * @author cordo
+ * @author ivana
  */
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "Transaciones")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Usuarios implements Serializable {
+public class Transacciones implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column
-    private boolean estado;
-    
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private Empleados empleado;
-    
     @ManyToOne 
-    @JoinColumn(name="rol")
-    private Roles rol;
+    @JoinColumn(name="usuario")
+    private Usuarios usuario;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private List<Transacciones> transacciones;
+    @Column(length = 50)
+    private String accion;
     
-    @PrePersist
-    public void prePersist() {
-        estado=true;
-    }
 }
