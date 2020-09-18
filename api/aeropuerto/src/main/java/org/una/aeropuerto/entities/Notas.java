@@ -43,7 +43,7 @@ public class Notas implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "observacion", length = 50)
+    @Column(name = "observacion", length = 100)
     private String observacion;
     
     @Column(name = "fecha_registro")
@@ -55,8 +55,8 @@ public class Notas implements Serializable{
     private boolean estado;
     
     @ManyToOne 
-    @JoinColumn(name="gasto_mantenimiento_id")
-    private GastosMantenimientos gastoMantenimiento;
+    @JoinColumn(name="servicio_gasto")
+    private ServiciosGastos servicioGasto;
     
     @PrePersist
     public void PrePersist(){

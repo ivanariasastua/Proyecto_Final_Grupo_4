@@ -52,7 +52,7 @@ public class ServiciosPrecios implements Serializable {
     private Date fechaRegistro;
 
     @ManyToOne
-    @JoinColumn(name = "servicio_id")
+    @JoinColumn(name = "servicio")
     private Servicios servicio;
 
     @PrePersist

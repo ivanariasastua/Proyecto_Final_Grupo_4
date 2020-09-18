@@ -20,6 +20,12 @@
 
 	<dependencies>
                 <dependency>
+                    <groupId>javax.json.bind</groupId>
+                    <artifactId>javax.json.bind-api</artifactId>
+                    <version>1.0</version>
+                    <type>jar</type>
+                </dependency>
+                <dependency>
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
                     <version>8.0.21</version>

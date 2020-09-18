@@ -39,7 +39,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class GastosMantenimientos implements Serializable{
+public class ServiciosGastos implements Serializable{
     
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class GastosMantenimientos implements Serializable{
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name = "servicio_id")
+    @JoinColumn(name = "servicio")
     private Servicios servicio;
     
     @Column(name = "empresa", length = 50)
@@ -65,7 +65,7 @@ public class GastosMantenimientos implements Serializable{
     @Column
     private boolean estadoGasto;
     
-    @Column(length = 20)
+    @Column(length = 50)
     private String numeroContrato;
     
     @Column
@@ -75,10 +75,10 @@ public class GastosMantenimientos implements Serializable{
     private Long duracion;
     
     @ManyToOne 
-    @JoinColumn(name="responsable_id")
+    @JoinColumn(name="responsable")
     private Empleados responsable;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gastos") 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicios_gastos") 
     private List<Notas> notas = new ArrayList<>();
     
     @PrePersist

@@ -37,10 +37,10 @@ public class Roles implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(length = 12)
+    @Column(length = 25)
     private String nombre;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roles")
     private List<Usuarios> usuarios;
     
 }

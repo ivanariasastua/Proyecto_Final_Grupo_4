@@ -31,7 +31,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class AreasTrabajo implements Serializable {
+public class AreasTrabajos implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -48,7 +48,7 @@ public class AreasTrabajo implements Serializable {
     private Boolean estado;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaTrabajo")
-    private List<EmpleadosAreasTrabajo> empleadosAreasTrabajo;
+    private List<EmpleadosAreasTrabajos> empleadosAreasTrabajo;
     
     @PrePersist
     public void PrePersist(){

@@ -53,15 +53,7 @@ public class IncidentesCategorias implements Serializable{
     @JoinColumn(name = "categoria_superior")
     private IncidentesCategorias categoriaSuperior;
     
-    @Column
-    private boolean estado; 
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidentes_categorias") 
     private List<IncidentesRegistrados> incidentesRegistrados = new ArrayList<>();
 
-    @PrePersist
-    public void PrePersist(){
-        estado = true;
-    }
-    
 }

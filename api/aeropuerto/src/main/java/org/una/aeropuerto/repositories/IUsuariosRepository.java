@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.repositories;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.una.aeropuerto.entities.Usuarios;
 
@@ -14,5 +15,6 @@ import org.una.aeropuerto.entities.Usuarios;
  */
 public interface IUsuariosRepository extends JpaRepository<Usuarios, Long>{
     
+    public List<Usuarios> findByRolesId(Long id);
     
 }

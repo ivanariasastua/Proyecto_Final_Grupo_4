@@ -45,20 +45,20 @@ public class IncidentesRegistrados implements Serializable{
     private String descripcion;
     
     @ManyToOne 
-    @JoinColumn(name="categoria_id")
+    @JoinColumn(name="categoria")
     private IncidentesCategorias categoria;
     
     @ManyToOne 
-    @JoinColumn(name="emisor_id")
+    @JoinColumn(name="emisor")
     private Usuarios emisor;
     
     @ManyToOne 
-    @JoinColumn(name="responsable_id")
+    @JoinColumn(name="responsable")
     private Usuarios responsable;
     
     @ManyToOne 
-    @JoinColumn(name="area")
-    private AreasTrabajo area;
+    @JoinColumn(name="area_trabajo")
+    private AreasTrabajos areaTrabajo;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidentes_registrados") 
     private List<IncidentesRegistradosEstados> incidentesRegistradosEstados = new ArrayList<>();

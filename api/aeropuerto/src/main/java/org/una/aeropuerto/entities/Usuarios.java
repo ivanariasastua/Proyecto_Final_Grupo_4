@@ -45,9 +45,6 @@ public class Usuarios implements Serializable {
     @Column
     private boolean estado;
     
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private Empleados empleado;
-    
     @ManyToOne 
     @JoinColumn(name="rol")
     private Roles rol;

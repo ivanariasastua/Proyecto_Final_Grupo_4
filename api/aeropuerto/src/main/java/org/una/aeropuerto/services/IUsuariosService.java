@@ -25,6 +25,8 @@ public interface IUsuariosService {
     public void delete(Long id);
 
     public void deleteAll();
+    
+    public Optional<List<Usuarios>> findUsersByRolesId(Long id);
 
     
 }

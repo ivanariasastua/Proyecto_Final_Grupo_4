@@ -63,4 +63,10 @@ public class UsuariosServiceImplementation implements IUsuariosService {
     public void deleteAll() {
         usuarioRepository.deleteAll();
     }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<Usuarios>> findUsersByRolesId(Long id) {
+        return Optional.ofNullable(usuarioRepository.findByRolesId(id));
+    }
 }

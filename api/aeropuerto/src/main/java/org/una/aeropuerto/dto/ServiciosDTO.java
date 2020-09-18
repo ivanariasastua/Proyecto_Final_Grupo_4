@@ -24,6 +24,6 @@ public class ServiciosDTO {
     private Long id;
     private String nombre;
     private String descripcion;
-    private List<GastosMantenimientosDTO> gastosMantenimientos = new ArrayList<>();
+    private List<ServiciosGastosDTO> gastosMantenimientos = new ArrayList<>();
     private List<ServiciosPreciosDTO> serviciosPrecios = new ArrayList<>();
 }

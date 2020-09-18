@@ -60,14 +60,14 @@ public class Empleados implements Serializable {
     
     @Column
     @OneToOne
-    @JoinColumn(name = "empleado")
+    @JoinColumn(name = "usuario")
     private Usuarios usuario;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "jefe")
     private List<Empleados> empleados;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaTrabajo")
-    private List<EmpleadosAreasTrabajo> empleadosAreasTrabajo;
+    private List<EmpleadosAreasTrabajos> empleadosAreasTrabajo;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleado")
     private List<EmpleadosHorarios> horarios;
@@ -79,7 +79,7 @@ public class Empleados implements Serializable {
     private List<IncidentesRegistrados> incidentesResponsable;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "responsable")
-    private List<GastosMantenimientos> gastosResponsable;
+    private List<ServiciosGastos> gastosResponsable;
     
     @PrePersist
     public void prePersist() {

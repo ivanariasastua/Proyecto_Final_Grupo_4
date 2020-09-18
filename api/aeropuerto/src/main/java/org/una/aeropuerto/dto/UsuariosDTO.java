@@ -21,6 +21,5 @@ import lombok.ToString;
 public class UsuariosDTO {
     private Long id; 
     private boolean estado; 
-//    private Empleados empleadoId;
-//    private Roles rolId;
+    private RolesDTO rol;
 }

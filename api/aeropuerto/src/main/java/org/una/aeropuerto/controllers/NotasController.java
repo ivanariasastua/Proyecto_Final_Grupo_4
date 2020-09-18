@@ -130,7 +130,7 @@ public class NotasController {
     }
 
     @GetMapping("/notas_gastos_mantenimientos/{id}")
-    public ResponseEntity<?> findByGastosMantenimientosId(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> findByGServiciosGastosId(@PathVariable(value = "id") Long id) {
         try {
             Optional<List<Notas>> result = notasService.findByGastosMantenimientosId(id);
             if (result.isPresent()) {

@@ -11,9 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.una.aeropuerto.entities.IncidentesCategorias;
-import org.una.aeropuerto.entities.Usuarios;
-
 /**
  *
  * @author cordo
@@ -25,8 +22,9 @@ import org.una.aeropuerto.entities.Usuarios;
 public class IncidentesRegistradosDTO {
     private Long id;
     private String descripcion;
-    private IncidentesCategorias categoria;
-    private Usuarios emisor;
-    private Usuarios responsable;
+    private IncidentesCategoriasDTO categoria;
+    private UsuariosDTO emisor;
+    private UsuariosDTO responsable;
+    private AreasTrabajosDTO areaTrabajo;
     private List<IncidentesRegistradosEstadosDTO> incidentesRegistradosEstados = new ArrayList<>();
 }

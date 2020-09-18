@@ -39,7 +39,7 @@ public class IncidentesEstados implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "estado", length = 10)
+    @Column(name = "estado", length = 15)
     private String estado;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidentes_estados") 

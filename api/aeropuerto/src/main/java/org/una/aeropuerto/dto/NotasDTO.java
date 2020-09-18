@@ -5,11 +5,11 @@
  */
 package org.una.aeropuerto.dto;
 
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.una.aeropuerto.entities.GastosMantenimientos;
 
 /**
  *
@@ -23,5 +23,7 @@ public class NotasDTO {
     
     private Long id;
     private String observacion;
-    private GastosMantenimientos gastoMantenimiento;
+    private ServiciosGastosDTO servicioGasto;
+    private Date fechaRegistro;
+    private boolean estado;
 }

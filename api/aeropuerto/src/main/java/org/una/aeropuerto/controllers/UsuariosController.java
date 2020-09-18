@@ -73,13 +73,15 @@ public class UsuariosController {
     }
     
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/")
+    @PostMapping("saveUser/{value}")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo usuario", response = UsuariosDTO.class, tags = "Usuarios")
-    public ResponseEntity<?> create(@RequestBody Usuarios usuario) {
+    public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody UsuariosDTO usuario) {
         try {
-            Usuarios usuarioCreated = usuarioService.create(usuario);
-            UsuariosDTO usuarioDto = MapperUtils.DtoFromEntity(usuarioCreated, UsuariosDTO.class);
+            Usuarios user = MapperUtils.EntityFromDto(usuario, Usuarios.class);
+    //        user.setPasswordEncriptado(value);
+            user = usuarioService.create(user);
+            UsuariosDTO usuarioDto = MapperUtils.DtoFromEntity(user, UsuariosDTO.class);
             return new ResponseEntity<>(usuarioDto, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -128,6 +130,21 @@ public class UsuariosController {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/rol/{id}")
+    @ApiOperation(value = "Obtiene una lista de usuarios segun el rol donde se desempeña", response = UsuariosDTO.class, responseContainer = "List", tags = "Usuarios")
+    public ResponseEntity<?> findByRolesId(@PathVariable(value = "id") Long id) {
+        try {
+            Optional<List<Usuarios>> result = usuarioService.findUsersByRolesId(id);
+            if (result.isPresent()) {
+                List<UsuariosDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuariosDTO.class);
+                return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

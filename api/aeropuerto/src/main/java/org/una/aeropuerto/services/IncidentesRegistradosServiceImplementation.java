@@ -61,4 +61,16 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
     public void deleteAll() {
         incidenteReppository.deleteAll();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<IncidentesRegistrados>> findByCategoriaId(Long id) {
+         return Optional.ofNullable(incidenteReppository.findByCategoriaId(id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<IncidentesRegistrados>> findByAreaTrabajoId(Long id) {
+         return Optional.ofNullable(incidenteReppository.findByAreaTrabajoId(id));
+    }
 }

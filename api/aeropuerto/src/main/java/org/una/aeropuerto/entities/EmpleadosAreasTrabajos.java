@@ -30,7 +30,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class EmpleadosAreasTrabajo implements Serializable{
+public class EmpleadosAreasTrabajos implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
@@ -44,13 +44,6 @@ public class EmpleadosAreasTrabajo implements Serializable{
     
     @ManyToOne 
     @JoinColumn(name="area_trabajo")
-    private AreasTrabajo areaTrabajo;
-    
-    @Column
-    private Boolean estado;
-    
-    @PrePersist
-    public void PrePersist(){
-        estado = true;
-    }
+    private AreasTrabajos areaTrabajo;
+ 
 }

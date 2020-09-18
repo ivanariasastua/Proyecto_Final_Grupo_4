@@ -26,4 +26,8 @@ public interface IIncidentesRegistradosService {
     public void delete(Long id);
 
     public void deleteAll();
+    
+    public Optional<List<IncidentesRegistrados>> findByCategoriaId(Long id);
+    
+    public Optional<List<IncidentesRegistrados>> findByAreaTrabajoId(Long id);
 }

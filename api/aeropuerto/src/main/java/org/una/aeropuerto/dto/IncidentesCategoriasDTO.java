@@ -26,6 +26,6 @@ public class IncidentesCategoriasDTO {
     private Long id;
     private String nombre;
     private String descripcion;
-    private IncidentesCategorias categoriaSuperior;
+    private IncidentesCategoriasDTO categoriaSuperior;
     private List<IncidentesRegistradosDTO> incidentesRegistrados = new ArrayList<>();
 }

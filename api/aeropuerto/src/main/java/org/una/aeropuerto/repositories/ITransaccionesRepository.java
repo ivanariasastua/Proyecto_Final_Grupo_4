@@ -7,15 +7,15 @@ package org.una.aeropuerto.repositories;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.una.aeropuerto.entities.GastosMantenimientos;
+import org.una.aeropuerto.entities.Transacciones;
 
 /**
  *
  * @author cordo
  */
-public interface IGastosMantinimientosRepository extends JpaRepository<GastosMantenimientos, Long>{
+public interface ITransaccionesRepository  extends JpaRepository<Transacciones, Long>{
     
-    public List<GastosMantenimientos> findByServiciosId(Long id);
+    public List<Transacciones> findByUsuariosId(Long id);
     
-    public List<GastosMantenimientos> findByEmpresa(String empresa);
+    public List<Transacciones> findByAccion(String accion);
 }
