@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.RolesDTO;
 import org.una.aeropuerto.entities.Roles;
 import org.una.aeropuerto.services.IRolesService;
-import org.una.tramites.utils.MapperUtils;
+import org.una.aeropuerto.utils.MapperUtils;
 
 /**
  *

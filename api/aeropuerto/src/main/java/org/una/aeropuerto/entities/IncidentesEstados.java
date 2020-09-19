@@ -42,7 +42,7 @@ public class IncidentesEstados implements Serializable{
     @Column(name = "estado", length = 15)
     private String estado;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidentes_estados") 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidenteEstado") 
     private List<IncidentesRegistradosEstados> incidentesRegistradosEstados;
 
     

@@ -45,14 +45,14 @@ public class EmpleadosMarcajes implements Serializable{
     @JoinColumn(name="empleado_horario")
     private EmpleadosHorarios empleadoHorario;
     
-//    @Column(name = "hora_entrada")
-//    @Temporal(TemporalType.TIME)
-//    private Date horaEntrada;
-//    
-//    @Column(name = "hora_salida")
-//    @Temporal(TemporalType.TIME)
-//    private Date horaSalida;
-//    
+    @Column(name = "hora_entrada")
+    @Temporal(TemporalType.TIME)
+    private Date horaEntrada;
+    
+    @Column(name = "hora_salida")
+    @Temporal(TemporalType.TIME)
+    private Date horaSalida;
+    
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistros;

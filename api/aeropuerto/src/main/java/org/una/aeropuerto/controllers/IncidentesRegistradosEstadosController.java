@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.IncidentesRegistradosEstadosDTO;
 import org.una.aeropuerto.entities.IncidentesRegistradosEstados;
 import org.una.aeropuerto.services.IIncidentesRegistradosEstadosService;
-import org.una.tramites.utils.MapperUtils;
+import org.una.aeropuerto.utils.MapperUtils;
 
 /**
  *
@@ -94,7 +94,7 @@ public class IncidentesRegistradosEstadosController {
         }
     }
 
-    @GetMapping("/gastos_mantenimientos_servicios/{id}")
+    @GetMapping("/incidentes/{id}")
     public ResponseEntity<?> findByIncidentesRegistradosId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findByIncidentesRegistradosId(id),HttpStatus.OK);
@@ -103,7 +103,7 @@ public class IncidentesRegistradosEstadosController {
         }
     }
 
-    @GetMapping("/gastos_mantenimientos_servicios/{id}")
+    @GetMapping("/estados/{id}")
     public ResponseEntity<?> findByIncidentesEstadosId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findByIncidentesEstadosId(id),HttpStatus.OK);

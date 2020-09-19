@@ -15,5 +15,5 @@ import org.una.aeropuerto.entities.EmpleadosHorarios;
  */
 public interface IEmpleadosHorariosRepository extends JpaRepository<EmpleadosHorarios, Long>{
     
-    public List<EmpleadosHorarios> findByEmpleadosId(Long id);
+    public List<EmpleadosHorarios> findByEmpleado(Long id);
 }

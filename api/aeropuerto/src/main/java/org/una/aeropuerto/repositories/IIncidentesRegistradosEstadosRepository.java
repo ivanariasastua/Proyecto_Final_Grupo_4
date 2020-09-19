@@ -15,7 +15,7 @@ import org.una.aeropuerto.entities.IncidentesRegistradosEstados;
  */
 public interface IIncidentesRegistradosEstadosRepository extends JpaRepository<IncidentesRegistradosEstados, Long>{
     
-    public List<IncidentesRegistradosEstados> findByIncidentesEstadosId(Long id);
+    public List<IncidentesRegistradosEstados> findByIncidenteEstado(Long id);
     
-    public List<IncidentesRegistradosEstados> findByIncidentesRegistradosId(Long id);
+    public List<IncidentesRegistradosEstados> findByIncidenteRegistrado(Long id);
 }

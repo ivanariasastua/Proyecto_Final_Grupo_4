@@ -15,7 +15,7 @@ import org.una.aeropuerto.entities.Transacciones;
  */
 public interface ITransaccionesRepository  extends JpaRepository<Transacciones, Long>{
     
-    public List<Transacciones> findByUsuariosId(Long id);
+    public List<Transacciones> findByUsuario(Long id);
     
     public List<Transacciones> findByAccion(String accion);
 }

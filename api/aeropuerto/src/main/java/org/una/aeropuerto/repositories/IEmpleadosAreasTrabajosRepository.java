@@ -15,8 +15,8 @@ import org.una.aeropuerto.entities.EmpleadosAreasTrabajos;
  */
 public interface IEmpleadosAreasTrabajosRepository extends JpaRepository<EmpleadosAreasTrabajos, Long>{
     
-    public List<EmpleadosAreasTrabajos> findByEmpleadosId(Long id);
+    public List<EmpleadosAreasTrabajos> findByEmpleado(Long id);
     
-    public List<EmpleadosAreasTrabajos> findByAreaTrabjoId(Long id);
+    public List<EmpleadosAreasTrabajos> findByAreaTrabajo(Long id);
     
 }

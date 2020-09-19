@@ -73,7 +73,7 @@ public class TransaccionesServiceImplementation implements ITransaccionesService
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Transacciones>> findByUsuariosId(Long id) {
-        return  Optional.ofNullable(transRepository.findByUsuariosId(id));
+        return  Optional.ofNullable(transRepository.findByUsuario(id));
     }
     
 }

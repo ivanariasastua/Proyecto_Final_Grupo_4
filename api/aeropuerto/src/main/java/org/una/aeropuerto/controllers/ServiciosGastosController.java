@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.ServiciosGastosDTO;
 import org.una.aeropuerto.entities.ServiciosGastos;
-import org.una.tramites.utils.MapperUtils;
+import org.una.aeropuerto.utils.MapperUtils;
 import org.una.aeropuerto.services.IServiciosGastosService;
 
 /**

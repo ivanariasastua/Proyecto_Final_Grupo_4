@@ -51,14 +51,13 @@ public class Empleados implements Serializable {
     @Column
     private Boolean estado;
     
-    @Column
     @ManyToOne
+    @JoinColumn(name="jefe")
     private Empleados jefe;
     
     @Column(name = "contrasena_encriptada", length = 100)
     private String contrasenaEncriptada;
     
-    @Column
     @OneToOne
     @JoinColumn(name = "usuario")
     private Usuarios usuario;

@@ -63,12 +63,18 @@ public class IncidentesRegistradosEstadosServiceImplementation implements IIncid
     @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistradosEstadosDTO>> findByIncidentesEstadosId(Long id) {
         return ServiceConvertionHelper.findList(incidenteRepository.findByIncidentesEstadosId(id), IncidentesRegistradosEstadosDTO.class);
+
+    public Optional<List<IncidentesRegistradosEstados>> findByIncidentesRegistradosId(Long id) {
+        return Optional.ofNullable(incidenteRepository.findByIncidenteRegistrado(id));
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistradosEstadosDTO>> findByIncidentesRegistradosId(Long id) {
         return ServiceConvertionHelper.findList(incidenteRepository.findByIncidentesRegistradosId(id), IncidentesRegistradosEstadosDTO.class);
+
+    public Optional<List<IncidentesRegistradosEstados>> findByIncidentesEstadosId(Long id) {
+        return Optional.ofNullable(incidenteRepository.findByIncidenteEstado(id));
     }
 
 }

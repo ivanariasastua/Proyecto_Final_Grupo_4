@@ -65,7 +65,7 @@ public class NotasServiceImplementation implements INotasService {
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Notas>> findByGastosMantenimientosId(Long id) {
-        return Optional.ofNullable(notasRepository.findByGastosMantenimientosId(id));
+        return Optional.ofNullable(notasRepository.findByServicioGasto(id));
     }
 
 }

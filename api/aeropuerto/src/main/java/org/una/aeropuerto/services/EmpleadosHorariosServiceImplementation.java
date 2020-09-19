@@ -62,7 +62,7 @@ public class EmpleadosHorariosServiceImplementation implements IEmpleadosHorario
 
     @Override
     public Optional<List<EmpleadosHorarios>> findByEmpleadosId(Long id) {
-        return Optional.ofNullable(empleadoRepository.findByEmpleadosId(id));
+        return Optional.ofNullable(empleadoRepository.findByEmpleado(id));
     }
 
 }

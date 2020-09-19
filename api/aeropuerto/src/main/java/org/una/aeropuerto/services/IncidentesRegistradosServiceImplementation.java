@@ -78,6 +78,16 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
     @Override
     public Optional<List<IncidentesRegistradosDTO>> findByAreaTrabajoId(Long id) {
         return ServiceConvertionHelper.findList(incidenteReppository.findByAreaTrabajoId(id), IncidentesRegistradosDTO.class);
+
+    @Transactional(readOnly = true)
+    public Optional<List<IncidentesRegistrados>> findByCategoriaId(Long id) {
+         return Optional.ofNullable(incidenteReppository.findByCategoria(id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<IncidentesRegistrados>> findByAreaTrabajoId(Long id) {
+         return Optional.ofNullable(incidenteReppository.findByAreaTrabajo(id));
     }
 
 }

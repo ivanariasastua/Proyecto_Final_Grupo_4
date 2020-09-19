@@ -7,6 +7,7 @@ package org.una.aeropuerto.repositories;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.una.aeropuerto.entities.Empleados;
 
 /**
@@ -15,9 +16,14 @@ import org.una.aeropuerto.entities.Empleados;
  */
 public interface IEmpleadosRepository extends JpaRepository<Empleados, Long>{
     
-    public List<Empleados> findByUsuariosId(Long id);
+    public List<Empleados> findByUsuario(Long id);
     
     public List<Empleados> findByNombre(String nombre);
     
     public List<Empleados> findByCedula(String cedula);
+    
+    @Query("Select e from Empleados e "+
+            "join e.empleadosAreasTrabajo eat on e.id = eat.empleado "+
+            "where UPPER(e.nombre) like :nombre and UPPER(e.cedula) like :cedula and e.estado =:estado and eat.areaTrabajo.nombre =:area")
+    public List<Empleados> filtro(String nombre, String cedula, boolean estado, String area);
 }
