@@ -1,4 +1,4 @@
-package org.una.tramites.utils;
+package org.una.aeropuerto.utils;
 
 import java.util.Collection;
 import java.util.List;

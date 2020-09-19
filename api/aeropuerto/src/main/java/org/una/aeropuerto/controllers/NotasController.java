@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.NotasDTO;
 import org.una.aeropuerto.entities.Notas;
 import org.una.aeropuerto.services.INotasService;
-import org.una.tramites.utils.MapperUtils;
+import org.una.aeropuerto.utils.MapperUtils;
 
 /**
  *
