@@ -69,7 +69,7 @@ public class ServiciosGastos implements Serializable{
     private String numeroContrato;
     
     @Column
-    private boolean perioricidad;
+    private Integer perioricidad;
     
     @Column
     private Long duracion;
@@ -78,7 +78,7 @@ public class ServiciosGastos implements Serializable{
     @JoinColumn(name="responsable")
     private Empleados responsable;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicios_gastos") 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicioGasto") 
     private List<Notas> notas = new ArrayList<>();
     
     @PrePersist

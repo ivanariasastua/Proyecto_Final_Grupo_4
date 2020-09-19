@@ -48,21 +48,21 @@ public class EmpleadosHorarios implements Serializable{
     @JoinColumn(name="empleado")
     private Empleados empleado;
     
-//    @Column(name = "hora_entrada")
-//    @Temporal(TemporalType.TIME)
-//    private Date horaEntrada;
-//    
-//    @Column(name = "hora_salida")
-//    @Temporal(TemporalType.TIME)
-//    private Date horaSalida;
-//    
+    @Column(name = "hora_entrada")
+    @Temporal(TemporalType.TIME)
+    private Date horaEntrada;
+    
+    @Column(name = "hora_salida")
+    @Temporal(TemporalType.TIME)
+    private Date horaSalida;
+    
     @Column
     private Integer dia;
     
     @Column
     private Boolean estado;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleado_horario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleadoHorario")
     private List<EmpleadosMarcajes> empleadosMarcajes;
     
     @PrePersist

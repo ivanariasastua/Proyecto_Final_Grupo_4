@@ -15,6 +15,6 @@ import org.una.aeropuerto.entities.Usuarios;
  */
 public interface IUsuariosRepository extends JpaRepository<Usuarios, Long>{
     
-    public List<Usuarios> findByRolesId(Long id);
+    public List<Usuarios> findByRol(Long id);
     
 }

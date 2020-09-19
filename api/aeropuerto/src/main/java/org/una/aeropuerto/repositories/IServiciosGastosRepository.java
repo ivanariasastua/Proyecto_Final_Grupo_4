@@ -15,7 +15,7 @@ import org.una.aeropuerto.entities.ServiciosGastos;
  */
 public interface IServiciosGastosRepository extends JpaRepository<ServiciosGastos, Long>{
     
-    public List<ServiciosGastos> findByServiciosId(Long id);
+    public List<ServiciosGastos> findByServicio(Long id);
     
     public List<ServiciosGastos> findByEmpresa(String empresa);
     

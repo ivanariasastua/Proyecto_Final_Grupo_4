@@ -129,7 +129,7 @@ public class IncidentesRegistradosEstadosController {
         }
     }
 
-    @GetMapping("/gastos_mantenimientos_servicios/{id}")
+    @GetMapping("/incidentes/{id}")
     public ResponseEntity<?> findByIncidentesRegistradosId(@PathVariable(value = "id") Long id) {
         try {
             Optional<List<IncidentesRegistradosEstados>> result = incidenteService.findByIncidentesRegistradosId(id);
@@ -143,7 +143,7 @@ public class IncidentesRegistradosEstadosController {
         }
     }
 
-    @GetMapping("/gastos_mantenimientos_servicios/{id}")
+    @GetMapping("/estados/{id}")
     public ResponseEntity<?> findByIncidentesEstadosId(@PathVariable(value = "id") Long id) {
         try {
             Optional<List<IncidentesRegistradosEstados>> result = incidenteService.findByIncidentesEstadosId(id);

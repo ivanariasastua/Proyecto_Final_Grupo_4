@@ -65,12 +65,12 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
     @Override
     @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistrados>> findByCategoriaId(Long id) {
-         return Optional.ofNullable(incidenteReppository.findByCategoriaId(id));
+         return Optional.ofNullable(incidenteReppository.findByCategoria(id));
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistrados>> findByAreaTrabajoId(Long id) {
-         return Optional.ofNullable(incidenteReppository.findByAreaTrabajoId(id));
+         return Optional.ofNullable(incidenteReppository.findByAreaTrabajo(id));
     }
 }

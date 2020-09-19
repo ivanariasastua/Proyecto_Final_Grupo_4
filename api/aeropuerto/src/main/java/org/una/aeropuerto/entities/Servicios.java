@@ -46,10 +46,10 @@ public class Servicios implements Serializable {
     @Column(name = "descripcion", length = 100)
     private String descripcion;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicios") 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicio") 
     private List<ServiciosPrecios> serviciosPrecios = new ArrayList<>();
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicios") 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicio") 
     private List<ServiciosGastos> serviciosGastos = new ArrayList<>();
 
 

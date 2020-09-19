@@ -67,6 +67,6 @@ public class UsuariosServiceImplementation implements IUsuariosService {
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Usuarios>> findUsersByRolesId(Long id) {
-        return Optional.ofNullable(usuarioRepository.findByRolesId(id));
+        return Optional.ofNullable(usuarioRepository.findByRol(id));
     }
 }

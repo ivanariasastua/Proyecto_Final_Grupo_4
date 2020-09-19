@@ -62,7 +62,7 @@ public class EmpleadosServiceImplementation implements IEmpleadosService {
 
     @Override
     public Optional<List<Empleados>> findByUsuariosId(Long id) {
-        return Optional.ofNullable(empleadoRepository.findByUsuariosId(id));
+        return Optional.ofNullable(empleadoRepository.findByUsuario(id));
     }
 
     @Override

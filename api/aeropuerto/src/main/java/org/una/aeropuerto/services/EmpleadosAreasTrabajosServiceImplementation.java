@@ -62,12 +62,12 @@ public class EmpleadosAreasTrabajosServiceImplementation implements IEmpleadosAr
 
     @Override
     public Optional<List<EmpleadosAreasTrabajos>> findByEmpleadoId(Long id) {
-        return Optional.ofNullable(empleadoRepository.findByEmpleadosId(id));
+        return Optional.ofNullable(empleadoRepository.findByEmpleado(id));
     }
 
     @Override
     public Optional<List<EmpleadosAreasTrabajos>> findByAreaTrabajoId(Long id) {
-        return Optional.ofNullable(empleadoRepository.findByAreaTrabjoId(id));
+        return Optional.ofNullable(empleadoRepository.findByAreaTrabajo(id));
     }
 
 }

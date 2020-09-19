@@ -65,6 +65,6 @@ public class ServiciosPreciosServiceImplementation implements IServiciosPreciosS
     @Override
     @Transactional(readOnly = true)
     public Optional<List<ServiciosPrecios>> findByServiciosId(Long id) {
-        return Optional.ofNullable(servRepository.findByServiciosId(id));
+        return Optional.ofNullable(servRepository.findByServicio(id));
     }
 }

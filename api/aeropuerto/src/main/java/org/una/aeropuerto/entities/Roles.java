@@ -40,7 +40,7 @@ public class Roles implements Serializable {
     @Column(length = 25)
     private String nombre;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roles")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
     private List<Usuarios> usuarios;
     
 }

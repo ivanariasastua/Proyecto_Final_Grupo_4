@@ -15,5 +15,5 @@ import org.una.aeropuerto.entities.ServiciosPrecios;
  */
 public interface IServiciosPreciosRepository extends JpaRepository<ServiciosPrecios, Long>{
     
-    public List<ServiciosPrecios> findByServiciosId(Long id);
+    public List<ServiciosPrecios> findByServicio(Long id);
 }

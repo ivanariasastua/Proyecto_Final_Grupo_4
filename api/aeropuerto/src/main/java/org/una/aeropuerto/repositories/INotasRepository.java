@@ -15,5 +15,5 @@ import org.una.aeropuerto.entities.Notas;
  */
 public interface INotasRepository  extends JpaRepository<Notas, Long> {
     
-    public List<Notas> findByGastosMantenimientosId(Long id);
+    public List<Notas> findByServicioGasto(Long id);
 }

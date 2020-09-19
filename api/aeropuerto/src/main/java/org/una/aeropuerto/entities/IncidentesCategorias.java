@@ -53,7 +53,7 @@ public class IncidentesCategorias implements Serializable{
     @JoinColumn(name = "categoria_superior")
     private IncidentesCategorias categoriaSuperior;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidentes_categorias") 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria") 
     private List<IncidentesRegistrados> incidentesRegistrados = new ArrayList<>();
 
 }

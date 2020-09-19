@@ -15,7 +15,7 @@ import org.una.aeropuerto.entities.Empleados;
  */
 public interface IEmpleadosRepository extends JpaRepository<Empleados, Long>{
     
-    public List<Empleados> findByUsuariosId(Long id);
+    public List<Empleados> findByUsuario(Long id);
     
     public List<Empleados> findByNombre(String nombre);
     
