@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.EmpleadosMarcajesDTO;
 import org.una.aeropuerto.entities.EmpleadosMarcajes;
 import org.una.aeropuerto.services.IEmpleadosMarcajesService;
-import org.una.tramites.utils.MapperUtils;
+import org.una.aeropuerto.utils.MapperUtils;
 
 /**
  *

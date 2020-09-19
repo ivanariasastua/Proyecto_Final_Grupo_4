@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.IncidentesEstadosDTO;
 import org.una.aeropuerto.entities.IncidentesEstados;
 import org.una.aeropuerto.services.IIncidentesEstadosService;
-import org.una.tramites.utils.MapperUtils;
+import org.una.aeropuerto.utils.MapperUtils;
 
 /**
  *
