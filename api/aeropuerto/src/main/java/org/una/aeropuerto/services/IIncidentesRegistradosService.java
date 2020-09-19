@@ -7,6 +7,7 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
 import org.una.aeropuerto.entities.IncidentesRegistrados;
 
 /**
@@ -15,19 +16,19 @@ import org.una.aeropuerto.entities.IncidentesRegistrados;
  */
 public interface IIncidentesRegistradosService {
     
-    public Optional<List<IncidentesRegistrados>> findAll();
+    public Optional<List<IncidentesRegistradosDTO>> findAll();
 
-    public Optional<IncidentesRegistrados> findById(Long id);
+    public Optional<IncidentesRegistradosDTO> findById(Long id);
 
-    public IncidentesRegistrados create(IncidentesRegistrados incidentesRegistrados);
+    public IncidentesRegistradosDTO create(IncidentesRegistradosDTO incidentesRegistrados);
 
-    public Optional<IncidentesRegistrados> update(IncidentesRegistrados incidentesRegistrados, Long id);
+    public Optional<IncidentesRegistradosDTO> update(IncidentesRegistradosDTO incidentesRegistrados, Long id);
 
-    public void delete(Long id);
+    public void inactive(Long id);
 
-    public void deleteAll();
+    public void inactiveAll();
     
-    public Optional<List<IncidentesRegistrados>> findByCategoriaId(Long id);
+    public Optional<List<IncidentesRegistradosDTO>> findByCategoriaId(Long id);
     
-    public Optional<List<IncidentesRegistrados>> findByAreaTrabajoId(Long id);
+    public Optional<List<IncidentesRegistradosDTO>> findByAreaTrabajoId(Long id);
 }

@@ -10,8 +10,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.IncidentesRegistradosEstadosDTO;
 import org.una.aeropuerto.entities.IncidentesRegistradosEstados;
 import org.una.aeropuerto.repositories.IIncidentesRegistradosEstadosRepository;
+import org.una.tramites.utils.MapperUtils;
+import org.una.tramites.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -25,53 +28,47 @@ public class IncidentesRegistradosEstadosServiceImplementation implements IIncid
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<IncidentesRegistradosEstados>> findAll() {
-        return Optional.ofNullable(incidenteRepository.findAll());
+    public Optional<List<IncidentesRegistradosEstadosDTO>> findAll() {
+        return ServiceConvertionHelper.findList(incidenteRepository.findAll(), IncidentesRegistradosEstadosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<IncidentesRegistradosEstados> findById(Long id) {
-        return incidenteRepository.findById(id);
+    public Optional<IncidentesRegistradosEstadosDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(incidenteRepository.findById(id), IncidentesRegistradosEstadosDTO.class);
     }
 
     @Override
     @Transactional
-    public IncidentesRegistradosEstados create(IncidentesRegistradosEstados incidentesRegistradosEstados) {
-        return incidenteRepository.save(incidentesRegistradosEstados);
+    public IncidentesRegistradosEstadosDTO create(IncidentesRegistradosEstadosDTO incidentesRegistradosEstados) {
+        IncidentesRegistradosEstados entidad = MapperUtils.EntityFromDto(incidentesRegistradosEstados, IncidentesRegistradosEstados.class);
+        entidad = incidenteRepository.save(entidad);
+        return MapperUtils.DtoFromEntity(entidad, IncidentesRegistradosEstadosDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<IncidentesRegistradosEstados> update(IncidentesRegistradosEstados incidentesRegistradosEstados, Long id) {
-        if (incidenteRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(incidenteRepository.save(incidentesRegistradosEstados));
+    public Optional<IncidentesRegistradosEstadosDTO> update(IncidentesRegistradosEstadosDTO incidentesRegistradosEstados, Long id) {
+        if(incidenteRepository.findById(id).isPresent()){
+            IncidentesRegistradosEstados entidad = MapperUtils.EntityFromDto(incidentesRegistradosEstados, IncidentesRegistradosEstados.class);
+            entidad = incidenteRepository.save(entidad);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(entidad, IncidentesRegistradosEstadosDTO.class));
+        }else{
+            return null;
         }
-        return null;
-    }
-
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        incidenteRepository.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteAll() {
-        incidenteRepository.deleteAll();
+    
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<IncidentesRegistradosEstados>> findByIncidentesRegistradosId(Long id) {
-        return Optional.ofNullable(incidenteRepository.findByIncidentesRegistradosId(id));
+    public Optional<List<IncidentesRegistradosEstadosDTO>> findByIncidentesEstadosId(Long id) {
+        return ServiceConvertionHelper.findList(incidenteRepository.findByIncidentesEstadosId(id), IncidentesRegistradosEstadosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<IncidentesRegistradosEstados>> findByIncidentesEstadosId(Long id) {
-        return Optional.ofNullable(incidenteRepository.findByIncidentesEstadosId(id));
+    public Optional<List<IncidentesRegistradosEstadosDTO>> findByIncidentesRegistradosId(Long id) {
+        return ServiceConvertionHelper.findList(incidenteRepository.findByIncidentesRegistradosId(id), IncidentesRegistradosEstadosDTO.class);
     }
 
 }

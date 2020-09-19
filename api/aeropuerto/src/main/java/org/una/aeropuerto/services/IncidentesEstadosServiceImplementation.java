@@ -10,8 +10,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.IncidentesEstadosDTO;
 import org.una.aeropuerto.entities.IncidentesEstados;
 import org.una.aeropuerto.repositories.IIncidentesEstadosRepository;
+import org.una.tramites.utils.MapperUtils;
+import org.una.tramites.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -25,46 +28,52 @@ public class IncidentesEstadosServiceImplementation implements IIncidentesEstado
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<IncidentesEstados>> findAll() {
-        return Optional.ofNullable(incidenteReppository.findAll());
+    public Optional<List<IncidentesEstadosDTO>> findAll() {
+        return ServiceConvertionHelper.findList(incidenteReppository.findAll(), IncidentesEstadosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<IncidentesEstados> findById(Long id) {
-        return incidenteReppository.findById(id);
+    public Optional<IncidentesEstadosDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(incidenteReppository.findById(id), IncidentesEstadosDTO.class);
     }
 
     @Override
     @Transactional
-    public IncidentesEstados create(IncidentesEstados incidentesEstados) {
-        return incidenteReppository.save(incidentesEstados);
+    public IncidentesEstadosDTO create(IncidentesEstadosDTO incidentesEstados) {
+        IncidentesEstados entidad = MapperUtils.EntityFromDto(incidentesEstados, IncidentesEstados.class);
+        entidad = incidenteReppository.save(entidad);
+        return MapperUtils.DtoFromEntity(entidad, IncidentesEstadosDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<IncidentesEstados> update(IncidentesEstados incidentesEstados, Long id) {
-        if (incidenteReppository.findById(id).isPresent()) {
-            return Optional.ofNullable(incidenteReppository.save(incidentesEstados));
+    public Optional<IncidentesEstadosDTO> update(IncidentesEstadosDTO incidentesEstados, Long id) {
+        if(incidenteReppository.findById(id).isPresent()){
+            IncidentesEstados entidad = MapperUtils.EntityFromDto(incidentesEstados, IncidentesEstados.class);
+            entidad = incidenteReppository.save(entidad);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(entidad, IncidentesEstadosDTO.class));
+        }else{
+            return null;
         }
-        return null;
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        incidenteReppository.deleteById(id);
+    public void inactive(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     @Transactional
-    public void deleteAll() {
-        incidenteReppository.deleteAll();
+    public void inactiveAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<IncidentesEstados>> findByEstado(String estado) {
-        return Optional.ofNullable(incidenteReppository.findByEstado(estado));
+    public Optional<List<IncidentesEstadosDTO>> findByEstado(String estado) {
+        return ServiceConvertionHelper.findList(incidenteReppository.findByEstado(estado), IncidentesEstadosDTO.class);
     }
+
 }

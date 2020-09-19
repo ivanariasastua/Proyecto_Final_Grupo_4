@@ -9,9 +9,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,21 +40,17 @@ public class IncidentesCategoriasController {
 
     @Autowired
     private IIncidentesCategoriasService incidenteService;
+    
+    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su solicitud con el formato esperado";
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes de Categorias", response = IncidentesCategoriasDTO.class, responseContainer = "List", tags = "Incidentes_Categorias")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<IncidentesCategorias>> result = incidenteService.findAll();
-            if (result.isPresent()) {
-                List<IncidentesCategoriasDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(), IncidentesCategoriasDTO.class);
-                return new ResponseEntity<>(resultDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(incidenteService.findAll(), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -60,86 +58,48 @@ public class IncidentesCategoriasController {
     @ApiOperation(value = "Obtiene un incidente de categoria a travez de su identificador unico", response = IncidentesCategoriasDTO.class, tags = "Incidentes_Categorias")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-
-            Optional<IncidentesCategorias> incidenteFound = incidenteService.findById(id);
-            if (incidenteFound.isPresent()) {
-                IncidentesCategoriasDTO incidenteDTO = MapperUtils.DtoFromEntity(incidenteFound.get(), IncidentesCategoriasDTO.class);
-                return new ResponseEntity<>(incidenteDTO, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(incidenteService.findById(id),HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/")
+    @PostMapping("save/")
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody IncidentesCategorias incidentesCategorias) {
-        try {
-            IncidentesCategorias incidenteCreated = incidenteService.create(incidentesCategorias);
-            IncidentesCategoriasDTO incidenteDto = MapperUtils.DtoFromEntity(incidenteCreated, IncidentesCategoriasDTO.class);
-            return new ResponseEntity<>(incidenteDto, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<?> create(@RequestBody IncidentesCategoriasDTO incidentesCategorias) {
+        try{
+            return new ResponseEntity<>(incidenteService.create(incidentesCategorias), HttpStatus.CREATED);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody IncidentesCategorias traModified) {
-        try {
-            Optional<IncidentesCategorias> traUpdated = incidenteService.update(traModified, id);
-            if (traUpdated.isPresent()) {
-                IncidentesCategoriasDTO traDto = MapperUtils.DtoFromEntity(traUpdated.get(), IncidentesCategoriasDTO.class);
-                return new ResponseEntity<>(traDto, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody IncidentesCategoriasDTO modificado, BindingResult bindingResult) {
+        if(!bindingResult.hasErrors()){
+            try{
+                Optional<IncidentesCategoriasDTO> updated = incidenteService.update(modificado, id);
+                if(updated.isPresent()){
+                    return new ResponseEntity<>(updated, HttpStatus.OK);
+                }else{
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            }catch(Exception ex){
+                return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
-            incidenteService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        try {
-            incidenteService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }else{
+            return new ResponseEntity<>(MENSAJE_VERIFICAR_INFORMACION,HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/nombre")
     public ResponseEntity<?> findByNombre(@PathVariable(value = "nombre") String nombre) {
         try {
-            Optional<List<IncidentesCategorias>> result = incidenteService.findByNombre(nombre);
-            if (result.isPresent()) {
-                List<IncidentesCategoriasDTO> resultDTO = MapperUtils.DtoListFromEntityList(result.get(), IncidentesCategoriasDTO.class);
-                return new ResponseEntity<>(resultDTO, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(incidenteService.findByNombre(nombre), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

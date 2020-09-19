@@ -9,9 +9,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,21 +40,17 @@ public class IncidentesEstadosController {
 
     @Autowired
     private IIncidentesEstadosService incidenteService;
+    
+    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su solicitud con el formato esperado";
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes estados ", response = IncidentesEstadosDTO.class, responseContainer = "List", tags = "Incidentes_Estados")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<IncidentesEstados>> result = incidenteService.findAll();
-            if (result.isPresent()) {
-                List<IncidentesEstadosDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(), IncidentesEstadosDTO.class);
-                return new ResponseEntity<>(resultDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(incidenteService.findAll(), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -60,86 +58,48 @@ public class IncidentesEstadosController {
     @ApiOperation(value = "Obtiene un incidente estado a travez de su identificador unico ", response = IncidentesEstadosDTO.class, tags = "Incidentes_Estados")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-
-            Optional<IncidentesEstados> incidenteFound = incidenteService.findById(id);
-            if (incidenteFound.isPresent()) {
-                IncidentesEstadosDTO incidenteDTO = MapperUtils.DtoFromEntity(incidenteFound.get(), IncidentesEstadosDTO.class);
-                return new ResponseEntity<>(incidenteDTO, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(incidenteService.findById(id),HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/")
+    @PostMapping("save/")
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody IncidentesEstados incidentesEstados) {
+    public ResponseEntity<?> create(@RequestBody IncidentesEstadosDTO incidentesEstados) {
         try {
-            IncidentesEstados incidenteCreated = incidenteService.create(incidentesEstados);
-            IncidentesEstadosDTO incidenteDto = MapperUtils.DtoFromEntity(incidenteCreated, IncidentesEstadosDTO.class);
-            return new ResponseEntity<>(incidenteDto, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(incidenteService.create(incidentesEstados),HttpStatus.CREATED);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody IncidentesEstados traModified) {
-        try {
-            Optional<IncidentesEstados> traUpdated = incidenteService.update(traModified, id);
-            if (traUpdated.isPresent()) {
-                IncidentesEstadosDTO traDto = MapperUtils.DtoFromEntity(traUpdated.get(), IncidentesEstadosDTO.class);
-                return new ResponseEntity<>(traDto, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody IncidentesEstadosDTO modificado, BindingResult bindingResult) {
+        if(!bindingResult.hasErrors()){
+            try{
+                Optional<IncidentesEstadosDTO> updated = incidenteService.update(modificado, id);
+                if(updated.isPresent()){
+                    return new ResponseEntity<>(updated, HttpStatus.OK);
+                }else{
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            }catch(Exception ex){
+                return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
-            incidenteService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        try {
-            incidenteService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }else{
+            return new ResponseEntity<>(MENSAJE_VERIFICAR_INFORMACION,HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/estado")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") String estado) {
         try {
-            Optional<List<IncidentesEstados>> result = incidenteService.findByEstado(estado);
-            if (result.isPresent()) {
-                List<IncidentesEstadosDTO> resultDTO = MapperUtils.DtoListFromEntityList(result.get(), IncidentesEstadosDTO.class);
-                return new ResponseEntity<>(resultDTO, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(incidenteService.findByEstado(estado),HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -10,8 +10,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.IncidentesCategoriasDTO;
 import org.una.aeropuerto.entities.IncidentesCategorias;
 import org.una.aeropuerto.repositories.IIncidentesCategoriasRepository;
+import org.una.tramites.utils.MapperUtils;
+import org.una.tramites.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -22,32 +25,38 @@ public class IncidentesCategoriasServiceImplementation implements IIncidentesCat
     
     @Autowired
     private IIncidentesCategoriasRepository incidenteReppository;
-    
+
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<IncidentesCategorias>> findAll() {
-        return Optional.ofNullable(incidenteReppository.findAll());
+    public Optional<List<IncidentesCategoriasDTO>> findAll() {
+        return ServiceConvertionHelper.findList(incidenteReppository.findAll(), IncidentesCategoriasDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<IncidentesCategorias> findById(Long id) {
-        return incidenteReppository.findById(id);
+    public Optional<IncidentesCategoriasDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(incidenteReppository.findById(id), IncidentesCategoriasDTO.class);
     }
 
     @Override
     @Transactional
-    public IncidentesCategorias create(IncidentesCategorias incidentesCategorias) {
-        return incidenteReppository.save(incidentesCategorias);
+    public IncidentesCategoriasDTO create(IncidentesCategoriasDTO incidentesCategorias) {
+        IncidentesCategorias entidad = MapperUtils.EntityFromDto(incidentesCategorias, IncidentesCategorias.class);
+        entidad = incidenteReppository.save(entidad);
+        return MapperUtils.DtoFromEntity(entidad, IncidentesCategoriasDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<IncidentesCategorias> update(IncidentesCategorias incidentesCategorias, Long id) {
-        if (incidenteReppository.findById(id).isPresent()) {
-            return Optional.ofNullable(incidenteReppository.save(incidentesCategorias));
+    public Optional<IncidentesCategoriasDTO> update(IncidentesCategoriasDTO incidentesCategorias, Long id) {
+        if(incidenteReppository.findById(id).isPresent()){
+            IncidentesCategorias entidad = MapperUtils.EntityFromDto(incidentesCategorias, IncidentesCategorias.class);
+            entidad = incidenteReppository.save(entidad);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(entidad, IncidentesCategoriasDTO.class));
+        }else{
+            return null;
         }
-        return null;
+    
     }
 
     @Override
@@ -61,10 +70,12 @@ public class IncidentesCategoriasServiceImplementation implements IIncidentesCat
     public void deleteAll() {
         incidenteReppository.deleteAll();
     }
-    
+
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<IncidentesCategorias>> findByNombre(String nombre) {
-        return Optional.ofNullable(incidenteReppository.findByNombre(nombre));
+    public Optional<List<IncidentesCategoriasDTO>> findByNombre(String nombre) {
+        return ServiceConvertionHelper.findList(incidenteReppository.findByNombre(nombre), IncidentesCategoriasDTO.class);
     }
+    
+    
 }
