@@ -7,6 +7,7 @@ package org.una.aeropuerto.repositories;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.una.aeropuerto.entities.ParametrosSistema;
 
 /**
@@ -16,4 +17,7 @@ import org.una.aeropuerto.entities.ParametrosSistema;
 public interface IParametrosSistemaRepository extends JpaRepository<ParametrosSistema, Long>{
     
     public List<ParametrosSistema> findByValor(String valor);
+    
+    @Query("update Parametros_Sistema p set p.estado = 0 where p.id = id")
+    public void inactivar(Long id);
 }

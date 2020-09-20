@@ -23,4 +23,5 @@ public class ParametrosSistemaDTO {
     private Long id;
     private String valor;
     private String descripcion;
+    private boolean estado;
 }

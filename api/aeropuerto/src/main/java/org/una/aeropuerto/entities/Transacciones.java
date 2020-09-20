@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,5 +43,13 @@ public class Transacciones implements Serializable {
     
     @Column(length = 50)
     private String accion;
+    
+    @Column
+    private boolean estado;
+    
+    @PrePersist
+    public void PrePersist(){
+        estado = true;
+    }
     
 }

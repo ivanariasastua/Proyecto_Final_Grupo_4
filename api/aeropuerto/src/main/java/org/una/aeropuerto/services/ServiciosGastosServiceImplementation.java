@@ -10,8 +10,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.ServiciosGastosDTO;
 import org.una.aeropuerto.entities.ServiciosGastos;
 import org.una.aeropuerto.repositories.IServiciosGastosRepository;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -25,58 +28,49 @@ public class ServiciosGastosServiceImplementation implements IServiciosGastosSer
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<ServiciosGastos>> findAll() {
-        return Optional.ofNullable(gastosRepository.findAll());
+    public Optional<List<ServiciosGastosDTO>> findAll() {
+        return ServiceConvertionHelper.findList(gastosRepository.findAll(), ServiciosGastosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ServiciosGastos> findById(Long id) {
-        return gastosRepository.findById(id);
+    public Optional<ServiciosGastosDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(gastosRepository.findById(id), ServiciosGastosDTO.class);
     }
 
     @Override
     @Transactional
-    public ServiciosGastos create(ServiciosGastos gastosMantenimientos) {
-        return gastosRepository.save(gastosMantenimientos);
+    public ServiciosGastosDTO create(ServiciosGastosDTO gastosMantenimientos) {
+        ServiciosGastos gasto = MapperUtils.EntityFromDto(gastosMantenimientos, ServiciosGastos.class);
+        gasto = gastosRepository.save(gasto);
+        return MapperUtils.DtoFromEntity(gasto, ServiciosGastosDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<ServiciosGastos> update(ServiciosGastos gastosMantenimientos, Long id) {
+    public Optional<ServiciosGastosDTO> update(ServiciosGastosDTO gastosMantenimientos, Long id) {
         if (gastosRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(gastosRepository.save(gastosMantenimientos));
+            ServiciosGastos gasto = MapperUtils.EntityFromDto(gastosMantenimientos, ServiciosGastos.class);
+            gasto = gastosRepository.save(gasto);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(gasto, ServiciosGastosDTO.class));
         }
         return null;
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
-        gastosRepository.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteAll() {
-        gastosRepository.deleteAll();
+    public Optional<List<ServiciosGastosDTO>> filtrado(String servicio, String empresa, String numeroContrato) {
+        return ServiceConvertionHelper.findList(gastosRepository.filtro(servicio, empresa, numeroContrato), ServiciosGastosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<ServiciosGastos>> findByServiciosId(Long id) {
-        return Optional.ofNullable(gastosRepository.findByServicio(id));
-    }
-    
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<ServiciosGastos>> findByEmpresa(String empresa) {
-        return Optional.ofNullable(gastosRepository.findByEmpresa(empresa));
+    public Optional<List<ServiciosGastosDTO>> findByServiciosId(Long id) {
+        return ServiceConvertionHelper.findList(gastosRepository.findByServicio(id), ServiciosGastosDTO.class);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<ServiciosGastos>> findByNumeroContrato(String numeroContrato) {
-        return Optional.ofNullable(gastosRepository.findByNumeroContrato(numeroContrato));
+    public Optional<ServiciosGastosDTO> inactivate(Long id) {
+        gastosRepository.inactivar(id);
+        return ServiceConvertionHelper.oneToOptionalDto(gastosRepository.findById(id), ServiciosGastosDTO.class);
     }
 }

@@ -28,4 +28,5 @@ public class ServiciosPreciosDTO {
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date fechaRegistro;
     private ServiciosDTO servicio;
+    private boolean estado;
 }

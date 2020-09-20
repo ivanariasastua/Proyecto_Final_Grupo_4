@@ -7,6 +7,7 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.una.aeropuerto.dto.ServiciosGastosDTO;
 import org.una.aeropuerto.entities.ServiciosGastos;
 
 /**
@@ -14,21 +15,18 @@ import org.una.aeropuerto.entities.ServiciosGastos;
  * @author cordo
  */
 public interface IServiciosGastosService {
-    public Optional<List<ServiciosGastos>> findAll();
+    public Optional<List<ServiciosGastosDTO>> findAll();
 
-    public Optional<ServiciosGastos> findById(Long id);
+    public Optional<ServiciosGastosDTO> findById(Long id);
     
-    public ServiciosGastos create(ServiciosGastos gastosMantenimientos);
+    public ServiciosGastosDTO create(ServiciosGastosDTO gastosMantenimientos);
 
-    public Optional<ServiciosGastos> update(ServiciosGastos gastosMantenimientos, Long id);
+    public Optional<ServiciosGastosDTO> update(ServiciosGastosDTO gastosMantenimientos, Long id);
+    
+    public Optional<List<ServiciosGastosDTO>> findByServiciosId(Long id);
+    
+    public Optional<ServiciosGastosDTO> inactivate(Long id);
+    
+    public Optional<List<ServiciosGastosDTO>> filtrado(String servicio, String empresa,String numeroContrato);
 
-    public void delete(Long id);
-
-    public void deleteAll();
-    
-    public Optional<List<ServiciosGastos>> findByServiciosId(Long id);
-    
-    public Optional<List<ServiciosGastos>> findByEmpresa(String empresa);
-    
-    public Optional<List<ServiciosGastos>> findByNumeroContrato(String numeroContrato);
 }

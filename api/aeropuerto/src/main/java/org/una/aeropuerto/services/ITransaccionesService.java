@@ -7,6 +7,7 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.una.aeropuerto.dto.TransaccionesDTO;
 import org.una.aeropuerto.entities.Transacciones;
 
 /**
@@ -15,19 +16,17 @@ import org.una.aeropuerto.entities.Transacciones;
  */
 public interface ITransaccionesService {
     
-    public Optional<List<Transacciones>> findAll();
+    public Optional<List<TransaccionesDTO>> findAll();
 
-    public Optional<Transacciones> findById(Long id);
+    public Optional<TransaccionesDTO> findById(Long id);
     
-    public Transacciones create(Transacciones transacciones);
+    public TransaccionesDTO create(TransaccionesDTO transacciones);
 
-    public Optional<Transacciones> update(Transacciones transacciones, Long id);
-
-    public void delete(Long id);
-
-    public void deleteAll();
+    public Optional<TransaccionesDTO> update(TransaccionesDTO transacciones, Long id);
     
-    public Optional<List<Transacciones>> findByAccion(String accion);
+    public Optional<List<TransaccionesDTO>> findByAccion(String accion);
     
-    public Optional<List<Transacciones>> findByUsuariosId(Long id);
+    public Optional<List<TransaccionesDTO>> findByUsuariosId(Long id);
+    
+    public Optional<TransaccionesDTO> inactivate(Long id);
 }

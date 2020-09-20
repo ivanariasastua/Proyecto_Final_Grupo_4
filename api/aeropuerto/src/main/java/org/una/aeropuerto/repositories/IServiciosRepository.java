@@ -8,7 +8,6 @@ package org.una.aeropuerto.repositories;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.una.aeropuerto.entities.Servicios;
 
 /**
@@ -16,6 +15,8 @@ import org.una.aeropuerto.entities.Servicios;
  * @author cordo
  */
 public interface IServiciosRepository extends JpaRepository<Servicios, Long>{
-   // @Query("select s from Servicios s where s.nombre = :nombre")
     public List<Servicios> findByNombre(String nombre);
+    
+    @Query("update Servicios s set s.estado = 0 where s.id = id")
+    public void inactivar(Long id);
 }

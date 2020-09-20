@@ -10,8 +10,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.ParametrosSistemaDTO;
 import org.una.aeropuerto.entities.ParametrosSistema;
 import org.una.aeropuerto.repositories.IParametrosSistemaRepository;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -25,46 +28,44 @@ public class ParametrosSistemaServiceImplementation implements IParametrosSistem
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<ParametrosSistema>> findAll() {
-        return Optional.ofNullable(parametrosRepository.findAll());
+    public Optional<List<ParametrosSistemaDTO>> findAll() {
+        return ServiceConvertionHelper.findList(parametrosRepository.findAll(), ParametrosSistemaDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ParametrosSistema> findById(Long id) {
-        return parametrosRepository.findById(id);
+    public Optional<ParametrosSistemaDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(parametrosRepository.findById(id), ParametrosSistemaDTO.class);
     }
 
     @Override
     @Transactional
-    public ParametrosSistema create(ParametrosSistema parametrosSistema) {
-        return parametrosRepository.save(parametrosSistema);
+    public ParametrosSistemaDTO create(ParametrosSistemaDTO parametrosSistema) {
+        ParametrosSistema param = MapperUtils.EntityFromDto(parametrosSistema, ParametrosSistema.class);
+        param = parametrosRepository.save(param);
+        return MapperUtils.DtoFromEntity(param, ParametrosSistemaDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<ParametrosSistema> update(ParametrosSistema parametrosSistema, Long id) {
+    public Optional<ParametrosSistemaDTO> update(ParametrosSistemaDTO parametrosSistema, Long id) {
         if (parametrosRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(parametrosRepository.save(parametrosSistema));
+            ParametrosSistema param = MapperUtils.EntityFromDto(parametrosSistema, ParametrosSistema.class);
+            param = parametrosRepository.save(param);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(param, ParametrosSistemaDTO.class));
         }
         return null;
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
-        parametrosRepository.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteAll() {
-        parametrosRepository.deleteAll();
-    }
-
-    @Override
     @Transactional(readOnly = true)
-    public Optional<List<ParametrosSistema>> findByValor(String valor) {
-        return Optional.ofNullable(parametrosRepository.findByValor(valor));
+    public Optional<List<ParametrosSistemaDTO>> findByValor(String valor) {
+        return ServiceConvertionHelper.findList(parametrosRepository.findByValor(valor), ParametrosSistemaDTO.class);
+    }
+
+    @Override
+    public Optional<ParametrosSistemaDTO> inactivate(Long id) {
+        parametrosRepository.inactivar(id);
+        return ServiceConvertionHelper.oneToOptionalDto(parametrosRepository.findById(id), ParametrosSistemaDTO.class);
     }
 }

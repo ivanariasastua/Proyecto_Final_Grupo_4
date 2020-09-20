@@ -44,13 +44,7 @@ public class ServiciosGastosController {
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<ServiciosGastos>> result = gastosService.findAll();
-            if (result.isPresent()) {
-                List<ServiciosGastosDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(), ServiciosGastosDTO.class);
-                return new ResponseEntity<>(resultDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(gastosService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -60,26 +54,19 @@ public class ServiciosGastosController {
     @ApiOperation(value = "Obtiene un tipo de gasto a travez de su identificador unico", response = ServiciosGastosDTO.class, tags = "Gastos_Mantenimientos")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-
-            Optional<ServiciosGastos> gastosFound = gastosService.findById(id);
-            if (gastosFound.isPresent()) {
-                ServiciosGastosDTO gastosDTO = MapperUtils.DtoFromEntity(gastosFound.get(), ServiciosGastosDTO.class);
-                return new ResponseEntity<>(gastosDTO, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(gastosService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/")
+    @PostMapping("saveUser/{value}")
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody ServiciosGastos gastosMantenimientos) {
+    @ApiOperation(value = "Crea un nuevo gasto de servicio", response = ServiciosGastosDTO.class, tags = "Servicios_Gastos")
+    public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody ServiciosGastosDTO servicio) {
         try {
-            ServiciosGastos gastosCreated = gastosService.create(gastosMantenimientos);
-            ServiciosGastosDTO gastosDto = MapperUtils.DtoFromEntity(gastosCreated, ServiciosGastosDTO.class);
-            return new ResponseEntity<>(gastosDto, HttpStatus.CREATED);
+            return new ResponseEntity<>(gastosService.create(servicio), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -87,73 +74,28 @@ public class ServiciosGastosController {
 
     @PutMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ServiciosGastos traModified) {
+    @ApiOperation(value = "Modifica un gasto de servicio existente", response = ServiciosGastosDTO.class, tags = "Servicios_Gastos")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ServiciosGastosDTO servModified) {
         try {
-            Optional<ServiciosGastos> traUpdated = gastosService.update(traModified, id);
-            if (traUpdated.isPresent()) {
-                ServiciosGastosDTO traDto = MapperUtils.DtoFromEntity(traUpdated.get(), ServiciosGastosDTO.class);
-                return new ResponseEntity<>(traDto, HttpStatus.OK);
-
+            Optional<ServiciosGastosDTO> servUpdated = gastosService.update(servModified, id);
+            if (servUpdated.isPresent()) {
+                return new ResponseEntity<>(servUpdated.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
-            gastosService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        try {
-            gastosService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/gastos_mantenimientos_servicios/{id}")
+    @GetMapping("/gastos_servicios/{id}")
+    @ApiOperation(value = "Obtiene una lista de los gastos de servicios por medio de su servicio", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Servicios_Gastos")
     public ResponseEntity<?> findByServiciosId(@PathVariable(value = "id") Long id) {
         try {
-            Optional<List<ServiciosGastos>> result = gastosService.findByServiciosId(id);
-            if (result.isPresent()) {
-                List<ServiciosGastosDTO> servDto = MapperUtils.DtoListFromEntityList(result.get(), ServiciosGastosDTO.class);
-                return new ResponseEntity<>(servDto, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(gastosService.findByServiciosId(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/empresa")
-    public ResponseEntity<?> findByEmpresa(@PathVariable(value = "empresa") String empresa) {
-        try {
-            Optional<List<ServiciosGastos>> result = gastosService.findByEmpresa(empresa);
-            if (result.isPresent()) {
-                List<ServiciosGastosDTO> resultDTO = MapperUtils.DtoListFromEntityList(result.get(), ServiciosGastosDTO.class);
-                return new ResponseEntity<>(resultDTO, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

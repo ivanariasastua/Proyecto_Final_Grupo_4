@@ -44,13 +44,7 @@ public class ParametrosSistemaController {
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<ParametrosSistema>> result = parametrosService.findAll();
-            if (result.isPresent()) {
-                List<ParametrosSistemaDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(), ParametrosSistemaDTO.class);
-                return new ResponseEntity<>(resultDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(parametrosService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -60,26 +54,19 @@ public class ParametrosSistemaController {
     @ApiOperation(value = "Obtiene un parametro del sistema a travez de su identificador unico", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-
-            Optional<ParametrosSistema> gastosFound = parametrosService.findById(id);
-            if (gastosFound.isPresent()) {
-                ParametrosSistemaDTO parametrosDTO = MapperUtils.DtoFromEntity(gastosFound.get(), ParametrosSistemaDTO.class);
-                return new ResponseEntity<>(parametrosDTO, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(parametrosService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/")
+    @PostMapping("save/{value}")
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody ParametrosSistema parametrosSistema) {
+    @ApiOperation(value = "Crea un nuevo parametro", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
+    public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody ParametrosSistemaDTO parametros) {
         try {
-            ParametrosSistema parametrosCreated = parametrosService.create(parametrosSistema);
-            ParametrosSistemaDTO parametrosDto = MapperUtils.DtoFromEntity(parametrosCreated, ParametrosSistemaDTO.class);
-            return new ResponseEntity<>(parametrosDto, HttpStatus.CREATED);
+            return new ResponseEntity<>(parametrosService.create(parametros), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -87,59 +74,27 @@ public class ParametrosSistemaController {
 
     @PutMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ParametrosSistema traModified) {
+    @ApiOperation(value = "Modifica un parametro existente", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ParametrosSistemaDTO servModified) {
         try {
-            Optional<ParametrosSistema> traUpdated = parametrosService.update(traModified, id);
-            if (traUpdated.isPresent()) {
-                ParametrosSistemaDTO traDto = MapperUtils.DtoFromEntity(traUpdated.get(), ParametrosSistemaDTO.class);
-                return new ResponseEntity<>(traDto, HttpStatus.OK);
-
+            Optional<ParametrosSistemaDTO> servUpdated = parametrosService.update(servModified, id);
+            if (servUpdated.isPresent()) {
+                return new ResponseEntity<>(servUpdated.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
-            parametrosService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        try {
-            parametrosService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping("/valor")
+    @ApiOperation(value = "Obtiene una lista de los parametros por medio del valor", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
     public ResponseEntity<?> findByValor(@PathVariable(value = "valor") String valor) {
         try {
-            Optional<List<ParametrosSistema>> result = parametrosService.findByValor(valor);
-            if (result.isPresent()) {
-                List<ParametrosSistemaDTO> resultDTO = MapperUtils.DtoListFromEntityList(result.get(), ParametrosSistemaDTO.class);
-                return new ResponseEntity<>(resultDTO, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(parametrosService.findByValor(valor), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

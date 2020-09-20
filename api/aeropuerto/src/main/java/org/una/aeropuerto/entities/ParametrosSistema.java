@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,13 +31,23 @@ import lombok.ToString;
 @ToString
 public class ParametrosSistema implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "valor")
+    @Column(name = "valor",length = 50)
     private String valor;
     
     @Column(name = "descripcion" ,length = 100)
     private String descripcion;
+    
+    @Column
+    private boolean estado;
+    
+    @PrePersist
+    public void PrePersist(){
+        estado = true;
+    }
 }

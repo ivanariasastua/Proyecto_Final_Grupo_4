@@ -7,6 +7,7 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.una.aeropuerto.dto.ParametrosSistemaDTO;
 import org.una.aeropuerto.entities.ParametrosSistema;
 
 /**
@@ -15,17 +16,15 @@ import org.una.aeropuerto.entities.ParametrosSistema;
  */
 public interface IParametrosSistemaService {
     
-    public Optional<List<ParametrosSistema>> findAll();
+    public Optional<List<ParametrosSistemaDTO>> findAll();
 
-    public Optional<ParametrosSistema> findById(Long id);
+    public Optional<ParametrosSistemaDTO> findById(Long id);
 
-    public ParametrosSistema create(ParametrosSistema parametrosSistema);
+    public ParametrosSistemaDTO create(ParametrosSistemaDTO parametrosSistema);
 
-    public Optional<ParametrosSistema> update(ParametrosSistema parametrosSistema, Long id);
+    public Optional<ParametrosSistemaDTO> update(ParametrosSistemaDTO parametrosSistema, Long id);
 
-    public void delete(Long id);
-
-    public void deleteAll();
+    public Optional<ParametrosSistemaDTO> inactivate(Long id);
     
-    public Optional<List<ParametrosSistema>> findByValor(String valor);
+    public Optional<List<ParametrosSistemaDTO>> findByValor(String valor);
 }

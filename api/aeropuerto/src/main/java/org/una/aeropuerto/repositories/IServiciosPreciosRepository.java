@@ -14,6 +14,5 @@ import org.una.aeropuerto.entities.ServiciosPrecios;
  * @author cordo
  */
 public interface IServiciosPreciosRepository extends JpaRepository<ServiciosPrecios, Long>{
-    
-    public List<ServiciosPrecios> findByServicio(Long id);
+ 
 }

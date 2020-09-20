@@ -54,9 +54,13 @@ public class ServiciosPrecios implements Serializable {
     @ManyToOne
     @JoinColumn(name = "servicio")
     private Servicios servicio;
+    
+    @Column
+    private boolean estado;
 
     @PrePersist
     public void prePersist() {
+        estado=true;
         fechaRegistro = new Date();
     }
 }

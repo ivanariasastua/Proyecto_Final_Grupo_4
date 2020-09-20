@@ -60,10 +60,10 @@ public class ServiciosGastos implements Serializable{
     private Date fechaRegistro;
     
     @Column
-    private boolean estadoPago;
+    private Integer estadoPago;
     
     @Column
-    private boolean estadoGasto;
+    private Integer estadoGasto;
     
     @Column(length = 50)
     private String numeroContrato;
@@ -78,12 +78,15 @@ public class ServiciosGastos implements Serializable{
     @JoinColumn(name="responsable")
     private Empleados responsable;
     
+    @Column
+    private boolean estado;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicioGasto") 
     private List<Notas> notas = new ArrayList<>();
     
     @PrePersist
     public void PrePersist(){
-        estadoGasto = true;
+        estado = true;
     }
     
 }

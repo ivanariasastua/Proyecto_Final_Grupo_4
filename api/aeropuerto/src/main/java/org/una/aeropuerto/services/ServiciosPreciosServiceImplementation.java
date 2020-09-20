@@ -10,8 +10,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.ServiciosPreciosDTO;
 import org.una.aeropuerto.entities.ServiciosPrecios;
 import org.una.aeropuerto.repositories.IServiciosPreciosRepository;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -25,46 +28,34 @@ public class ServiciosPreciosServiceImplementation implements IServiciosPreciosS
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<ServiciosPrecios>> findAll() {
-        return Optional.ofNullable(servRepository.findAll());
+    public Optional<List<ServiciosPreciosDTO>> findAll() {
+        return ServiceConvertionHelper.findList(servRepository.findAll(), ServiciosPreciosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ServiciosPrecios> findById(Long id) {
-        return servRepository.findById(id);
+    public Optional<ServiciosPreciosDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(servRepository.findById(id), ServiciosPreciosDTO.class);
     }
 
     @Override
     @Transactional
-    public ServiciosPrecios create(ServiciosPrecios serviciosPrecios) {
-        return servRepository.save(serviciosPrecios);
+    public ServiciosPreciosDTO create(ServiciosPreciosDTO serviciosPrecios) {
+        ServiciosPrecios serv = MapperUtils.EntityFromDto(serviciosPrecios, ServiciosPrecios.class);
+        serv = servRepository.save(serv);
+        return MapperUtils.DtoFromEntity(serv, ServiciosPreciosDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<ServiciosPrecios> update(ServiciosPrecios serviciosPrecios, Long id) {
+    public Optional<ServiciosPreciosDTO> update(ServiciosPreciosDTO serviciosPrecios, Long id) {
         if (servRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(servRepository.save(serviciosPrecios));
+            ServiciosPrecios serv = MapperUtils.EntityFromDto(serviciosPrecios, ServiciosPrecios.class);
+            serv = servRepository.save(serv);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(serv, ServiciosPreciosDTO.class));
+        } else {
+            return null;
         }
-        return null;
     }
 
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        servRepository.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteAll() {
-        servRepository.deleteAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<ServiciosPrecios>> findByServiciosId(Long id) {
-        return Optional.ofNullable(servRepository.findByServicio(id));
-    }
 }

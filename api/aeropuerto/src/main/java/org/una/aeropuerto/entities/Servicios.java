@@ -46,6 +46,9 @@ public class Servicios implements Serializable {
     @Column(name = "descripcion", length = 100)
     private String descripcion;
     
+    @Column
+    private boolean estado;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicio") 
     private List<ServiciosPrecios> serviciosPrecios = new ArrayList<>();
     
@@ -53,4 +56,8 @@ public class Servicios implements Serializable {
     private List<ServiciosGastos> serviciosGastos = new ArrayList<>();
 
 
+    @PrePersist
+    public void PrePersist(){
+        estado = true;
+    }
 }

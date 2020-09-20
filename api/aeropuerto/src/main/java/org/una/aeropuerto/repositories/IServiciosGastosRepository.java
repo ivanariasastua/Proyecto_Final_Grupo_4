@@ -7,6 +7,7 @@ package org.una.aeropuerto.repositories;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.una.aeropuerto.entities.ServiciosGastos;
 
 /**
@@ -17,7 +18,11 @@ public interface IServiciosGastosRepository extends JpaRepository<ServiciosGasto
     
     public List<ServiciosGastos> findByServicio(Long id);
     
-    public List<ServiciosGastos> findByEmpresa(String empresa);
     
-    public List<ServiciosGastos> findByNumeroContrato(String numeroContrato);
+    @Query("Select sg from servicios_gastos sg join sg.servicio s on sg.servicio = s.id "
+            + "where UPPER(sg.empresa) like :servicio and UPPER(sg.numero_contrato) like :numeroContrato")
+    public List<ServiciosGastos> filtro(String servicio, String empresa,String numeroContrato);
+
+    @Query("update servicios_gastos sg set sg.estado = 0 where sg.id = id")
+    public void inactivar(Long id);
 }
