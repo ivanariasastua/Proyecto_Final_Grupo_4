@@ -18,6 +18,6 @@ public interface IParametrosSistemaRepository extends JpaRepository<ParametrosSi
     
     public List<ParametrosSistema> findByValor(String valor);
     
-    @Query("update Parametros_Sistema p set p.estado = 0 where p.id = id")
+    @Query("update ParametrosSistema p set p.estado = 0 where p.id = id")
     public void inactivar(Long id);
 }

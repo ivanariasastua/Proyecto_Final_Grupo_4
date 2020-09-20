@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -23,6 +23,6 @@ public interface IServiciosGastosRepository extends JpaRepository<ServiciosGasto
             + "where UPPER(sg.empresa) like :servicio and UPPER(sg.numero_contrato) like :numeroContrato")
     public List<ServiciosGastos> filtro(String servicio, String empresa,String numeroContrato);
 
-    @Query("update servicios_gastos sg set sg.estado = 0 where sg.id = id")
+    @Query("update ServiciosGatos sg set sg.estado = 0 where sg.id = id")
     public void inactivar(Long id);
 }

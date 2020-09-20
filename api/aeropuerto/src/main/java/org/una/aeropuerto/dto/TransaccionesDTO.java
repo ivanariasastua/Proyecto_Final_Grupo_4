@@ -22,7 +22,7 @@ import lombok.ToString;
 public class TransaccionesDTO {
     
     private Long id;
-    private UsuariosDTO usuario;
+    private EmpleadosDTO usuario;
     private String accion;
     private boolean estado;
 }

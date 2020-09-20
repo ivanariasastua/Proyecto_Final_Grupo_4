@@ -38,6 +38,18 @@ public class EmpleadosController {
     @Autowired
     private IEmpleadosService empleadoService;
     
+    
+    @GetMapping("/filter/{nombre}/{cedula}/{estado}/{area}")
+    @ApiOperation(value = "Obtiene una lista de los empleados segun los parametros enviados", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
+    public ResponseEntity<?> getByFiltro(@PathVariable(value = "nombre")String nombre, @PathVariable(value = "cedula")String cedula, @PathVariable(value = "estado")boolean estado, @PathVariable(value = "area")String area){
+        try{
+            return new ResponseEntity<>(empleadoService.filtro(nombre, cedula, true, area), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos las transacciones", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
     public @ResponseBody

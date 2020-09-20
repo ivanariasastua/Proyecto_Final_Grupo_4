@@ -27,6 +27,6 @@ public class EmpleadosDTO {
     private boolean estado;
     private EmpleadosDTO jefe;
     private String contrasenaEncriptada;
-    private UsuariosDTO usuario;
+    private RolesDTO rol;
     
 }

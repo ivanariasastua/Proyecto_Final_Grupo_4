@@ -23,8 +23,8 @@ public class IncidentesRegistradosDTO {
     private Long id;
     private String descripcion;
     private IncidentesCategoriasDTO categoria;
-    private UsuariosDTO emisor;
-    private UsuariosDTO responsable;
+    private EmpleadosDTO emisor;
+    private EmpleadosDTO responsable;
     private AreasTrabajosDTO areaTrabajo;
     private List<IncidentesRegistradosEstadosDTO> incidentesRegistradosEstados = new ArrayList<>();
 }

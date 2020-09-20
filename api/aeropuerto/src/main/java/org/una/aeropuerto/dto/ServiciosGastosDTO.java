@@ -34,7 +34,7 @@ public class ServiciosGastosDTO {
     private String numeroContrato;
     private Integer perioricidad;
     private Long duracion;
-    private UsuariosDTO responsable;
+    private EmpleadosDTO responsable;
     private boolean estado;
     private List<NotasDTO> notas = new ArrayList<>();
 

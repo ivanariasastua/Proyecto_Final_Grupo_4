@@ -41,6 +41,6 @@ public class Roles implements Serializable {
     private String nombre;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
-    private List<Usuarios> usuarios;
+    private List<Empleados> usuarios;
     
 }

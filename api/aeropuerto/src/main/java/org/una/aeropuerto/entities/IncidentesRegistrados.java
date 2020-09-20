@@ -50,11 +50,11 @@ public class IncidentesRegistrados implements Serializable{
     
     @ManyToOne 
     @JoinColumn(name="emisor")
-    private Usuarios emisor;
+    private Empleados emisor;
     
     @ManyToOne 
     @JoinColumn(name="responsable")
-    private Usuarios responsable;
+    private Empleados responsable;
     
     @ManyToOne 
     @JoinColumn(name="area_trabajo")

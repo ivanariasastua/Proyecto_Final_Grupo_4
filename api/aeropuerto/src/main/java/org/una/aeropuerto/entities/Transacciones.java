@@ -38,8 +38,8 @@ public class Transacciones implements Serializable {
     private Long id;
     
     @ManyToOne 
-    @JoinColumn(name="usuario")
-    private Usuarios usuario;
+    @JoinColumn(name="empleado")
+    private Empleados empleado;
     
     @Column(length = 50)
     private String accion;

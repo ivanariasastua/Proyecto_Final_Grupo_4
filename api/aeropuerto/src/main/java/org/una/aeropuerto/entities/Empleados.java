@@ -58,9 +58,9 @@ public class Empleados implements Serializable {
     @Column(name = "contrasena_encriptada", length = 100)
     private String contrasenaEncriptada;
     
-    @OneToOne
-    @JoinColumn(name = "usuario")
-    private Usuarios usuario;
+    @ManyToOne 
+    @JoinColumn(name="rol")
+    private Roles rol;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "jefe")
     private List<Empleados> empleados;
