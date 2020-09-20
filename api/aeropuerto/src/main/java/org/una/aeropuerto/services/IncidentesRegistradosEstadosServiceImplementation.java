@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.una.aeropuerto.dto.IncidentesRegistradosEstadosDTO;
 import org.una.aeropuerto.entities.IncidentesRegistradosEstados;
 import org.una.aeropuerto.repositories.IIncidentesRegistradosEstadosRepository;
-import org.una.tramites.utils.MapperUtils;
-import org.una.tramites.utils.ServiceConvertionHelper;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -62,19 +62,11 @@ public class IncidentesRegistradosEstadosServiceImplementation implements IIncid
     @Override
     @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistradosEstadosDTO>> findByIncidentesEstadosId(Long id) {
-        return ServiceConvertionHelper.findList(incidenteRepository.findByIncidentesEstadosId(id), IncidentesRegistradosEstadosDTO.class);
-
-    public Optional<List<IncidentesRegistradosEstados>> findByIncidentesRegistradosId(Long id) {
-        return Optional.ofNullable(incidenteRepository.findByIncidenteRegistrado(id));
+        return ServiceConvertionHelper.findList(incidenteRepository.findByIncidenteEstado(id), IncidentesRegistradosEstadosDTO.class);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistradosEstadosDTO>> findByIncidentesRegistradosId(Long id) {
-        return ServiceConvertionHelper.findList(incidenteRepository.findByIncidentesRegistradosId(id), IncidentesRegistradosEstadosDTO.class);
-
-    public Optional<List<IncidentesRegistradosEstados>> findByIncidentesEstadosId(Long id) {
-        return Optional.ofNullable(incidenteRepository.findByIncidenteEstado(id));
+        return ServiceConvertionHelper.findList(incidenteRepository.findByIncidenteRegistrado(id), IncidentesRegistradosEstadosDTO.class);
     }
-
 }

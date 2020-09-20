@@ -10,8 +10,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.UsuariosDTO;
 import org.una.aeropuerto.entities.Usuarios;
 import org.una.aeropuerto.repositories.IUsuariosRepository;
+import org.una.aeropuerto.utils.*;
 
 /**
  *
@@ -25,48 +27,43 @@ public class UsuariosServiceImplementation implements IUsuariosService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Usuarios>> findAll() {
-        return Optional.ofNullable(usuarioRepository.findAll());
+    public Optional<List<UsuariosDTO>> findAll() {
+        return ServiceConvertionHelper.findList(usuarioRepository.findAll(), UsuariosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Usuarios> findById(Long id) {
-        return usuarioRepository.findById(id);
+    public Optional<UsuariosDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(usuarioRepository.findById(id), UsuariosDTO.class);
     }
 
     @Override
     @Transactional
-    public Usuarios create(Usuarios usuario) {
-        return usuarioRepository.save(usuario);
+    public UsuariosDTO create(UsuariosDTO usuario) {
+        Usuarios usu = MapperUtils.EntityFromDto(usuario, Usuarios.class);
+        usu = usuarioRepository.save(usu);
+        return MapperUtils.DtoFromEntity(usu, UsuariosDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<Usuarios> update(Usuarios usuario, Long id) {
+    public Optional<UsuariosDTO> update(UsuariosDTO usuario, Long id) {
         if (usuarioRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(usuarioRepository.save(usuario));
-        } else {
-            return null;
-        }
-
+            Usuarios usu = MapperUtils.EntityFromDto(usuario, Usuarios.class);
+            usu = usuarioRepository.save(usu);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(usu, UsuariosDTO.class));
+        } 
+        return null;
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
-        usuarioRepository.deleteById(id);
+    public Optional<List<UsuariosDTO>> filtrado(String rol, String nombre, String cedula, boolean estado) {
+        return ServiceConvertionHelper.findList(usuarioRepository.findFilter(rol, nombre, cedula, estado), UsuariosDTO.class);
     }
 
     @Override
-    @Transactional
-    public void deleteAll() {
-        usuarioRepository.deleteAll();
-    }
-    
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<Usuarios>> findUsersByRolesId(Long id) {
-        return Optional.ofNullable(usuarioRepository.findByRol(id));
+    public Optional<UsuariosDTO> inactivate(Long id) {
+        usuarioRepository.inactivar(id);
+        return ServiceConvertionHelper.oneToOptionalDto(usuarioRepository.findById(id), UsuariosDTO.class);
     }
 }

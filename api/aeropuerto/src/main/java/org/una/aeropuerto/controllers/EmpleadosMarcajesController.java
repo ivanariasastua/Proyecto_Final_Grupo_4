@@ -43,13 +43,7 @@ public class EmpleadosMarcajesController {
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<EmpleadosMarcajes>> result = empleadoService.findAll();
-            if (result.isPresent()) {
-                List<EmpleadosMarcajesDTO> empDTO = MapperUtils.DtoListFromEntityList(result.get(), EmpleadosMarcajesDTO.class);
-                return new ResponseEntity<>(empDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(empleadoService.findAll(), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -59,13 +53,7 @@ public class EmpleadosMarcajesController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-            Optional<EmpleadosMarcajes> empFound = empleadoService.findById(id);
-            if (empFound.isPresent()) {
-                EmpleadosMarcajesDTO depDto = MapperUtils.DtoFromEntity(empFound.get(), EmpleadosMarcajesDTO.class);
-                return new ResponseEntity<>(depDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(empleadoService.findById(id), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -77,10 +65,7 @@ public class EmpleadosMarcajesController {
     @ApiOperation(value = "Crea un nuevo departamento", response = EmpleadosMarcajesDTO.class, tags = "Empleados_Marcajes")
     public ResponseEntity<?> create(@RequestBody EmpleadosMarcajesDTO empleado) {
         try {
-            EmpleadosMarcajes emp = MapperUtils.EntityFromDto(empleado, EmpleadosMarcajes.class);
-            emp = empleadoService.create(emp);
-            EmpleadosMarcajesDTO depDto = MapperUtils.DtoFromEntity(emp, EmpleadosMarcajesDTO.class);
-            return new ResponseEntity<>(depDto, HttpStatus.CREATED);
+            return new ResponseEntity<>(empleadoService.create(empleado), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -89,46 +74,16 @@ public class EmpleadosMarcajesController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosMarcajes depModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosMarcajesDTO depModified) {
         try {
-            Optional<EmpleadosMarcajes> depUpdated = empleadoService.update(depModified, id);
+            Optional<EmpleadosMarcajesDTO> depUpdated = empleadoService.update(depModified, id);
             if (depUpdated.isPresent()) {
-                EmpleadosMarcajesDTO depDto = MapperUtils.DtoFromEntity(depUpdated.get(), EmpleadosMarcajesDTO.class);
-                return new ResponseEntity<>(depDto, HttpStatus.OK);
+                return new ResponseEntity<>(depUpdated.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
-            empleadoService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        try {
-            empleadoService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-
-    
+    } 
 }

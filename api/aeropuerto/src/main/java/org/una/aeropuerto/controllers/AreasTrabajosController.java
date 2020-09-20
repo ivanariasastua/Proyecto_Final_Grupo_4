@@ -43,13 +43,7 @@ public class AreasTrabajosController {
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<AreasTrabajos>> result = areaService.findAll();
-            if (result.isPresent()) {
-                List<AreasTrabajosDTO> areaDTO = MapperUtils.DtoListFromEntityList(result.get(),AreasTrabajosDTO.class);
-                return new ResponseEntity<>(areaDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(areaService.findAll(), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -59,13 +53,7 @@ public class AreasTrabajosController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-            Optional<AreasTrabajos> Found = areaService.findById(id);
-            if (Found.isPresent()) {
-                AreasTrabajosDTO areaDto = MapperUtils.DtoFromEntity(Found.get(), AreasTrabajosDTO.class);
-                return new ResponseEntity<>(areaDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(areaService.findById(id), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -77,10 +65,7 @@ public class AreasTrabajosController {
     @ApiOperation(value = "Crea una nueva area de trabajo", response = AreasTrabajosDTO.class, tags = "Areas_Trabajos")
     public ResponseEntity<?> create(@RequestBody AreasTrabajosDTO area) {
         try {
-            AreasTrabajos areas = MapperUtils.EntityFromDto(area, AreasTrabajos.class);
-            areas = areaService.create(areas);
-            AreasTrabajosDTO depDto = MapperUtils.DtoFromEntity(areas, AreasTrabajosDTO.class);
-            return new ResponseEntity<>(depDto, HttpStatus.CREATED);
+            return new ResponseEntity<>(areaService.create(area), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -89,12 +74,11 @@ public class AreasTrabajosController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody AreasTrabajos depModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody AreasTrabajosDTO depModified) {
         try {
-            Optional<AreasTrabajos> depUpdated = areaService.update(depModified, id);
+            Optional<AreasTrabajosDTO> depUpdated = areaService.update(depModified, id);
             if (depUpdated.isPresent()) {
-                AreasTrabajosDTO depDto = MapperUtils.DtoFromEntity(depUpdated.get(), AreasTrabajosDTO.class);
-                return new ResponseEntity<>(depDto, HttpStatus.OK);
+                return new ResponseEntity<>(depUpdated, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -102,44 +86,12 @@ public class AreasTrabajosController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
-            areaService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        try {
-            areaService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
     
     @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de las areas de trabajo por medio de su nombre", response = AreasTrabajosDTO.class, responseContainer = "List", tags = "Areas_Trabajos")
     public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
         try {
-            Optional<List<AreasTrabajos>> result = areaService.findByNombre(term);
-            if (result.isPresent()) {
-                List<AreasTrabajosDTO> depDTO = MapperUtils.DtoListFromEntityList(result.get(),AreasTrabajosDTO.class);
-                return new ResponseEntity<>(depDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(areaService.findByNombre(term), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }

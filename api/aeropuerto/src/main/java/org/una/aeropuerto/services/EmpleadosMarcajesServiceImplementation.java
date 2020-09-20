@@ -10,7 +10,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.EmpleadosMarcajesDTO;
 import org.una.aeropuerto.entities.EmpleadosMarcajes;
+import org.una.aeropuerto.utils.*;
 import org.una.aeropuerto.repositories.IEmpleadosMarcajesRepository;
 
 /**
@@ -25,38 +27,33 @@ public class EmpleadosMarcajesServiceImplementation implements IEmpleadosMarcaje
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<EmpleadosMarcajes> findById(Long id) {
-        return empleadoRepository.findById(id);
+    public Optional<EmpleadosMarcajesDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(empleadoRepository.findById(id), EmpleadosMarcajesDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<EmpleadosMarcajes>> findAll() {
-        return Optional.ofNullable(empleadoRepository.findAll());
+    public Optional<List<EmpleadosMarcajesDTO>> findAll() {
+        return ServiceConvertionHelper.findList(empleadoRepository.findAll(), EmpleadosMarcajesDTO.class);
     }
 
     @Override
     @Transactional
-    public EmpleadosMarcajes create(EmpleadosMarcajes empleado) {
-        return empleadoRepository.save(empleado);
+    public EmpleadosMarcajesDTO create(EmpleadosMarcajesDTO empleado) {
+        EmpleadosMarcajes marcaje = MapperUtils.EntityFromDto(empleado, EmpleadosMarcajes.class);
+        marcaje = empleadoRepository.save(marcaje);
+        return MapperUtils.DtoFromEntity(marcaje, EmpleadosMarcajesDTO.class);
     }
 
     @Override
-    public Optional<EmpleadosMarcajes> update(EmpleadosMarcajes empleado, Long id) {
-        if(empleadoRepository.findById(id).isPresent())
-            return Optional.ofNullable(empleadoRepository.saveAndFlush(empleado));
-        else
-            return null;
-    }
-    
-    @Override
-    public void delete(Long id) {
-        empleadoRepository.deleteById(id);
-    }
-
-    @Override
-    public void deleteAll() {
-        empleadoRepository.deleteAll();
+    @Transactional
+    public Optional<EmpleadosMarcajesDTO> update(EmpleadosMarcajesDTO empleado, Long id) {
+        if(empleadoRepository.findById(id).isPresent()){
+            EmpleadosMarcajes marcaje = MapperUtils.EntityFromDto(empleado, EmpleadosMarcajes.class);
+            marcaje = empleadoRepository.save(marcaje);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(marcaje, EmpleadosMarcajesDTO.class));
+        }
+        return null;
     }
     
 }

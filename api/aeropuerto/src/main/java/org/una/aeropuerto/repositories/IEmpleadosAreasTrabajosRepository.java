@@ -7,6 +7,7 @@ package org.una.aeropuerto.repositories;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.una.aeropuerto.entities.EmpleadosAreasTrabajos;
 
 /**
@@ -15,8 +16,7 @@ import org.una.aeropuerto.entities.EmpleadosAreasTrabajos;
  */
 public interface IEmpleadosAreasTrabajosRepository extends JpaRepository<EmpleadosAreasTrabajos, Long>{
     
-    public List<EmpleadosAreasTrabajos> findByEmpleado(Long id);
-    
-    public List<EmpleadosAreasTrabajos> findByAreaTrabajo(Long id);
+    @Query("update EmpleadosAreasTrabajos eat set eat.estado = 0 where eat.id = id")
+    public void inactivar(Long id);
     
 }

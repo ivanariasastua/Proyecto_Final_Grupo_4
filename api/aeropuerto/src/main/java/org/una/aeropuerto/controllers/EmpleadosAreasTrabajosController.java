@@ -44,13 +44,7 @@ public class EmpleadosAreasTrabajosController {
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<EmpleadosAreasTrabajos>> result = empleadoService.findAll();
-            if (result.isPresent()) {
-                List<EmpleadosAreasTrabajosDTO> empleadoDTO = MapperUtils.DtoListFromEntityList(result.get(), EmpleadosAreasTrabajosDTO.class);
-                return new ResponseEntity<>(empleadoDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(empleadoService.findAll(), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -59,13 +53,7 @@ public class EmpleadosAreasTrabajosController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-            Optional<EmpleadosAreasTrabajos> areaFound = empleadoService.findById(id);
-            if (areaFound.isPresent()) {
-                EmpleadosAreasTrabajosDTO areaDto = MapperUtils.DtoFromEntity(areaFound.get(), EmpleadosAreasTrabajosDTO.class);
-                return new ResponseEntity<>(areaDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(empleadoService.findById(id), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -77,10 +65,7 @@ public class EmpleadosAreasTrabajosController {
     @ApiOperation(value = "Crea un nuevo empleado area trabajo", response = EmpleadosAreasTrabajosDTO.class, tags = "Empleados_Areas_Trabajos")
     public ResponseEntity<?> create(@RequestBody EmpleadosAreasTrabajosDTO empleado) {
         try {
-            EmpleadosAreasTrabajos area = MapperUtils.EntityFromDto(empleado, EmpleadosAreasTrabajos.class);
-            area = empleadoService.create(area);
-            EmpleadosAreasTrabajosDTO depDto = MapperUtils.DtoFromEntity(area, EmpleadosAreasTrabajosDTO.class);
-            return new ResponseEntity<>(depDto, HttpStatus.CREATED);
+            return new ResponseEntity<>(empleadoService.create(empleado), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -89,73 +74,16 @@ public class EmpleadosAreasTrabajosController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosAreasTrabajos depModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosAreasTrabajosDTO depModified) {
         try {
-            Optional<EmpleadosAreasTrabajos> depUpdated = empleadoService.update(depModified, id);
+            Optional<EmpleadosAreasTrabajosDTO> depUpdated = empleadoService.update(depModified, id);
             if (depUpdated.isPresent()) {
-                EmpleadosAreasTrabajosDTO depDto = MapperUtils.DtoFromEntity(depUpdated.get(), EmpleadosAreasTrabajosDTO.class);
-                return new ResponseEntity<>(depDto, HttpStatus.OK);
+                return new ResponseEntity<>(depUpdated.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
-            empleadoService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        try {
-            empleadoService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/empleado/{id}")
-    @ApiOperation(value = "Obtiene una lista de empleados areas trabajos segun el empleado", response = EmpleadosAreasTrabajosDTO.class, responseContainer = "List", tags = "Empleados_Areas_Trabajos")
-    public ResponseEntity<?> findByEmpleadosId(@PathVariable(value = "id") Long id) {
-        try {
-            Optional<List<EmpleadosAreasTrabajos>> result = empleadoService.findByEmpleadoId(id);
-            if (result.isPresent()) {
-                List<EmpleadosAreasTrabajosDTO> areaDTO = MapperUtils.DtoListFromEntityList(result.get(), EmpleadosAreasTrabajosDTO.class);
-                return new ResponseEntity<>(areaDTO, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/area/{id}")
-    @ApiOperation(value = "Obtiene una lista de empleados areas trabajos segun el area de trabajo", response = EmpleadosAreasTrabajosDTO.class, responseContainer = "List", tags = "Empleados_Areas_Trabajos")
-    public ResponseEntity<?> findByAreasTrabajosId(@PathVariable(value = "id") Long id) {
-        try {
-            Optional<List<EmpleadosAreasTrabajos>> result = empleadoService.findByAreaTrabajoId(id);
-            if (result.isPresent()) {
-                List<EmpleadosAreasTrabajosDTO> areaDTO = MapperUtils.DtoListFromEntityList(result.get(), EmpleadosAreasTrabajosDTO.class);
-                return new ResponseEntity<>(areaDTO, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

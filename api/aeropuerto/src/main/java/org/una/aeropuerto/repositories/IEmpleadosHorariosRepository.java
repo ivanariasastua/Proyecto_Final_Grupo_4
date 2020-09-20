@@ -5,8 +5,8 @@
  */
 package org.una.aeropuerto.repositories;
 
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.una.aeropuerto.entities.EmpleadosHorarios;
 
 /**
@@ -15,5 +15,6 @@ import org.una.aeropuerto.entities.EmpleadosHorarios;
  */
 public interface IEmpleadosHorariosRepository extends JpaRepository<EmpleadosHorarios, Long>{
     
-    public List<EmpleadosHorarios> findByEmpleado(Long id);
+    @Query("update EmpleadosHorarios eh set eh.estado = 0 where eh.id = id")
+    public void inactivar(Long id);
 }

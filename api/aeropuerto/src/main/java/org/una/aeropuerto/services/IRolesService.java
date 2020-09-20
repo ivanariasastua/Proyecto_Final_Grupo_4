@@ -7,7 +7,7 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.aeropuerto.entities.Roles;
+import org.una.aeropuerto.dto.RolesDTO;
 
 /**
  *
@@ -15,17 +15,14 @@ import org.una.aeropuerto.entities.Roles;
  */
 public interface IRolesService {
     
-    public Optional<List<Roles>> findAll();
+    public Optional<List<RolesDTO>> findAll();
 
-    public Optional<Roles> findById(Long id);
+    public Optional<RolesDTO> findById(Long id);
     
-    public Roles create(Roles rol);
+    public RolesDTO create(RolesDTO rol);
 
-    public Optional<Roles> update(Roles rol, Long id);
-
-    public void delete(Long id);
-
-    public void deleteAll();
+    public Optional<RolesDTO> update(RolesDTO rol, Long id);
     
-    public Optional<List<Roles>> findByNombre(String nombre);
+    public Optional<List<RolesDTO>> findByNombre(String nombre);
+    
 }

@@ -45,5 +45,13 @@ public class EmpleadosAreasTrabajos implements Serializable{
     @ManyToOne 
     @JoinColumn(name="area_trabajo")
     private AreasTrabajos areaTrabajo;
+    
+    @Column
+    private boolean estado;
+    
+    @PrePersist
+    public void PrePersist(){
+        this.estado = true;
+    }
  
 }

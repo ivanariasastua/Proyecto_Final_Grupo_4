@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.una.aeropuerto.dto.IncidentesCategoriasDTO;
 import org.una.aeropuerto.entities.IncidentesCategorias;
 import org.una.aeropuerto.repositories.IIncidentesCategoriasRepository;
-import org.una.tramites.utils.MapperUtils;
-import org.una.tramites.utils.ServiceConvertionHelper;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *

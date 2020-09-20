@@ -7,6 +7,7 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.una.aeropuerto.dto.EmpleadosMarcajesDTO;
 import org.una.aeropuerto.entities.EmpleadosMarcajes;
 
 /**
@@ -14,15 +15,11 @@ import org.una.aeropuerto.entities.EmpleadosMarcajes;
  * @author cordo
  */
 public interface IEmpleadosMarcajesService {
-    public Optional<List<EmpleadosMarcajes>> findAll();
+    public Optional<List<EmpleadosMarcajesDTO>> findAll();
 
-    public Optional<EmpleadosMarcajes> findById(Long id);
+    public Optional<EmpleadosMarcajesDTO> findById(Long id);
     
-    public EmpleadosMarcajes create(EmpleadosMarcajes empleadosMarcajes);
+    public EmpleadosMarcajesDTO create(EmpleadosMarcajesDTO empleadosMarcajes);
 
-    public Optional<EmpleadosMarcajes> update(EmpleadosMarcajes empleadosMarcajes, Long id);
-
-    public void delete(Long id);
-
-    public void deleteAll();
+    public Optional<EmpleadosMarcajesDTO> update(EmpleadosMarcajesDTO empleadosMarcajes, Long id);
 }

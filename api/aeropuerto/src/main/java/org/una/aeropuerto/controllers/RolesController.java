@@ -44,13 +44,7 @@ public class RolesController {
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Roles>> result = rolService.findAll();
-            if (result.isPresent()) {
-                List<RolesDTO> departamentosDTO = MapperUtils.DtoListFromEntityList(result.get(), RolesDTO.class);
-                return new ResponseEntity<>(departamentosDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(rolService.findAll(), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -59,13 +53,7 @@ public class RolesController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-            Optional<Roles> departamentoFound = rolService.findById(id);
-            if (departamentoFound.isPresent()) {
-                RolesDTO depDto = MapperUtils.DtoFromEntity(departamentoFound.get(),RolesDTO.class);
-                return new ResponseEntity<>(depDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(rolService.findById(id), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -77,10 +65,7 @@ public class RolesController {
     @ApiOperation(value = "Crea un nuevo rol", response = RolesDTO.class, tags = "Roles")
     public ResponseEntity<?> create(@RequestBody RolesDTO rol) {
         try {
-            Roles roles = MapperUtils.EntityFromDto(rol, Roles.class);
-            roles = rolService.create(roles);
-            RolesDTO depDto = MapperUtils.DtoFromEntity(roles, RolesDTO.class);
-            return new ResponseEntity<>(depDto, HttpStatus.CREATED);
+            return new ResponseEntity<>(rolService.create(rol), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -89,12 +74,11 @@ public class RolesController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Roles depModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody RolesDTO depModified) {
         try {
-            Optional<Roles> depUpdated = rolService.update(depModified, id);
+            Optional<RolesDTO> depUpdated = rolService.update(depModified, id);
             if (depUpdated.isPresent()) {
-                RolesDTO depDto = MapperUtils.DtoFromEntity(depUpdated.get(), RolesDTO.class);
-                return new ResponseEntity<>(depDto, HttpStatus.OK);
+                return new ResponseEntity<>(depUpdated.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -103,43 +87,11 @@ public class RolesController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
-            rolService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        try {
-            rolService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de roles por medio de su nombre", response = RolesDTO.class, responseContainer = "List", tags = "Roles")
     public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
         try {
-            Optional<List<Roles>> result = rolService.findByNombre(term);
-            if (result.isPresent()) {
-                List<RolesDTO> rolDTO = MapperUtils.DtoListFromEntityList(result.get(), RolesDTO.class);
-                return new ResponseEntity<>(rolDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(rolService.findByNombre(term), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }

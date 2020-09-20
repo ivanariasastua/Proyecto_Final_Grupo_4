@@ -10,8 +10,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.RolesDTO;
 import org.una.aeropuerto.entities.Roles;
 import org.una.aeropuerto.repositories.IRolesRepository;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -25,44 +28,38 @@ public class RolesServiceImplementation implements IRolesService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Roles> findById(Long id) {
-        return rolRepository.findById(id);
+    public Optional<List<RolesDTO>> findAll() {
+        return ServiceConvertionHelper.findList(rolRepository.findAll(), RolesDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Roles>> findAll() {
-        return Optional.ofNullable(rolRepository.findAll());
+    public Optional<RolesDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(rolRepository.findById(id), RolesDTO.class);
     }
 
     @Override
     @Transactional
-    public Roles create(Roles rol) {
-        return rolRepository.save(rol);
+    public RolesDTO create(RolesDTO rol) {
+        Roles entidad = MapperUtils.EntityFromDto(rol, Roles.class);
+        entidad = rolRepository.save(entidad);
+        return MapperUtils.DtoFromEntity(entidad, RolesDTO.class);
     }
 
     @Override
-    public Optional<Roles> update(Roles rol, Long id) {
-        if (rolRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(rolRepository.saveAndFlush(rol));
-        } else {
-            return null;
+    @Transactional
+    public Optional<RolesDTO> update(RolesDTO rol, Long id) {
+        if(rolRepository.findById(id).isPresent()){
+            Roles entity = MapperUtils.EntityFromDto(rol, Roles.class);
+            entity = rolRepository.save(entity);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(entity, RolesDTO.class));
         }
-    }
-
-    @Override
-    public void delete(Long id) {
-        rolRepository.deleteById(id);
-    }
-
-    @Override
-    public void deleteAll() {
-        rolRepository.deleteAll();
+        return null;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Roles>> findByNombre(String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Optional<List<RolesDTO>> findByNombre(String nombre) {
+        return ServiceConvertionHelper.findList(rolRepository.findByNombre(nombre), RolesDTO.class);
     }
 }

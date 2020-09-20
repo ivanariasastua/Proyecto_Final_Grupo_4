@@ -7,6 +7,7 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.una.aeropuerto.dto.EmpleadosAreasTrabajosDTO;
 import org.una.aeropuerto.entities.EmpleadosAreasTrabajos;
 
 /**
@@ -15,19 +16,13 @@ import org.una.aeropuerto.entities.EmpleadosAreasTrabajos;
  */
 public interface IEmpleadosAreasTrabajosService {
     
-    public Optional<List<EmpleadosAreasTrabajos>> findAll();
+    public Optional<List<EmpleadosAreasTrabajosDTO>> findAll();
 
-    public Optional<EmpleadosAreasTrabajos> findById(Long id);
+    public Optional<EmpleadosAreasTrabajosDTO> findById(Long id);
     
-    public EmpleadosAreasTrabajos create(EmpleadosAreasTrabajos empleadosAreasTrabajos);
+    public EmpleadosAreasTrabajosDTO create(EmpleadosAreasTrabajosDTO empleadosAreasTrabajos);
 
-    public Optional<EmpleadosAreasTrabajos> update(EmpleadosAreasTrabajos empleadosAreasTrabajos, Long id);
+    public Optional<EmpleadosAreasTrabajosDTO> update(EmpleadosAreasTrabajosDTO empleadosAreasTrabajos, Long id);
 
-    public void delete(Long id);
-
-    public void deleteAll();
-    
-    public Optional<List<EmpleadosAreasTrabajos>> findByEmpleadoId(Long id);
-    
-    public Optional<List<EmpleadosAreasTrabajos>> findByAreaTrabajoId(Long id);
+    public Optional<EmpleadosAreasTrabajosDTO> inactivate(Long id);
 }

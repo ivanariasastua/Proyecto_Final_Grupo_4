@@ -10,8 +10,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.EmpleadosDTO;
 import org.una.aeropuerto.entities.Empleados;
 import org.una.aeropuerto.repositories.IEmpleadosRepository;
+import org.una.aeropuerto.utils.*;
 
 /**
  *
@@ -25,55 +27,46 @@ public class EmpleadosServiceImplementation implements IEmpleadosService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Empleados> findById(Long id) {
-        return empleadoRepository.findById(id);
+    public Optional<EmpleadosDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(empleadoRepository.findById(id), EmpleadosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Empleados>> findAll() {
-        return Optional.ofNullable(empleadoRepository.findAll());
+    public Optional<List<EmpleadosDTO>> findAll() {
+        return ServiceConvertionHelper.findList(empleadoRepository.findAll(), EmpleadosDTO.class);
     }
 
     @Override
     @Transactional
-    public Empleados create(Empleados empleado) {
-        return empleadoRepository.save(empleado);
+    public EmpleadosDTO create(EmpleadosDTO empleado) {
+        Empleados colab = MapperUtils.EntityFromDto(empleado, Empleados.class);
+        colab = empleadoRepository.save(colab);
+        return MapperUtils.DtoFromEntity(colab, EmpleadosDTO.class);
     }
 
     @Override
-    public Optional<Empleados> update(Empleados empleado, Long id) {
+    @Transactional
+    public Optional<EmpleadosDTO> update(EmpleadosDTO empleado, Long id) {
         if (empleadoRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(empleadoRepository.saveAndFlush(empleado));
-        } else {
-            return null;
+            Empleados colab = MapperUtils.EntityFromDto(empleado, Empleados.class);
+            colab = empleadoRepository.save(colab);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(colab, EmpleadosDTO.class));
         }
+        return null;
     }
 
     @Override
-    public void delete(Long id) {
-        empleadoRepository.deleteById(id);
+    @Transactional(readOnly = true)
+    public Optional<List<EmpleadosDTO>> filtro(String nombre, String cedula, boolean estado, String area) {
+        return ServiceConvertionHelper.findList(empleadoRepository.filtro(nombre, cedula, estado, area), EmpleadosDTO.class);
     }
 
     @Override
-    public void deleteAll() {
-        empleadoRepository.deleteAll();
-    }
-
-    @Override
-    public Optional<List<Empleados>> findByUsuariosId(Long id) {
-        return Optional.ofNullable(empleadoRepository.findByUsuario(id));
-    }
-
-    @Override
-    public Optional<List<Empleados>> findByNombre(String nombre) {
-
-        return Optional.ofNullable(empleadoRepository.findByNombre(nombre));
-    }
-
-    @Override
-    public Optional<List<Empleados>> findByCedula(String cedula) {
-        return Optional.ofNullable(empleadoRepository.findByCedula(cedula));
+    @Transactional
+    public Optional<EmpleadosDTO> inactivate(Long id) {
+        empleadoRepository.inactivar(id);
+        return ServiceConvertionHelper.oneToOptionalDto(empleadoRepository.findById(id), EmpleadosDTO.class);
     }
 
 }

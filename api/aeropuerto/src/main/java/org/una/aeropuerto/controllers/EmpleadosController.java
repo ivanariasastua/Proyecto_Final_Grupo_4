@@ -43,13 +43,7 @@ public class EmpleadosController {
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Empleados>> result = empleadoService.findAll();
-            if (result.isPresent()) {
-                List<EmpleadosDTO> empleadoDTO = MapperUtils.DtoListFromEntityList(result.get(),EmpleadosDTO.class);
-                return new ResponseEntity<>(empleadoDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(empleadoService.findAll(), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -59,13 +53,7 @@ public class EmpleadosController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-            Optional<Empleados> empleadoFound = empleadoService.findById(id);
-            if (empleadoFound.isPresent()) {
-                EmpleadosDTO depDto = MapperUtils.DtoFromEntity(empleadoFound.get(), EmpleadosDTO.class);
-                return new ResponseEntity<>(depDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(empleadoService.findById(id), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -76,11 +64,8 @@ public class EmpleadosController {
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo departamento", response = EmpleadosDTO.class, tags = "Empleados")
     public ResponseEntity<?> create(@RequestBody EmpleadosDTO empleado) {
-        try {
-            Empleados emp = MapperUtils.EntityFromDto(empleado, Empleados.class);
-            emp = empleadoService.create(emp);
-            EmpleadosDTO depDto = MapperUtils.DtoFromEntity(emp, EmpleadosDTO.class);
-            return new ResponseEntity<>(depDto, HttpStatus.CREATED);
+        try { 
+            return new ResponseEntity<>(empleadoService.create(empleado), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -89,76 +74,17 @@ public class EmpleadosController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Empleados depModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosDTO depModified) {
         try {
-            Optional<Empleados> depUpdated = empleadoService.update(depModified, id);
+            Optional<EmpleadosDTO> depUpdated = empleadoService.update(depModified, id);
             if (depUpdated.isPresent()) {
-                EmpleadosDTO depDto = MapperUtils.DtoFromEntity(depUpdated.get(), EmpleadosDTO.class);
-                return new ResponseEntity<>(depDto, HttpStatus.OK);
+                return new ResponseEntity<>(depUpdated.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
-            empleadoService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        try {
-            empleadoService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    }    
     
-    @GetMapping("/nombre/{term}")
-    @ApiOperation(value = "Obtiene una lista de departamentos por medio de su nombre", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-    public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
-        try {
-            Optional<List<Empleados>> result = empleadoService.findByNombre(term);
-            if (result.isPresent()) {
-                List<EmpleadosDTO> depDTO = MapperUtils.DtoListFromEntityList(result.get(), EmpleadosDTO.class);
-                return new ResponseEntity<>(depDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    @GetMapping("/cedula/{term}")
-    @ApiOperation(value = "Obtiene una lista de departamentos por medio de su nombre", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-    public ResponseEntity<?> findByCedula(@PathVariable(value = "term") String term) {
-        try {
-            Optional<List<Empleados>> result = empleadoService.findByCedula(term);
-            if (result.isPresent()) {
-                List<EmpleadosDTO> depDTO = MapperUtils.DtoListFromEntityList(result.get(), EmpleadosDTO.class);
-                return new ResponseEntity<>(depDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
 }

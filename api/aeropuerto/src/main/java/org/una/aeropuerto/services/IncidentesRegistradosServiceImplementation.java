@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
 import org.una.aeropuerto.entities.IncidentesRegistrados;
 import org.una.aeropuerto.repositories.IIncidentesRegistradosRepository;
-import org.una.tramites.utils.MapperUtils;
-import org.una.tramites.utils.ServiceConvertionHelper;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -72,22 +72,12 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
 
     @Override
     public Optional<List<IncidentesRegistradosDTO>> findByCategoriaId(Long id) {
-        return ServiceConvertionHelper.findList(incidenteReppository.findByCategoriaId(id), IncidentesRegistradosDTO.class);
+        return ServiceConvertionHelper.findList(incidenteReppository.findByCategoria(id), IncidentesRegistradosDTO.class);
     }
 
     @Override
     public Optional<List<IncidentesRegistradosDTO>> findByAreaTrabajoId(Long id) {
         return ServiceConvertionHelper.findList(incidenteReppository.findByAreaTrabajoId(id), IncidentesRegistradosDTO.class);
-
-    @Transactional(readOnly = true)
-    public Optional<List<IncidentesRegistrados>> findByCategoriaId(Long id) {
-         return Optional.ofNullable(incidenteReppository.findByCategoria(id));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<IncidentesRegistrados>> findByAreaTrabajoId(Long id) {
-         return Optional.ofNullable(incidenteReppository.findByAreaTrabajo(id));
     }
 
 }

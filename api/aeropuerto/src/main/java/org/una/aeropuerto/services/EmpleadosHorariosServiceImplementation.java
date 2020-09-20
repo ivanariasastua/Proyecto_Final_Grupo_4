@@ -10,7 +10,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.EmpleadosHorariosDTO;
 import org.una.aeropuerto.entities.EmpleadosHorarios;
+import org.una.aeropuerto.utils.*;
 import org.una.aeropuerto.repositories.IEmpleadosHorariosRepository;
 
 /**
@@ -25,44 +27,42 @@ public class EmpleadosHorariosServiceImplementation implements IEmpleadosHorario
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<EmpleadosHorarios> findById(Long id) {
-        return empleadoRepository.findById(id);
+    public Optional<EmpleadosHorariosDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(empleadoRepository.findById(id), EmpleadosHorariosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<EmpleadosHorarios>> findAll() {
-        return Optional.ofNullable(empleadoRepository.findAll());
+    public Optional<List<EmpleadosHorariosDTO>> findAll() {
+        return ServiceConvertionHelper.findList(empleadoRepository.findAll(), EmpleadosHorariosDTO.class);
     }
 
     @Override
     @Transactional
-    public EmpleadosHorarios create(EmpleadosHorarios empleado) {
-        return empleadoRepository.save(empleado);
+    public EmpleadosHorariosDTO create(EmpleadosHorariosDTO horarioDto) {
+        EmpleadosHorarios horario = MapperUtils.EntityFromDto(horarioDto, EmpleadosHorarios.class);
+        horario = empleadoRepository.save(horario);
+        return MapperUtils.DtoFromEntity(horario, EmpleadosHorariosDTO.class);
     }
 
     @Override
-    public Optional<EmpleadosHorarios> update(EmpleadosHorarios empleado, Long id) {
+    @Transactional
+    public Optional<EmpleadosHorariosDTO> update(EmpleadosHorariosDTO horarioDto, Long id) {
         if (empleadoRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(empleadoRepository.saveAndFlush(empleado));
-        } else {
-            return null;
+            EmpleadosHorarios horario = MapperUtils.EntityFromDto(horarioDto, EmpleadosHorarios.class);
+            horario = empleadoRepository.save(horario);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(horario, EmpleadosHorariosDTO.class));
         }
+        return null;
     }
 
     @Override
-    public void delete(Long id) {
-        empleadoRepository.deleteById(id);
+    @Transactional
+    public Optional<EmpleadosHorariosDTO> inactivate(Long id) {
+        empleadoRepository.inactivar(id);
+        return ServiceConvertionHelper.oneToOptionalDto(empleadoRepository.findById(id), EmpleadosHorariosDTO.class);
     }
 
-    @Override
-    public void deleteAll() {
-        empleadoRepository.deleteAll();
-    }
-
-    @Override
-    public Optional<List<EmpleadosHorarios>> findByEmpleadosId(Long id) {
-        return Optional.ofNullable(empleadoRepository.findByEmpleado(id));
-    }
+   
 
 }
