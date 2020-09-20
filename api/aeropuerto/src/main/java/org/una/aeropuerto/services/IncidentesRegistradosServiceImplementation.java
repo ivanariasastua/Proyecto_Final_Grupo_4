@@ -71,13 +71,21 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistradosDTO>> findByCategoriaId(Long id) {
         return ServiceConvertionHelper.findList(incidenteReppository.findByCategoria(id), IncidentesRegistradosDTO.class);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistradosDTO>> findByAreaTrabajoId(Long id) {
         return ServiceConvertionHelper.findList(incidenteReppository.findByAreaTrabajoId(id), IncidentesRegistradosDTO.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<IncidentesRegistradosDTO>> filtro(String nomEmisor, String cedEmisor, String nomResponsable, String cedResponsable, String nomCategoria, String nomArea) {
+        return ServiceConvertionHelper.findList(incidenteReppository.filtro(nomEmisor, cedEmisor, nomResponsable, cedResponsable, nomCategoria, nomArea), IncidentesRegistradosDTO.class);
     }
 
 }

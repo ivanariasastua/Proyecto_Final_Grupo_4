@@ -112,4 +112,15 @@ public class IncidentesRegistradosController {
             return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping("filtro/{nomEmisor/cedEmisor/nomResponsable/cedResponsable/nomCategoria/nomArea}")
+    public ResponseEntity filtro(@PathVariable(value = "nomEmisor") String nomEmisor, @PathVariable(value = "cedEmisor") String cedEmisor,
+                                 @PathVariable(value = "nomResponsable") String nomResponsable, @PathVariable(value = "cedResponsable") String cedResponsable,
+                                 @PathVariable(value = "nomCategoria") String nomCategoria, @PathVariable(value = "nomArea") String nomArea){
+        try{
+            return new ResponseEntity<>(incidenteService.filtro(nomEmisor, cedEmisor, nomResponsable, cedResponsable, nomCategoria, nomArea),HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -31,4 +31,6 @@ public interface IIncidentesRegistradosService {
     public Optional<List<IncidentesRegistradosDTO>> findByCategoriaId(Long id);
     
     public Optional<List<IncidentesRegistradosDTO>> findByAreaTrabajoId(Long id);
+    
+    public Optional<List<IncidentesRegistradosDTO>> filtro(String nomEmisor, String cedEmisor, String nomResponsable, String cedResponsable, String nomCategoria, String nomArea);
 }

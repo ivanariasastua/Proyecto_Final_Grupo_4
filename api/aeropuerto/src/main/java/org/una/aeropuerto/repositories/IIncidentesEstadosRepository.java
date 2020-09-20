@@ -7,6 +7,7 @@ package org.una.aeropuerto.repositories;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.una.aeropuerto.entities.IncidentesEstados;
 
 /**
@@ -15,4 +16,5 @@ import org.una.aeropuerto.entities.IncidentesEstados;
  */
 public interface IIncidentesEstadosRepository extends JpaRepository<IncidentesEstados, Long>{
     public List<IncidentesEstados> findByEstado(String nombre);
+    
 }
