@@ -64,12 +64,6 @@ public class TransaccionesServiceImplementation implements ITransaccionesService
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<TransaccionesDTO>> findByUsuariosId(Long id) {
-        return ServiceConvertionHelper.findList(transRepository.findByUsuario(id), TransaccionesDTO.class);
-    }
-
-    @Override
     public Optional<TransaccionesDTO> inactivate(Long id) {
         transRepository.inactivar(id);
         return ServiceConvertionHelper.oneToOptionalDto(transRepository.findById(id), TransaccionesDTO.class);

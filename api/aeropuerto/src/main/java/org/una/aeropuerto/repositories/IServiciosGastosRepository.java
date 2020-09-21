@@ -19,10 +19,11 @@ public interface IServiciosGastosRepository extends JpaRepository<ServiciosGasto
     public List<ServiciosGastos> findByServicio(Long id);
     
     
-    @Query("Select sg from servicios_gastos sg join sg.servicio s on sg.servicio = s.id "
-            + "where UPPER(sg.empresa) like :servicio and UPPER(sg.numero_contrato) like :numeroContrato")
-    public List<ServiciosGastos> filtro(String servicio, String empresa,String numeroContrato);
+    @Query("Select sg from ServiciosGastos sg join sg.servicio s on sg.servicio = s.id "
+            + "where UPPER(sg.empresa) like :nomEmpresa and UPPER(sg.numeroContrato) like :numeroContrato "
+            + "and UPPER(s.nombre) like :nomServicio")
+    public List<ServiciosGastos> filtro(String nomServicio, String numeroContrato, String nomEmpresa);
 
-    @Query("update ServiciosGatos sg set sg.estado = 0 where sg.id = id")
+    @Query("update ServiciosGastos sg set sg.estado = 0 where sg.id = id")
     public void inactivar(Long id);
 }

@@ -26,7 +26,5 @@ public interface ITransaccionesService {
     
     public Optional<List<TransaccionesDTO>> findByAccion(String accion);
     
-    public Optional<List<TransaccionesDTO>> findByUsuariosId(Long id);
-    
     public Optional<TransaccionesDTO> inactivate(Long id);
 }

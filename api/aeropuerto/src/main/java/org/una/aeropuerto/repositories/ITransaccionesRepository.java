@@ -16,8 +16,6 @@ import org.una.aeropuerto.entities.Transacciones;
  */
 public interface ITransaccionesRepository  extends JpaRepository<Transacciones, Long>{
     
-    public List<Transacciones> findByUsuario(Long id);
-    
     public List<Transacciones> findByAccion(String accion);
     
     @Query("update Transacciones t set t.estado = 0 where t.id = id")

@@ -97,14 +97,4 @@ public class TransaccionesController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping("/usuario/{id}")
-    @ApiOperation(value = "Obtiene una lista de las transacciones segun el usuario", response = TransaccionesDTO.class, responseContainer = "List", tags = "Transacciones")
-    public ResponseEntity<?> findByUsuariosId(@PathVariable(value = "id") Long id) {
-        try {
-            return new ResponseEntity<>(transaccionService.findByUsuariosId(id), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

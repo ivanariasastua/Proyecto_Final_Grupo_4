@@ -21,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  *
- * @author Dios
+ * @author Yohell Buzo
  */
 
 @Configuration

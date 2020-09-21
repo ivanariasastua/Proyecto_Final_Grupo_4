@@ -20,11 +20,11 @@ public interface IIncidentesRegistradosRepository extends JpaRepository<Incident
     public List<IncidentesRegistrados> findByAreaTrabajo(Long id);
     
     @Query("Select ir from IncidentesRegistrados ir " +
-           "join ir.Empleados e on ir.emisor = e.id and ir.responsable = e.id " +
-           "join ir.IncidentesCategorias ic on ir.categoria = ic.id " +
-           "join ir.AreasTrabajos at on ir.areaTrabajo = at.id" +
-           "where UPPER(e.nombre) like :nomEmisor and UPPER(e.cedula) like :cedEmisor and" +
-           "UPPER(e.nombre) like :nomResponsable and UPPER(e.cedula) like :cedResponsable and" +
-           "UPPER(ic.nombre) like :nomCategoria and UPPER(at.nombre) like :nomArea")
+           "join ir.emisor emp on ir.emisor = emp.id or ir.responsable = emp.id " +
+           "join ir.categoria cat on ir.categoria = cat.id " +
+           "join ir.areaTrabajo at on ir.areaTrabajo = at.id " +
+           "where UPPER(emp.nombre) like :nomEmisor and UPPER(emp.cedula) like :cedEmisor and " +
+           "UPPER(emp.nombre) like :nomResponsable and UPPER(emp.cedula) like :cedResponsable and " +
+           "UPPER(cat.nombre) like :nomCategoria and UPPER(at.nombre) like :nomArea")
     public List<IncidentesEstados> filtro(String nomEmisor, String cedEmisor, String nomResponsable, String cedResponsable, String nomCategoria, String nomArea);
 }
