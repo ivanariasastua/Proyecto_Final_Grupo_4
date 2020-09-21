@@ -5,9 +5,17 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.aeropuerto.dto.EmpleadosDTO;
@@ -20,11 +28,22 @@ import org.una.aeropuerto.utils.*;
  * @author cordo
  */
 @Service
-public class EmpleadosServiceImplementation implements IEmpleadosService {
+public class EmpleadosServiceImplementation implements IEmpleadosService, UserDetailsService{
 
     @Autowired
     private IEmpleadosRepository empleadoRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    
+    private EmpleadosDTO encriptarPassword(EmpleadosDTO usuario) {
+        String password = usuario.getContrasenaEncriptada();
+        if (!password.isBlank()) {
+            usuario.setContrasenaEncriptada(bCryptPasswordEncoder.encode(password));
+        }
+        return usuario;
+    }
+    
     @Override
     @Transactional(readOnly = true)
     public Optional<EmpleadosDTO> findById(Long id) {
@@ -40,6 +59,7 @@ public class EmpleadosServiceImplementation implements IEmpleadosService {
     @Override
     @Transactional
     public EmpleadosDTO create(EmpleadosDTO empleado) {
+        encriptarPassword(empleado);
         Empleados colab = MapperUtils.EntityFromDto(empleado, Empleados.class);
         colab = empleadoRepository.save(colab);
         return MapperUtils.DtoFromEntity(colab, EmpleadosDTO.class);
@@ -49,6 +69,7 @@ public class EmpleadosServiceImplementation implements IEmpleadosService {
     @Transactional
     public Optional<EmpleadosDTO> update(EmpleadosDTO empleado, Long id) {
         if (empleadoRepository.findById(id).isPresent()) {
+            encriptarPassword(empleado);
             Empleados colab = MapperUtils.EntityFromDto(empleado, Empleados.class);
             colab = empleadoRepository.save(colab);
             return Optional.ofNullable(MapperUtils.DtoFromEntity(colab, EmpleadosDTO.class));
@@ -67,6 +88,26 @@ public class EmpleadosServiceImplementation implements IEmpleadosService {
     public Optional<EmpleadosDTO> inactivate(Long id) {
         empleadoRepository.inactivar(id);
         return ServiceConvertionHelper.oneToOptionalDto(empleadoRepository.findById(id), EmpleadosDTO.class);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Empleados> empleadoBuscado = findByCedula(username);
+        if (empleadoBuscado.isPresent()) {
+            Empleados empleado = empleadoBuscado.get();
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(empleado.getRol().getNombre()));
+            UserDetails userDetails = new User(empleado.getCedula(), empleado.getContrasenaEncriptada(), authorities);
+            return userDetails;
+        } else {
+            System.out.println("loadUserByUserName: fail");
+            return null;
+        }
+    }
+
+    @Override
+    public Optional<Empleados> findByCedula(String cedula) {
+        return Optional.ofNullable(empleadoRepository.findByCedula(cedula));
     }
 
 }

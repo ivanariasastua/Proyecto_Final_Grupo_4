@@ -25,8 +25,8 @@ public class EmpleadosMarcajesDTO {
     
     private Long id;
     private EmpleadosHorariosDTO empleadoHorario;
-    //private Date horaEntrada;
-   //private Date horaSalida;
+    private Date horaEntrada;
+    private Date horaSalida;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date fechaRegistro;
 }

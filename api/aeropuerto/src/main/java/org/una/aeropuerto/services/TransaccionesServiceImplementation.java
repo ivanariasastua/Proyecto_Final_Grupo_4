@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,11 @@ public class TransaccionesServiceImplementation implements ITransaccionesService
     public Optional<TransaccionesDTO> inactivate(Long id) {
         transRepository.inactivar(id);
         return ServiceConvertionHelper.oneToOptionalDto(transRepository.findById(id), TransaccionesDTO.class);
+    }
+
+    @Override
+    public Optional<List<TransaccionesDTO>> filtro(String empleado, Date fechaInicio, Date fechaFinal) {
+        return ServiceConvertionHelper.findList(transRepository.findFilter(empleado, fechaInicio, fechaFinal), TransaccionesDTO.class);
     }
 
 }

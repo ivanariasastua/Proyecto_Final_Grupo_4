@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.dto;
 
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,8 +24,8 @@ public class EmpleadosHorariosDTO {
     
     private Long id;
     private EmpleadosDTO empleado;
-    //private Date horaEntrada;
-    //private Date horaSalida;
+    private Date horaEntrada;
+    private Date horaSalida;
     private int dia;
     private boolean estado;
 }

@@ -24,4 +24,5 @@ public class EmpleadosAreasTrabajosDTO {
     private Long id;
     private EmpleadosDTO empleado;
     private AreasTrabajosDTO areaTrabajo;
+    private boolean estado;
 }

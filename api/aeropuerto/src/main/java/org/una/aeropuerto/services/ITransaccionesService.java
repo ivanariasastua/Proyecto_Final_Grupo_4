@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.dto.TransaccionesDTO;
@@ -27,4 +28,6 @@ public interface ITransaccionesService {
     public Optional<List<TransaccionesDTO>> findByAccion(String accion);
     
     public Optional<TransaccionesDTO> inactivate(Long id);
+    
+    public Optional<List<TransaccionesDTO>> filtro(String empleado, Date fechaInicio, Date fechaFinal);
 }

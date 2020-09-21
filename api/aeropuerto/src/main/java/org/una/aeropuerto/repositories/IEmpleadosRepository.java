@@ -16,6 +16,8 @@ import org.una.aeropuerto.entities.Empleados;
  */
 public interface IEmpleadosRepository extends JpaRepository<Empleados, Long>{
     
+    public Empleados findByCedula(String cedula);
+    
     @Query("Select e from Empleados e "+
             "join e.empleadosAreasTrabajo eat on e.id = eat.empleado "+
             "where UPPER(e.nombre) like :nombre and UPPER(e.cedula) like :cedula and e.estado =:estado and eat.areaTrabajo.nombre =:area")
@@ -23,4 +25,6 @@ public interface IEmpleadosRepository extends JpaRepository<Empleados, Long>{
 
     @Query("update Empleados em set em.estado = 0 where em.id = id")
     public void inactivar(Long id);
+    
+    public Empleados findByCedulaAndContrasenaEncriptada(String cedula, String contrasenaEncriptada);
 }

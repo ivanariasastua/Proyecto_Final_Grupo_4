@@ -47,12 +47,12 @@ public class SwaggerConfiguration {
                 .select()
                 .apis(
                         RequestHandlerSelectors
-                                .basePackage("org.una.tramites.controllers"))
+                                .basePackage("org.una.aeropuerto.controllers"))
                 .paths(PathSelectors.regex("/.*"))
                 .build()
                 .apiInfo(apiInfo())
                 .tags(new Tag("Seguridad", "Metodos de Seguridad"),
-                        new Tag("Usuarios", "Entidad de Usuarios")
+                        new Tag("Empleados", "Entidad de Empleados")
                 );
 
     }

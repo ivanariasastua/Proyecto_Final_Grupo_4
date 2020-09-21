@@ -20,6 +20,8 @@ public interface IEmpleadosService {
 
     public Optional<EmpleadosDTO> findById(Long id);
     
+    public Optional<Empleados> findByCedula(String cedula);
+    
     public EmpleadosDTO create(EmpleadosDTO empleados);
 
     public Optional<EmpleadosDTO> update(EmpleadosDTO empleados, Long id);
