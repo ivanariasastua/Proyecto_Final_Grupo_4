@@ -47,7 +47,7 @@ public class SwaggerConfiguration {
                 .select()
                 .apis(
                         RequestHandlerSelectors
-                                .basePackage("org.una.aeropuerto.controllers"))
+                                .basePackage("org.una.tramites.controllers"))
                 .paths(PathSelectors.regex("/.*"))
                 .build()
                 .apiInfo(apiInfo())
@@ -56,6 +56,7 @@ public class SwaggerConfiguration {
                 );
 
     }
+
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
