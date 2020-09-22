@@ -86,7 +86,7 @@ public class EmpleadosController {
         try {
             Optional<EmpleadosDTO> depUpdated = empleadoService.update(depModified, id);
             if (depUpdated.isPresent()) {
-                return new ResponseEntity<>(depUpdated.get(), HttpStatus.OK);
+                return new ResponseEntity<>(depUpdated, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
