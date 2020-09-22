@@ -8,7 +8,6 @@ package org.una.aeropuerto.services;
 import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
-import org.una.aeropuerto.entities.IncidentesRegistrados;
 
 /**
  *
@@ -24,9 +23,7 @@ public interface IIncidentesRegistradosService {
 
     public Optional<IncidentesRegistradosDTO> update(IncidentesRegistradosDTO incidentesRegistrados, Long id);
 
-    public void inactive(Long id);
-
-    public void inactiveAll();
+    public Optional<IncidentesRegistradosDTO> inactive(Long id);
     
     public Optional<List<IncidentesRegistradosDTO>> findByCategoriaId(Long id);
     

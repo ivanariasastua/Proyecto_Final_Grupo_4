@@ -7,12 +7,11 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.ServiciosGastosDTO;
-import org.una.aeropuerto.entities.ServiciosGastos;
-import org.una.aeropuerto.utils.MapperUtils;
 import org.una.aeropuerto.services.IServiciosGastosService;
 
 /**
@@ -41,6 +38,7 @@ public class ServiciosGastosController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Gastos de Mantenimientos", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Gastos_Mantenimientos")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')") 
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -52,6 +50,7 @@ public class ServiciosGastosController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un tipo de gasto a travez de su identificador unico", response = ServiciosGastosDTO.class, tags = "Gastos_Mantenimientos")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(gastosService.findById(id), HttpStatus.OK);
@@ -64,6 +63,7 @@ public class ServiciosGastosController {
     @PostMapping("saveUser/{value}")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo gasto de servicio", response = ServiciosGastosDTO.class, tags = "Servicios_Gastos")
+    @PreAuthorize("hasRole('GESTOR')") 
     public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody ServiciosGastosDTO servicio) {
         try {
             return new ResponseEntity<>(gastosService.create(servicio), HttpStatus.CREATED);
@@ -75,6 +75,7 @@ public class ServiciosGastosController {
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Modifica un gasto de servicio existente", response = ServiciosGastosDTO.class, tags = "Servicios_Gastos")
+    @PreAuthorize("hasRole('GESTOR')") 
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ServiciosGastosDTO servModified) {
         try {
             Optional<ServiciosGastosDTO> servUpdated = gastosService.update(servModified, id);
@@ -90,6 +91,7 @@ public class ServiciosGastosController {
 
     @GetMapping("/gastos_servicios/{id}")
     @ApiOperation(value = "Obtiene una lista de los gastos de servicios por medio de su servicio", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Servicios_Gastos")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findByServiciosId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(gastosService.findByServiciosId(id), HttpStatus.OK);
@@ -98,4 +100,14 @@ public class ServiciosGastosController {
         }
     }
 
+    @PutMapping("/inactivar/{id}")
+    @ApiOperation(value = "Inactivar un registro", response = ServiciosGastosDTO.class, tags = "Empleados_Areas_Trabajos")
+    @PreAuthorize("hasRole('GESTOR')")
+    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
+        try{
+            return new ResponseEntity<>(gastosService.inactivate(id), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

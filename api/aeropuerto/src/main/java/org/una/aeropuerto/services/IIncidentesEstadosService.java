@@ -8,7 +8,6 @@ package org.una.aeropuerto.services;
 import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.dto.IncidentesEstadosDTO;
-import org.una.aeropuerto.entities.IncidentesEstados;
 
 /**
  *

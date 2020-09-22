@@ -8,7 +8,6 @@ package org.una.aeropuerto.services;
 import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.dto.EmpleadosHorariosDTO;
-import org.una.aeropuerto.entities.EmpleadosHorarios;
 
 /**
  *

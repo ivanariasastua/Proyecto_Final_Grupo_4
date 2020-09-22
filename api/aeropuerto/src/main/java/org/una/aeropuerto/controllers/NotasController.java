@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +42,7 @@ public class NotasController {
     
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos las notas", response = NotasDTO.class, responseContainer = "List", tags = "Notas")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -58,6 +60,7 @@ public class NotasController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene una nota a travez de su identificador unico", response = NotasDTO.class, tags = "Notas")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -75,6 +78,7 @@ public class NotasController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody Notas notas) {
         try {
             Notas notasCreated = notasService.create(notas);
@@ -87,6 +91,7 @@ public class NotasController {
 
     @PutMapping("/{id}")
     @ResponseBody
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Notas traModified) {
         try {
             Optional<Notas> traUpdated = notasService.update(traModified, id);
@@ -103,33 +108,8 @@ public class NotasController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
-            notasService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        try {
-            notasService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping("/notas_gastos_mantenimientos/{id}")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findByGServiciosGastosId(@PathVariable(value = "id") Long id) {
         try {
             Optional<List<Notas>> result = notasService.findByGastosMantenimientosId(id);
@@ -139,6 +119,17 @@ public class NotasController {
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PutMapping("/inactivar/{id}")
+    @ApiOperation(value = "Inactivar un registro", response = NotasDTO.class, tags = "Empleados_Areas_Trabajos")
+    @PreAuthorize("hasRole('GESTOR')")
+    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
+        try{
+            return new ResponseEntity<>(notasService.inactivate(id), HttpStatus.OK);
+        }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

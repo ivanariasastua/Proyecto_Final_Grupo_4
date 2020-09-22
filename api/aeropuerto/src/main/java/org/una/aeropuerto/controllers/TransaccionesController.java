@@ -7,12 +7,11 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.TransaccionesDTO;
-import org.una.aeropuerto.entities.Transacciones;
 import org.una.aeropuerto.services.ITransaccionesService;
-import org.una.aeropuerto.utils.MapperUtils;
 
 /**
  *
@@ -41,6 +38,7 @@ public class TransaccionesController {
 
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos las transacciones", response = TransaccionesDTO.class, responseContainer = "List", tags = "Transacciones")
+    @PreAuthorize("hasRole('AUDITOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -52,6 +50,7 @@ public class TransaccionesController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un tipo de gasto a travez de su identificador unico", response = TransaccionesDTO.class, tags = "Transacciones")
+    @PreAuthorize("hasRole('AUDITOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(transaccionService.findById(id), HttpStatus.OK);
@@ -75,6 +74,7 @@ public class TransaccionesController {
     @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Modifica una transaccion existente", response = TransaccionesDTO.class, tags = "Transacciones")
+    @PreAuthorize("hasRole('AUDITOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody TransaccionesDTO tranModified) {
         try {
             Optional<TransaccionesDTO> servUpdated = transaccionService.update(tranModified, id);
@@ -90,6 +90,7 @@ public class TransaccionesController {
 
     @GetMapping("/accion/{term}")
     @ApiOperation(value = "Obtiene una lista de las transacciones por medio de su accion", response = TransaccionesDTO.class, responseContainer = "List", tags = "Transacciones")
+    @PreAuthorize("hasRole('AUDITOR')")
     public ResponseEntity<?> findByAccion(@PathVariable(value = "term") String term) {
         try {
             return new ResponseEntity<>(transaccionService.findByAccion(term), HttpStatus.OK);

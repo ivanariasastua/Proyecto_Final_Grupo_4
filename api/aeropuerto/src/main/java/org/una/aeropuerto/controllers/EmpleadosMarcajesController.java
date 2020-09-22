@@ -7,12 +7,11 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.EmpleadosMarcajesDTO;
-import org.una.aeropuerto.entities.EmpleadosMarcajes;
 import org.una.aeropuerto.services.IEmpleadosMarcajesService;
-import org.una.aeropuerto.utils.MapperUtils;
 
 /**
  *
@@ -40,6 +37,7 @@ public class EmpleadosMarcajesController {
     
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los Empleados Marcajes", response = EmpleadosMarcajesDTO.class, responseContainer = "List", tags = "Empleados_Marcajes")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -51,6 +49,7 @@ public class EmpleadosMarcajesController {
     
     
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(empleadoService.findById(id), HttpStatus.OK);
@@ -63,6 +62,7 @@ public class EmpleadosMarcajesController {
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo departamento", response = EmpleadosMarcajesDTO.class, tags = "Empleados_Marcajes")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody EmpleadosMarcajesDTO empleado) {
         try {
             return new ResponseEntity<>(empleadoService.create(empleado), HttpStatus.CREATED);
@@ -74,6 +74,7 @@ public class EmpleadosMarcajesController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosMarcajesDTO depModified) {
         try {
             Optional<EmpleadosMarcajesDTO> depUpdated = empleadoService.update(depModified, id);

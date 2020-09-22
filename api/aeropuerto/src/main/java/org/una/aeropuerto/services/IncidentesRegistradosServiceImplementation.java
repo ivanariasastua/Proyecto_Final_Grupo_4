@@ -60,15 +60,11 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
 
     @Override
     @Transactional
-    public void inactive(Long id) {
-        
+    public Optional<IncidentesRegistradosDTO> inactive(Long id) {
+        incidenteReppository.Inactivar(id);
+        return findById(id);
     }
 
-    @Override
-    @Transactional
-    public void inactiveAll() {
-        
-    }
 
     @Override
     @Transactional(readOnly = true)

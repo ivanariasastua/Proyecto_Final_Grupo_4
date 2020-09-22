@@ -8,7 +8,6 @@ package org.una.aeropuerto.services;
 import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.dto.IncidentesCategoriasDTO;
-import org.una.aeropuerto.entities.IncidentesCategorias;
 
 /**
  *
@@ -23,10 +22,6 @@ public interface IIncidentesCategoriasService {
     public IncidentesCategoriasDTO create(IncidentesCategoriasDTO incidentesCategorias);
 
     public Optional<IncidentesCategoriasDTO> update(IncidentesCategoriasDTO incidentesCategorias, Long id);
-
-    public void delete(Long id);
-
-    public void deleteAll();
 
     public Optional<List<IncidentesCategoriasDTO>> findByNombre(String nombre);
 }
