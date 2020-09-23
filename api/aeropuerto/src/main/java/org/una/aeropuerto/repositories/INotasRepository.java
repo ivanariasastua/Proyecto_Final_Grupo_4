@@ -7,6 +7,7 @@ package org.una.aeropuerto.repositories;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.una.aeropuerto.entities.Notas;
 
 /**
@@ -16,4 +17,7 @@ import org.una.aeropuerto.entities.Notas;
 public interface INotasRepository  extends JpaRepository<Notas, Long> {
     
     public List<Notas> findByServicioGasto(Long id);
+        
+    @Query("update Notas em set em.estado = 0 where em.id = id")
+    public void Inactivar(Long id);
 }

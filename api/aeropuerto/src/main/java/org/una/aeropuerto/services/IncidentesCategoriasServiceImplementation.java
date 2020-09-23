@@ -60,18 +60,6 @@ public class IncidentesCategoriasServiceImplementation implements IIncidentesCat
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
-        incidenteReppository.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteAll() {
-        incidenteReppository.deleteAll();
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public Optional<List<IncidentesCategoriasDTO>> findByNombre(String nombre) {
         return ServiceConvertionHelper.findList(incidenteReppository.findByNombre(nombre), IncidentesCategoriasDTO.class);

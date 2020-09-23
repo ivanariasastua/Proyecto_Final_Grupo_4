@@ -59,6 +59,14 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
     }
 
     @Override
+    @Transactional
+    public Optional<IncidentesRegistradosDTO> inactive(Long id) {
+        incidenteReppository.Inactivar(id);
+        return findById(id);
+    }
+
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistradosDTO>> findByCategoriaId(Long id) {
         return ServiceConvertionHelper.findList(incidenteReppository.findByCategoria(id), IncidentesRegistradosDTO.class);

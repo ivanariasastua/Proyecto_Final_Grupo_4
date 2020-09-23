@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,6 +56,9 @@ public class IncidentesRegistrados implements Serializable{
     @ManyToOne 
     @JoinColumn(name="responsable")
     private Empleados responsable;
+
+    @Column
+    public boolean estado;
     
     @ManyToOne 
     @JoinColumn(name="area_trabajo")
@@ -66,4 +70,8 @@ public class IncidentesRegistrados implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidenteRegistrado") 
     private List<IncidentesRegistradosEstados> incidentesRegistradosEstados = new ArrayList<>();
 
+    @PrePersist
+    public void PrePersist(){
+        this.estado = true;
+    }
 }

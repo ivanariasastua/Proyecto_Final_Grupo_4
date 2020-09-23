@@ -23,9 +23,7 @@ public interface INotasService {
 
     public Optional<Notas> update(Notas notas, Long id);
 
-    public void delete(Long id);
-
-    public void deleteAll();
-
     public Optional<List<Notas>> findByGastosMantenimientosId(Long id);
+
+    public Optional<Notas> inactivate(Long id);
 }

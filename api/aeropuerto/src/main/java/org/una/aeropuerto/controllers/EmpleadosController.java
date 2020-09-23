@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.EmpleadosDTO;
+import org.una.aeropuerto.entities.Empleados;
 import org.una.aeropuerto.services.IEmpleadosService;
 
 /**
@@ -37,6 +39,7 @@ public class EmpleadosController {
     
     @GetMapping("/filter/{nombre}/{cedula}/{estado}/{area}")
     @ApiOperation(value = "Obtiene una lista de los empleados segun los parametros enviados", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> getByFiltro(@PathVariable(value = "nombre")String nombre, @PathVariable(value = "cedula")String cedula, @PathVariable(value = "estado")boolean estado, @PathVariable(value = "area")String area){
         try{
             return new ResponseEntity<>(empleadoService.filtro(nombre, cedula, true, area), HttpStatus.OK);
@@ -48,6 +51,7 @@ public class EmpleadosController {
     
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos las transacciones", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -59,6 +63,7 @@ public class EmpleadosController {
     
     
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(empleadoService.findById(id), HttpStatus.OK);
@@ -71,6 +76,7 @@ public class EmpleadosController {
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo departamento", response = EmpleadosDTO.class, tags = "Empleados")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody EmpleadosDTO empleado) {
         try { 
             return new ResponseEntity<>(empleadoService.create(empleado), HttpStatus.CREATED);
@@ -82,11 +88,12 @@ public class EmpleadosController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosDTO depModified) {
         try {
             Optional<EmpleadosDTO> depUpdated = empleadoService.update(depModified, id);
             if (depUpdated.isPresent()) {
-                return new ResponseEntity<>(depUpdated.get(), HttpStatus.OK);
+                return new ResponseEntity<>(depUpdated, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -95,4 +102,14 @@ public class EmpleadosController {
         }
     }    
     
+    @PutMapping("/inactivar/{id}")
+    @ApiOperation(value = "Inactivar un registro", response = EmpleadosDTO.class, tags = "Empleados")
+    @PreAuthorize("hasRole('GESTOR')")
+    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
+        try{
+            return new ResponseEntity<>(empleadoService.inactivate(id), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

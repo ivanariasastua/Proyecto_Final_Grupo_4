@@ -49,23 +49,18 @@ public class NotasServiceImplementation implements INotasService {
         }
         return null;
     }
-
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        notasRepository.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteAll() {
-        notasRepository.deleteAll();
-    }
-
+    
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Notas>> findByGastosMantenimientosId(Long id) {
         return Optional.ofNullable(notasRepository.findByServicioGasto(id));
+    }
+
+
+    @Override
+    public Optional<Notas> inactivate(Long id) {
+        notasRepository.Inactivar(id);
+        return findById(id);
     }
 
 }

@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,14 +7,13 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
-import org.una.aeropuerto.entities.IncidentesRegistrados;
 import org.una.aeropuerto.services.IIncidentesRegistradosService;
-import org.una.aeropuerto.utils.MapperUtils;
 
 /**
  *
@@ -46,6 +43,7 @@ public class IncidentesRegistradosController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes registrados ", response = IncidentesRegistradosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -57,6 +55,7 @@ public class IncidentesRegistradosController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un incidente registrado a travez de su identificador unico ", response = IncidentesRegistradosDTO.class, tags = "Incidentes_Registrados")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findById(id),HttpStatus.OK);
@@ -68,6 +67,7 @@ public class IncidentesRegistradosController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("save/")
     @ResponseBody
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody IncidentesRegistradosDTO incidentesRegistrados) {
         try {
             return new ResponseEntity<>(incidenteService.create(incidentesRegistrados),HttpStatus.CREATED);
@@ -78,6 +78,7 @@ public class IncidentesRegistradosController {
 
     @PutMapping("/{id}")
     @ResponseBody
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody IncidentesRegistradosDTO modificado, BindingResult bindingResult) {
         if(!bindingResult.hasErrors()){
             try{
@@ -96,6 +97,7 @@ public class IncidentesRegistradosController {
     }
     
     @GetMapping("categoria/{id}")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findByCategoriaId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findByCategoriaId(id),HttpStatus.OK);
@@ -105,6 +107,7 @@ public class IncidentesRegistradosController {
     }
     
     @GetMapping("areatrabajo/{id}")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findByAreaTrabajoId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findByAreaTrabajoId(id),HttpStatus.OK);
@@ -114,6 +117,8 @@ public class IncidentesRegistradosController {
     }
     
     @GetMapping("filtro/{nomEmisor}/{cedEmisor}/{nomResponsable}/{cedResponsable}/{nomCategoria}/{nomArea}")
+    @GetMapping("filtro/{nomEmisor/cedEmisor/nomResponsable/cedResponsable/nomCategoria/nomArea}")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity filtro(@PathVariable(value = "nomEmisor") String nomEmisor, @PathVariable(value = "cedEmisor") String cedEmisor,
                                  @PathVariable(value = "nomResponsable") String nomResponsable, @PathVariable(value = "cedResponsable") String cedResponsable,
                                  @PathVariable(value = "nomCategoria") String nomCategoria, @PathVariable(value = "nomArea") String nomArea){
@@ -121,6 +126,17 @@ public class IncidentesRegistradosController {
             return new ResponseEntity<>(incidenteService.filtro(nomEmisor, cedEmisor, nomResponsable, cedResponsable, nomCategoria, nomArea),HttpStatus.OK);
         }catch(Exception ex){
             return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PutMapping("/inactivar/{id}")
+    @ApiOperation(value = "Inactivar un registro", response = IncidentesRegistradosDTO.class, tags = "Incidentes_Registrados")
+    @PreAuthorize("hasRole('GESTOR')")
+    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
+        try{
+            return new ResponseEntity<>(incidenteService.inactive(id), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

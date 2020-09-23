@@ -60,6 +60,7 @@ public class Transacciones implements Serializable {
     @PrePersist
     public void PrePersist(){
         estado = true;
+        fechaRegistro = new Date();
     }
     
 }

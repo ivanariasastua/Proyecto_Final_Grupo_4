@@ -23,6 +23,7 @@ public class IncidentesRegistradosDTO {
     private Long id;
     private String descripcion;
     private IncidentesCategoriasDTO categoria;
+    public boolean estado;
     private EmpleadosDTO emisor;
     private EmpleadosDTO responsable;
     private AreasTrabajosDTO areaTrabajo;

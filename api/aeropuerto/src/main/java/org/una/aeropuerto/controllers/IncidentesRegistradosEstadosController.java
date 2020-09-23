@@ -7,14 +7,13 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.IncidentesRegistradosEstadosDTO;
-import org.una.aeropuerto.entities.IncidentesRegistradosEstados;
 import org.una.aeropuerto.services.IIncidentesRegistradosEstadosService;
-import org.una.aeropuerto.utils.MapperUtils;
 
 /**
  *
@@ -45,6 +42,7 @@ public class IncidentesRegistradosEstadosController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes Registrados Estados", response = IncidentesRegistradosEstadosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados_Estados")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try{
@@ -56,6 +54,7 @@ public class IncidentesRegistradosEstadosController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un incidente registrado estado a travez de su identificador unico", response = IncidentesRegistradosEstadosDTO.class, tags = "Incidentes_Registrados_Estados")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findById(id),HttpStatus.OK);
@@ -67,6 +66,7 @@ public class IncidentesRegistradosEstadosController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("save/")
     @ResponseBody
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody IncidentesRegistradosEstadosDTO incidentesRegistradosEstados) {
         try {
             return new ResponseEntity<>(incidenteService.create(incidentesRegistradosEstados),HttpStatus.CREATED);
@@ -77,6 +77,7 @@ public class IncidentesRegistradosEstadosController {
 
     @PutMapping("/{id}")
     @ResponseBody
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody IncidentesRegistradosEstadosDTO modificado, BindingResult bindingResult) {
         if(!bindingResult.hasErrors()){
             try{
@@ -95,9 +96,20 @@ public class IncidentesRegistradosEstadosController {
     }
 
     @GetMapping("/incidentes/{id}")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity<?> findByIncidentesRegistradosId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findByIncidentesRegistradosId(id),HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/estados/{id}")
+    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    public ResponseEntity<?> findByIncidentesEstadosId(@PathVariable(value = "id") Long id) {
+        try {
+            return new ResponseEntity<>(incidenteService.findByIncidentesEstadosId(id),HttpStatus.OK);
         }catch(Exception ex){
             return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
