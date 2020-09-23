@@ -25,6 +25,6 @@ public class IncidentesRegistradosEstadosDTO {
     private Long id;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date fechaRegistro;
-    private IncidentesEstadosDTO incidenteEstado;
+    private String estado;
     private IncidentesRegistradosDTO incidenteRegistrado;
 }

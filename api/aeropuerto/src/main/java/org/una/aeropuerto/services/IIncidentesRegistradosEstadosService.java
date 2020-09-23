@@ -24,7 +24,5 @@ public interface IIncidentesRegistradosEstadosService {
 
     public Optional<IncidentesRegistradosEstadosDTO> update(IncidentesRegistradosEstadosDTO incidentesRegistradosEstados, Long id);
 
-    public Optional<List<IncidentesRegistradosEstadosDTO>> findByIncidentesEstadosId(Long id);
-
     public Optional<List<IncidentesRegistradosEstadosDTO>> findByIncidentesRegistradosId(Long id);
 }

@@ -48,9 +48,8 @@ public class IncidentesRegistradosEstados implements Serializable {
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
 
-    @ManyToOne
-    @JoinColumn(name = "incidente_estado")
-    private IncidentesEstados incidenteEstado;
+    @Column(name = "estado", length = 15)
+    private String estado;
 
     @ManyToOne
     @JoinColumn(name = "incidente_registrado")

@@ -102,13 +102,4 @@ public class IncidentesRegistradosEstadosController {
             return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping("/estados/{id}")
-    public ResponseEntity<?> findByIncidentesEstadosId(@PathVariable(value = "id") Long id) {
-        try {
-            return new ResponseEntity<>(incidenteService.findByIncidentesEstadosId(id),HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

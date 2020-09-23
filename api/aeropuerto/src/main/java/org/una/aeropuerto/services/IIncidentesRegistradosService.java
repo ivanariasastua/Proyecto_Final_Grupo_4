@@ -23,14 +23,12 @@ public interface IIncidentesRegistradosService {
     public IncidentesRegistradosDTO create(IncidentesRegistradosDTO incidentesRegistrados);
 
     public Optional<IncidentesRegistradosDTO> update(IncidentesRegistradosDTO incidentesRegistrados, Long id);
-
-    public void inactive(Long id);
-
-    public void inactiveAll();
     
     public Optional<List<IncidentesRegistradosDTO>> findByCategoriaId(Long id);
     
     public Optional<List<IncidentesRegistradosDTO>> findByAreaTrabajoId(Long id);
     
     public Optional<List<IncidentesRegistradosDTO>> filtro(String nomEmisor, String cedEmisor, String nomResponsable, String cedResponsable, String nomCategoria, String nomArea);
+    
+    public Optional<IncidentesRegistradosDTO> inactivate(Long id);
 }

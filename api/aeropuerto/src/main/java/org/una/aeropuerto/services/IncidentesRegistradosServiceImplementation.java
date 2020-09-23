@@ -59,18 +59,6 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
     }
 
     @Override
-    @Transactional
-    public void inactive(Long id) {
-        
-    }
-
-    @Override
-    @Transactional
-    public void inactiveAll() {
-        
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistradosDTO>> findByCategoriaId(Long id) {
         return ServiceConvertionHelper.findList(incidenteReppository.findByCategoria(id), IncidentesRegistradosDTO.class);
@@ -86,6 +74,13 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
     @Transactional(readOnly = true)
     public Optional<List<IncidentesRegistradosDTO>> filtro(String nomEmisor, String cedEmisor, String nomResponsable, String cedResponsable, String nomCategoria, String nomArea) {
         return ServiceConvertionHelper.findList(incidenteReppository.filtro(nomEmisor, cedEmisor, nomResponsable, cedResponsable, nomCategoria, nomArea), IncidentesRegistradosDTO.class);
+    }
+
+    @Override
+    @Transactional
+    public Optional<IncidentesRegistradosDTO> inactivate(Long id) {
+        incidenteReppository.inactivar(id);
+        return ServiceConvertionHelper.oneToOptionalDto(incidenteReppository.findById(id), IncidentesRegistradosDTO.class);
     }
 
 }
