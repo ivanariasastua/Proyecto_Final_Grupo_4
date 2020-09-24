@@ -64,9 +64,6 @@ public class IncidentesRegistrados implements Serializable{
     @JoinColumn(name="area_trabajo")
     private AreasTrabajos areaTrabajo;
     
-    @Column
-    boolean estado;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidenteRegistrado") 
     private List<IncidentesRegistradosEstados> incidentesRegistradosEstados = new ArrayList<>();
 

@@ -30,7 +30,6 @@ public interface IIncidentesRegistradosRepository extends JpaRepository<Incident
     
     @Query("update IncidentesRegistrados ir set ir.estado = 0 where ir.id = id")
     public void inactivar(Long id);
-    public List<IncidentesEstados> filtro(String nomEmisor, String cedEmisor, String nomResponsable, String cedResponsable, String nomCategoria, String nomArea);
 
     @Query("update IncidentesRegistrados em set em.estado = 0 where em.id = id")
     public void Inactivar(Long id);

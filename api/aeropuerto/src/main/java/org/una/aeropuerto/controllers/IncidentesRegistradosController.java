@@ -116,7 +116,6 @@ public class IncidentesRegistradosController {
         }
     }
     
-    @GetMapping("filtro/{nomEmisor}/{cedEmisor}/{nomResponsable}/{cedResponsable}/{nomCategoria}/{nomArea}")
     @GetMapping("filtro/{nomEmisor/cedEmisor/nomResponsable/cedResponsable/nomCategoria/nomArea}")
     @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
     public ResponseEntity filtro(@PathVariable(value = "nomEmisor") String nomEmisor, @PathVariable(value = "cedEmisor") String cedEmisor,
@@ -134,7 +133,7 @@ public class IncidentesRegistradosController {
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
         try{
-            return new ResponseEntity<>(incidenteService.inactive(id), HttpStatus.OK);
+            return new ResponseEntity<>(incidenteService.inactivate(id), HttpStatus.OK);
         }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -27,6 +27,5 @@ public class IncidentesRegistradosDTO {
     private EmpleadosDTO emisor;
     private EmpleadosDTO responsable;
     private AreasTrabajosDTO areaTrabajo;
-    private Boolean estado;
     private List<IncidentesRegistradosEstadosDTO> incidentesRegistradosEstados = new ArrayList<>();
 }

@@ -104,14 +104,4 @@ public class IncidentesRegistradosEstadosController {
             return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping("/estados/{id}")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
-    public ResponseEntity<?> findByIncidentesEstadosId(@PathVariable(value = "id") Long id) {
-        try {
-            return new ResponseEntity<>(incidenteService.findByIncidentesEstadosId(id),HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }
