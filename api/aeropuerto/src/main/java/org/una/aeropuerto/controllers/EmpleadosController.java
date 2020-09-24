@@ -39,7 +39,7 @@ public class EmpleadosController {
     
     @GetMapping("/filter/{nombre}/{cedula}/{estado}/{area}")
     @ApiOperation(value = "Obtiene una lista de los empleados segun los parametros enviados", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> getByFiltro(@PathVariable(value = "nombre")String nombre, @PathVariable(value = "cedula")String cedula, @PathVariable(value = "estado")boolean estado, @PathVariable(value = "area")String area){
         try{
             return new ResponseEntity<>(empleadoService.filtro(nombre, cedula, true, area), HttpStatus.OK);
@@ -51,7 +51,7 @@ public class EmpleadosController {
     
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos las transacciones", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -63,7 +63,7 @@ public class EmpleadosController {
     
     
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(empleadoService.findById(id), HttpStatus.OK);

@@ -43,7 +43,7 @@ public class IncidentesRegistradosController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes registrados ", response = IncidentesRegistradosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -55,7 +55,7 @@ public class IncidentesRegistradosController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un incidente registrado a travez de su identificador unico ", response = IncidentesRegistradosDTO.class, tags = "Incidentes_Registrados")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findById(id),HttpStatus.OK);
@@ -97,7 +97,7 @@ public class IncidentesRegistradosController {
     }
     
     @GetMapping("categoria/{id}")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByCategoriaId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findByCategoriaId(id),HttpStatus.OK);
@@ -107,7 +107,7 @@ public class IncidentesRegistradosController {
     }
     
     @GetMapping("areatrabajo/{id}")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByAreaTrabajoId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findByAreaTrabajoId(id),HttpStatus.OK);
@@ -117,7 +117,7 @@ public class IncidentesRegistradosController {
     }
     
     @GetMapping("filtro/{nomEmisor/cedEmisor/nomResponsable/cedResponsable/nomCategoria/nomArea}")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity filtro(@PathVariable(value = "nomEmisor") String nomEmisor, @PathVariable(value = "cedEmisor") String cedEmisor,
                                  @PathVariable(value = "nomResponsable") String nomResponsable, @PathVariable(value = "cedResponsable") String cedResponsable,
                                  @PathVariable(value = "nomCategoria") String nomCategoria, @PathVariable(value = "nomArea") String nomArea){

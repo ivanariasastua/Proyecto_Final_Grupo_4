@@ -38,7 +38,7 @@ public class EmpleadosHorariosController {
     
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los empleados horarios", response = EmpleadosHorariosDTO.class, responseContainer = "List", tags = "Empleados_Horarios")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -50,7 +50,7 @@ public class EmpleadosHorariosController {
     
     
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(empleadoService.findById(id), HttpStatus.OK);

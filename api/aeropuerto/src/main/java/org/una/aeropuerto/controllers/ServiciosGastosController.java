@@ -38,7 +38,7 @@ public class ServiciosGastosController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Gastos de Mantenimientos", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Gastos_Mantenimientos")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')") 
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')") 
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -50,7 +50,7 @@ public class ServiciosGastosController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un tipo de gasto a travez de su identificador unico", response = ServiciosGastosDTO.class, tags = "Gastos_Mantenimientos")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(gastosService.findById(id), HttpStatus.OK);
@@ -91,7 +91,7 @@ public class ServiciosGastosController {
 
     @GetMapping("/gastos_servicios/{id}")
     @ApiOperation(value = "Obtiene una lista de los gastos de servicios por medio de su servicio", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Servicios_Gastos")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByServiciosId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(gastosService.findByServiciosId(id), HttpStatus.OK);

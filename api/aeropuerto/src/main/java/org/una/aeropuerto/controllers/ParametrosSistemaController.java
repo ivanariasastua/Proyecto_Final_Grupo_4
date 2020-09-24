@@ -38,7 +38,7 @@ public class ParametrosSistemaController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los parametros del sistema", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -50,7 +50,7 @@ public class ParametrosSistemaController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un parametro del sistema a travez de su identificador unico", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(parametrosService.findById(id), HttpStatus.OK);
@@ -91,7 +91,7 @@ public class ParametrosSistemaController {
 
     @GetMapping("/valor")
     @ApiOperation(value = "Obtiene una lista de los parametros por medio del valor", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByValor(@PathVariable(value = "valor") String valor) {
         try {
             return new ResponseEntity<>(parametrosService.findByValor(valor), HttpStatus.OK);

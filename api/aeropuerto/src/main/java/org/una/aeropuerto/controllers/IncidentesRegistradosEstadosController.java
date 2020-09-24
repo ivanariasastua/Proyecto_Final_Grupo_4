@@ -42,7 +42,7 @@ public class IncidentesRegistradosEstadosController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes Registrados Estados", response = IncidentesRegistradosEstadosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados_Estados")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try{
@@ -54,7 +54,7 @@ public class IncidentesRegistradosEstadosController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un incidente registrado estado a travez de su identificador unico", response = IncidentesRegistradosEstadosDTO.class, tags = "Incidentes_Registrados_Estados")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findById(id),HttpStatus.OK);
@@ -96,7 +96,7 @@ public class IncidentesRegistradosEstadosController {
     }
 
     @GetMapping("/incidentes/{id}")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByIncidentesRegistradosId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findByIncidentesRegistradosId(id),HttpStatus.OK);

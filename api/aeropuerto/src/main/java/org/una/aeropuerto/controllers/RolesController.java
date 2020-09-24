@@ -38,7 +38,7 @@ public class RolesController {
 
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los roles", response = RolesDTO.class, responseContainer = "List", tags = "Roles")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -49,7 +49,7 @@ public class RolesController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(rolService.findById(id), HttpStatus.OK);
@@ -90,7 +90,7 @@ public class RolesController {
 
     @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de roles por medio de su nombre", response = RolesDTO.class, responseContainer = "List", tags = "Roles")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
         try {
             return new ResponseEntity<>(rolService.findByNombre(term), HttpStatus.OK);

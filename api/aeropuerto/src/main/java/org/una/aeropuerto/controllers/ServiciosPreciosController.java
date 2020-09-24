@@ -42,7 +42,7 @@ public class ServiciosPreciosController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los servicios precios", response = ServiciosPreciosDTO.class, responseContainer = "List", tags = "Servicios_Precios")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -54,7 +54,7 @@ public class ServiciosPreciosController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un servicio precios a travez de su identificador unico", response = ServiciosPreciosDTO.class, tags = "Servicios_Precios")
-    @PreAuthorize("hasAnyRole('GESTOR','GERENTE','ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(servService.findById(id), HttpStatus.OK);
