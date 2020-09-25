@@ -72,7 +72,7 @@ public class ServiciosGastosController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Modifica un gasto de servicio existente", response = ServiciosGastosDTO.class, tags = "Servicios_Gastos")
     @PreAuthorize("hasRole('GESTOR')") 

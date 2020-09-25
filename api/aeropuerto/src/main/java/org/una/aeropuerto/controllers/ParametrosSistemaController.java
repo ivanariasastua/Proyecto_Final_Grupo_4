@@ -72,7 +72,7 @@ public class ParametrosSistemaController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Modifica un parametro existente", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
     @PreAuthorize("hasRole('GESTOR')")

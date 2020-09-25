@@ -75,7 +75,7 @@ public class ServiciosPreciosController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping("/{id}")
+    @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Permite modificar un precio del servicio a partir de su Id", response = ServiciosPreciosDTO.class, tags = "Servicios_Precios")
     @PreAuthorize("hasRole('GESTOR')") 

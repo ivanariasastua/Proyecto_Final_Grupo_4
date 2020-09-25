@@ -89,7 +89,7 @@ public class NotasController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/editar/{id}")
     @ResponseBody
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Notas traModified) {

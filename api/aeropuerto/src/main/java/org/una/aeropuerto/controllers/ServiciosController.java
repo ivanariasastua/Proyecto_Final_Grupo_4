@@ -75,7 +75,7 @@ public class ServiciosController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Permite modificar un Servicio a partir de su Id", response = ServiciosDTO.class, tags = "Servicios")
     @PreAuthorize("hasRole('GESTOR')")

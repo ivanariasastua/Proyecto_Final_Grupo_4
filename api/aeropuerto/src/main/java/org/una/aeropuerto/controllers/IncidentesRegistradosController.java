@@ -76,7 +76,7 @@ public class IncidentesRegistradosController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/editar/{id}")
     @ResponseBody
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody IncidentesRegistradosDTO modificado, BindingResult bindingResult) {
