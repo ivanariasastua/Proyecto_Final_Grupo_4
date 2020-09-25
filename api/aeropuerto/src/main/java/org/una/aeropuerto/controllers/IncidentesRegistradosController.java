@@ -41,7 +41,7 @@ public class IncidentesRegistradosController {
     final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su solicitud con el formato esperado";
 
 
-    @GetMapping()
+    @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes registrados ", response = IncidentesRegistradosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
@@ -65,7 +65,7 @@ public class IncidentesRegistradosController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("save/")
+    @PostMapping("/save")
     @ResponseBody
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody IncidentesRegistradosDTO incidentesRegistrados) {
@@ -96,7 +96,7 @@ public class IncidentesRegistradosController {
         }
     }
     
-    @GetMapping("categoria/{id}")
+    @GetMapping("/categoria/{id}")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByCategoriaId(@PathVariable(value = "id") Long id) {
         try {
@@ -106,7 +106,7 @@ public class IncidentesRegistradosController {
         }
     }
     
-    @GetMapping("areatrabajo/{id}")
+    @GetMapping("/areatrabajo/{id}")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByAreaTrabajoId(@PathVariable(value = "id") Long id) {
         try {
@@ -116,7 +116,7 @@ public class IncidentesRegistradosController {
         }
     }
     
-    @GetMapping("filtro/{nomEmisor/cedEmisor/nomResponsable/cedResponsable/nomCategoria/nomArea}")
+    @GetMapping("/filtro/{nomEmisor/cedEmisor/nomResponsable/cedResponsable/nomCategoria/nomArea}")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity filtro(@PathVariable(value = "nomEmisor") String nomEmisor, @PathVariable(value = "cedEmisor") String cedEmisor,
                                  @PathVariable(value = "nomResponsable") String nomResponsable, @PathVariable(value = "cedResponsable") String cedResponsable,

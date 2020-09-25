@@ -49,7 +49,7 @@ public class TransaccionesController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene un tipo de gasto a travez de su identificador unico", response = TransaccionesDTO.class, tags = "Transacciones")
+    @ApiOperation(value = "Obtiene un tipo de transaccion a travez de su identificador unico", response = TransaccionesDTO.class, tags = "Transacciones")
     @PreAuthorize("hasRole('AUDITOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
@@ -60,7 +60,7 @@ public class TransaccionesController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("save/{value}")
+    @PostMapping("/save/{value}")
     @ResponseBody
     @ApiOperation(value = "Crea una nueva transaccion", response = TransaccionesDTO.class, tags = "Transacciones")
     public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody TransaccionesDTO transaccion) {

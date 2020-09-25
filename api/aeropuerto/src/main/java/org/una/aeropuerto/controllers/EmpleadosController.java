@@ -50,7 +50,7 @@ public class EmpleadosController {
     
     
     @GetMapping("/get")
-    @ApiOperation(value = "Obtiene una lista de todos las transacciones", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
+    @ApiOperation(value = "Obtiene una lista de todos los empleados", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
@@ -75,7 +75,7 @@ public class EmpleadosController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
     @ResponseBody
-    @ApiOperation(value = "Crea un nuevo departamento", response = EmpleadosDTO.class, tags = "Empleados")
+    @ApiOperation(value = "Crea un nuevo empleado", response = EmpleadosDTO.class, tags = "Empleados")
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody EmpleadosDTO empleado) {
         try { 
@@ -103,7 +103,7 @@ public class EmpleadosController {
     }    
     
     @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un registro", response = EmpleadosDTO.class, tags = "Empleados")
+    @ApiOperation(value = "Inactivar un empleado", response = EmpleadosDTO.class, tags = "Empleados")
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
         try{

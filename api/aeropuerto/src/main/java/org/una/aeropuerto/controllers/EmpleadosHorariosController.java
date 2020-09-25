@@ -62,7 +62,7 @@ public class EmpleadosHorariosController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
     @ResponseBody
-    @ApiOperation(value = "Crea un nuevo departamento", response = EmpleadosHorariosDTO.class, tags = "Empleados_Horarios")
+    @ApiOperation(value = "Crea un nuevo horario de empleado", response = EmpleadosHorariosDTO.class, tags = "Empleados_Horarios")
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody EmpleadosHorariosDTO empleado) {
         try {
@@ -90,7 +90,7 @@ public class EmpleadosHorariosController {
     }
 
     @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un registro", response = EmpleadosHorariosDTO.class, tags = "Empleados_Horarios")
+    @ApiOperation(value = "Inactivar un horario de empleado", response = EmpleadosHorariosDTO.class, tags = "Empleados_Horarios")
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
         try{

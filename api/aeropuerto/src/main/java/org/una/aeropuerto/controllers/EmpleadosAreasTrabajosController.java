@@ -89,7 +89,7 @@ public class EmpleadosAreasTrabajosController {
     }
     
     @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un registro", response = EmpleadosAreasTrabajosDTO.class, tags = "Empleados_Areas_Trabajos")
+    @ApiOperation(value = "Inactivar un area trabajo empleado", response = EmpleadosAreasTrabajosDTO.class, tags = "Empleados_Areas_Trabajos")
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
         try{

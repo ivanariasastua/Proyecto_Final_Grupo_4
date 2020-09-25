@@ -40,7 +40,7 @@ public class NotasController {
     @Autowired
     private INotasService notasService;
     
-    @GetMapping()
+    @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos las notas", response = NotasDTO.class, responseContainer = "List", tags = "Notas")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
@@ -76,7 +76,7 @@ public class NotasController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/")
+    @PostMapping("/save")
     @ResponseBody
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody Notas notas) {

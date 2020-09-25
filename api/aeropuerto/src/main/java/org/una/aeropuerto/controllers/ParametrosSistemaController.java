@@ -36,7 +36,7 @@ public class ParametrosSistemaController {
     @Autowired
     private IParametrosSistemaService parametrosService;
 
-    @GetMapping()
+    @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los parametros del sistema", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
@@ -60,7 +60,7 @@ public class ParametrosSistemaController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("save/{value}")
+    @PostMapping("/save/{value}")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo parametro", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
     @PreAuthorize("hasRole('GESTOR')")

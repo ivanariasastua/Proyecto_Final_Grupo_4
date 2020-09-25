@@ -64,7 +64,7 @@ public class IncidentesCategoriasController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("save/")
+    @PostMapping("/save")
     @ResponseBody
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody IncidentesCategoriasDTO incidentesCategorias) {

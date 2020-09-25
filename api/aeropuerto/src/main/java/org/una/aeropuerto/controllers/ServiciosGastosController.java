@@ -36,7 +36,7 @@ public class ServiciosGastosController {
     @Autowired
     private IServiciosGastosService gastosService;
 
-    @GetMapping()
+    @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los Gastos de Mantenimientos", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Gastos_Mantenimientos")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')") 
     public @ResponseBody
@@ -60,7 +60,7 @@ public class ServiciosGastosController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("saveUser/{value}")
+    @PostMapping("/save/{value}")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo gasto de servicio", response = ServiciosGastosDTO.class, tags = "Servicios_Gastos")
     @PreAuthorize("hasRole('GESTOR')") 
@@ -101,7 +101,7 @@ public class ServiciosGastosController {
     }
 
     @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un registro", response = ServiciosGastosDTO.class, tags = "Empleados_Areas_Trabajos")
+    @ApiOperation(value = "Inactivar un gasto de servicio", response = ServiciosGastosDTO.class, tags = "Empleados_Areas_Trabajos")
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
         try{

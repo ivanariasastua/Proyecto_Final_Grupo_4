@@ -40,7 +40,7 @@ public class ServiciosController {
     final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
 
     
-    @GetMapping()
+    @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos las Servicios", response = ServiciosDTO.class, responseContainer = "List", tags = "Servicios")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody ResponseEntity<?> findAll(){
@@ -63,7 +63,7 @@ public class ServiciosController {
     }
     
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("save/{value}")
+    @PostMapping("/save/{value}")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo servicio", response = ServiciosDTO.class, tags = "Servicios")
     @PreAuthorize("hasRole('GESTOR')")
@@ -108,7 +108,7 @@ public class ServiciosController {
     }
     
     @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un registro", response = ServiciosDTO.class, tags = "Empleados_Areas_Trabajos")
+    @ApiOperation(value = "Inactivar un servicio", response = ServiciosDTO.class, tags = "Empleados_Areas_Trabajos")
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
         try{

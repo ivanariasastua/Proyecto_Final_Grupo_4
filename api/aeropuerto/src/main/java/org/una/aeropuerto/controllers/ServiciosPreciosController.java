@@ -40,7 +40,7 @@ public class ServiciosPreciosController {
     
     final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
 
-    @GetMapping()
+    @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los servicios precios", response = ServiciosPreciosDTO.class, responseContainer = "List", tags = "Servicios_Precios")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
@@ -64,7 +64,7 @@ public class ServiciosPreciosController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("save/{value}")
+    @PostMapping("/save/{value}")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo precio de servicio", response = ServiciosPreciosDTO.class, tags = "Servicios_Precios")
     @PreAuthorize("hasRole('GESTOR')") 

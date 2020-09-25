@@ -40,7 +40,7 @@ public class IncidentesRegistradosEstadosController {
 
     final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su solicitud con el formato esperado";
 
-    @GetMapping()
+    @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes Registrados Estados", response = IncidentesRegistradosEstadosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados_Estados")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
@@ -64,7 +64,7 @@ public class IncidentesRegistradosEstadosController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("save/")
+    @PostMapping("/save")
     @ResponseBody
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody IncidentesRegistradosEstadosDTO incidentesRegistradosEstados) {

@@ -61,7 +61,7 @@ public class EmpleadosMarcajesController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
     @ResponseBody
-    @ApiOperation(value = "Crea un nuevo departamento", response = EmpleadosMarcajesDTO.class, tags = "Empleados_Marcajes")
+    @ApiOperation(value = "Crea un nueva marcaje", response = EmpleadosMarcajesDTO.class, tags = "Empleados_Marcajes")
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody EmpleadosMarcajesDTO empleado) {
         try {
