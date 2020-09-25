@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.una.aeropuerto.entities.Servicios;
 
 /**
  *
@@ -27,6 +26,7 @@ public class ServiciosPreciosDTO {
     private float costo;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date fechaRegistro;
+    @ToString.Exclude
     private ServiciosDTO servicio;
     private boolean estado;
 }

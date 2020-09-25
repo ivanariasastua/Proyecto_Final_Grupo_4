@@ -23,6 +23,7 @@ public class NotasDTO {
     
     private Long id;
     private String observacion;
+    @ToString.Exclude
     private ServiciosGastosDTO servicioGasto;
     private Date fechaRegistro;
     private boolean estado;
