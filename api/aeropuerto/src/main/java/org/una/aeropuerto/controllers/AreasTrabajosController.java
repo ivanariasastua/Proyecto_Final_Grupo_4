@@ -37,7 +37,7 @@ public class AreasTrabajosController {
     
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos las areas de trabajos", response = AreasTrabajosDTO.class, responseContainer = "List", tags = "Areas_Trabajos")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+   // @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -62,7 +62,7 @@ public class AreasTrabajosController {
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea una nueva area de trabajo", response = AreasTrabajosDTO.class, tags = "Areas_Trabajos")
-    @PreAuthorize("hasRole('GESTOR')")
+//    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody AreasTrabajosDTO area) {
         try {
             return new ResponseEntity<>(areaService.create(area), HttpStatus.CREATED);
@@ -74,7 +74,7 @@ public class AreasTrabajosController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-    @PreAuthorize("hasRole('GESTOR')")
+   // @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody AreasTrabajosDTO depModified) {
         try {
             Optional<AreasTrabajosDTO> depUpdated = areaService.update(depModified, id);
@@ -90,7 +90,7 @@ public class AreasTrabajosController {
     
     @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de las areas de trabajo por medio de su nombre", response = AreasTrabajosDTO.class, responseContainer = "List", tags = "Areas_Trabajos")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
         try {
             return new ResponseEntity<>(areaService.findByNombre(term), HttpStatus.OK);
