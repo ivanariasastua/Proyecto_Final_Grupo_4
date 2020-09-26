@@ -32,7 +32,6 @@ import org.una.aeropuerto.services.IIncidentesEstadosService;
  */
 @RestController
 @RequestMapping("/incidentes_estados")
-@Api(tags = {"Incidentes_Estados"})
 public class IncidentesEstadosController {
 
     @Autowired
