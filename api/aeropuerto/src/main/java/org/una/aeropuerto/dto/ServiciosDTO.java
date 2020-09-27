@@ -25,7 +25,7 @@ public class ServiciosDTO {
     private String nombre;
     private String descripcion;
     private boolean estado;
-    @ToString.Exclude
-    private List<ServiciosGastosDTO> gastosMantenimientos = new ArrayList<>();
-    private List<ServiciosPreciosDTO> serviciosPrecios = new ArrayList<>();
+  //  @ToString.Exclude
+//    private List<ServiciosGastosDTO> gastosMantenimientos = new ArrayList<>();
+//    private List<ServiciosPreciosDTO> serviciosPrecios = new ArrayList<>();
 }

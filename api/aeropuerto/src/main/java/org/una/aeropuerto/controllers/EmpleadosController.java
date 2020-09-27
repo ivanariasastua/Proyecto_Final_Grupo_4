@@ -39,7 +39,7 @@ public class EmpleadosController {
     
     @GetMapping("/filter/{nombre}/{cedula}/{estado}/{area}")
     @ApiOperation(value = "Obtiene una lista de los empleados segun los parametros enviados", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> getByFiltro(@PathVariable(value = "nombre")String nombre, @PathVariable(value = "cedula")String cedula, @PathVariable(value = "estado")boolean estado, @PathVariable(value = "area")String area){
         try{
             return new ResponseEntity<>(empleadoService.filtro(nombre, cedula, true, area), HttpStatus.OK);
@@ -51,7 +51,7 @@ public class EmpleadosController {
     
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los empleados", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -76,7 +76,7 @@ public class EmpleadosController {
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo empleado", response = EmpleadosDTO.class, tags = "Empleados")
-    @PreAuthorize("hasRole('GESTOR')")
+  //  @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody EmpleadosDTO empleado) {
         try { 
             return new ResponseEntity<>(empleadoService.create(empleado), HttpStatus.CREATED);
@@ -88,7 +88,7 @@ public class EmpleadosController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-    @PreAuthorize("hasRole('GESTOR')")
+  //  @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosDTO depModified) {
         try {
             Optional<EmpleadosDTO> depUpdated = empleadoService.update(depModified, id);

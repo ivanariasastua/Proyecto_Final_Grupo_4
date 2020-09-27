@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.ServiciosDTO;
+import org.una.aeropuerto.services.IServiciosService;
 import org.una.aeropuerto.services.ServiciosServiceImplementation;
 
 /**
@@ -34,23 +35,22 @@ import org.una.aeropuerto.services.ServiciosServiceImplementation;
 @RequestMapping("/servicios")
 @Api(tags = {"Servicios"})
 public class ServiciosController {
-    @Autowired
-    private ServiciosServiceImplementation serviciosService;
-    
-    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
 
-    
+    @Autowired
+    private IServiciosService serviciosService;
+
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos las Servicios", response = ServiciosDTO.class, responseContainer = "List", tags = "Servicios")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public @ResponseBody ResponseEntity<?> findAll(){
+    //@PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public @ResponseBody
+    ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity(serviciosService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un servicio a travez de su identificador unico", response = ServiciosDTO.class, tags = "Servicios")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
@@ -61,13 +61,13 @@ public class ServiciosController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/save/{value}")
+    @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo servicio", response = ServiciosDTO.class, tags = "Servicios")
-    @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody ServiciosDTO servicio) {
+    //  @PreAuthorize("hasRole('GESTOR')")
+    public ResponseEntity<?> create(@RequestBody ServiciosDTO servicio) {
         try {
             return new ResponseEntity(serviciosService.create(servicio), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -78,22 +78,19 @@ public class ServiciosController {
     @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Permite modificar un Servicio a partir de su Id", response = ServiciosDTO.class, tags = "Servicios")
-    @PreAuthorize("hasRole('GESTOR')")
+    //   @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ServiciosDTO servicioDTO, BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            try {
-                Optional<ServiciosDTO> servicioUpdated = serviciosService.update(servicioDTO, id);
-                if (servicioUpdated.isPresent()) {
-                    return new ResponseEntity(servicioUpdated, HttpStatus.OK);
-                } else {
-                    return new ResponseEntity(HttpStatus.NOT_FOUND);
-                }
-            } catch (Exception e) {
-                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        try {
+            Optional<ServiciosDTO> servicioUpdated = serviciosService.update(servicioDTO, id);
+            if (servicioUpdated.isPresent()) {
+                return new ResponseEntity(servicioUpdated, HttpStatus.OK);
+            } else {
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
             }
-        } else {
-            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @GetMapping("/nombre/{term}")
@@ -106,14 +103,14 @@ public class ServiciosController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @PutMapping("/inactivar/{id}")
     @ApiOperation(value = "Inactivar un servicio", response = ServiciosDTO.class, tags = "Empleados_Areas_Trabajos")
     @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
-        try{
+    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id) {
+        try {
             return new ResponseEntity<>(serviciosService.inactivate(id), HttpStatus.OK);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

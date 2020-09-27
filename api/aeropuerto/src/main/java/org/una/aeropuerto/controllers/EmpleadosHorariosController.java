@@ -38,7 +38,7 @@ public class EmpleadosHorariosController {
     
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los empleados horarios", response = EmpleadosHorariosDTO.class, responseContainer = "List", tags = "Empleados_Horarios")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+   // @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {

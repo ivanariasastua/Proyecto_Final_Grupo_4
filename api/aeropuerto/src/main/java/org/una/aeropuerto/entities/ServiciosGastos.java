@@ -56,10 +56,10 @@ public class ServiciosGastos implements Serializable{
     private Date fechaRegistro;
     
     @Column
-    private Integer estadoPago;
+    private boolean estadoPago;
     
     @Column
-    private Integer estadoGasto;
+    private boolean estadoGasto;
     
     @Column(length = 50)
     private String numeroContrato;
@@ -83,6 +83,7 @@ public class ServiciosGastos implements Serializable{
     @PrePersist
     public void PrePersist(){
         estado = true;
+        fechaRegistro = new Date();
     }
     
 }
