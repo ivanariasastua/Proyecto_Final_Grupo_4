@@ -38,7 +38,7 @@ public class ServiciosGastosController {
 
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los Gastos de Mantenimientos", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Gastos_Mantenimientos")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')") 
+//    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')") 
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -60,11 +60,11 @@ public class ServiciosGastosController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/save/{value}")
+    @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo gasto de servicio", response = ServiciosGastosDTO.class, tags = "Servicios_Gastos")
-    @PreAuthorize("hasRole('GESTOR')") 
-    public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody ServiciosGastosDTO servicio) {
+//    @PreAuthorize("hasRole('GESTOR')") 
+    public ResponseEntity<?> create(@RequestBody ServiciosGastosDTO servicio) {
         try {
             return new ResponseEntity<>(gastosService.create(servicio), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class ServiciosGastosController {
     @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Modifica un gasto de servicio existente", response = ServiciosGastosDTO.class, tags = "Servicios_Gastos")
-    @PreAuthorize("hasRole('GESTOR')") 
+//    @PreAuthorize("hasRole('GESTOR')") 
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ServiciosGastosDTO servModified) {
         try {
             Optional<ServiciosGastosDTO> servUpdated = gastosService.update(servModified, id);
