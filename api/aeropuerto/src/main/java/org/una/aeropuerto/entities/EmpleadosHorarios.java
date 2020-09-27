@@ -56,8 +56,11 @@ public class EmpleadosHorarios implements Serializable{
     @Temporal(TemporalType.TIME)
     private Date horaSalida;
     
+    @Column(length = 9)
+    private String diaEntrada;
+    
     @Column
-    private Integer dia;
+    private String diaSalida;
     
     @Column
     private Boolean estado;

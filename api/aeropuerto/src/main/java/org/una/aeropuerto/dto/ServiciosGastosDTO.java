@@ -5,9 +5,7 @@
  */
 package org.una.aeropuerto.dto;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.json.bind.annotation.JsonbDateFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +34,6 @@ public class ServiciosGastosDTO {
     private Long duracion;
     private EmpleadosDTO responsable;
     private boolean estado;
-    private List<NotasDTO> notas = new ArrayList<>();
+    private String observaciones;
 
 }

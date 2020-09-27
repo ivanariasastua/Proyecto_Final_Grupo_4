@@ -26,6 +26,7 @@ public class EmpleadosHorariosDTO {
     private EmpleadosDTO empleado;
     private Date horaEntrada;
     private Date horaSalida;
-    private int dia;
+    private String diaEntrada;
+    private String diaSalida;
     private boolean estado;
 }

@@ -65,12 +65,6 @@ public class TransaccionesServiceImplementation implements ITransaccionesService
     }
 
     @Override
-    public Optional<TransaccionesDTO> inactivate(Long id) {
-        transRepository.inactivar(id);
-        return ServiceConvertionHelper.oneToOptionalDto(transRepository.findById(id), TransaccionesDTO.class);
-    }
-
-    @Override
     public Optional<List<TransaccionesDTO>> filtro(String empleado, Date fechaInicio, Date fechaFinal) {
         return ServiceConvertionHelper.findList(transRepository.findFilter(empleado, fechaInicio, fechaFinal), TransaccionesDTO.class);
     }

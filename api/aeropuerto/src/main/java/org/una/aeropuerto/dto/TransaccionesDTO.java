@@ -26,7 +26,6 @@ public class TransaccionesDTO {
     private Long id;
     private EmpleadosDTO usuario;
     private String accion;
-    private boolean estado;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date fechaRegistro;
 }

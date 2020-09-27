@@ -54,12 +54,8 @@ public class Transacciones implements Serializable {
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
     
-    @Column
-    private boolean estado;
-    
     @PrePersist
     public void PrePersist(){
-        estado = true;
         fechaRegistro = new Date();
     }
     

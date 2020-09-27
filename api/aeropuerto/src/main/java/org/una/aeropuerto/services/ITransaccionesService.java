@@ -27,7 +27,5 @@ public interface ITransaccionesService {
     
     public Optional<List<TransaccionesDTO>> findByAccion(String accion);
     
-    public Optional<TransaccionesDTO> inactivate(Long id);
-    
     public Optional<List<TransaccionesDTO>> filtro(String empleado, Date fechaInicio, Date fechaFinal);
 }
