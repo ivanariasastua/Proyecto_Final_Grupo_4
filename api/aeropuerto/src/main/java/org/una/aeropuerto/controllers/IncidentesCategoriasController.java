@@ -42,7 +42,7 @@ public class IncidentesCategoriasController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes de Categorias", response = IncidentesCategoriasDTO.class, responseContainer = "List", tags = "Incidentes_Categorias")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -54,7 +54,7 @@ public class IncidentesCategoriasController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un incidente de categoria a travez de su identificador unico", response = IncidentesCategoriasDTO.class, tags = "Incidentes_Categorias")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(incidenteService.findById(id),HttpStatus.OK);
@@ -66,7 +66,7 @@ public class IncidentesCategoriasController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
     @ResponseBody
-    @PreAuthorize("hasRole('GESTOR')")
+//    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody IncidentesCategoriasDTO incidentesCategorias) {
         try{
             return new ResponseEntity<>(incidenteService.create(incidentesCategorias), HttpStatus.CREATED);
@@ -77,7 +77,7 @@ public class IncidentesCategoriasController {
 
     @PutMapping("/{id}")
     @ResponseBody
-    @PreAuthorize("hasRole('GESTOR')")
+   // @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody IncidentesCategoriasDTO modificado, BindingResult bindingResult) {
         if(!bindingResult.hasErrors()){
             try{

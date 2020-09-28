@@ -5,7 +5,9 @@
  */
 package org.una.aeropuerto.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,4 +31,6 @@ public class EmpleadosHorariosDTO {
     private String diaEntrada;
     private String diaSalida;
     private boolean estado;
+    @ToString.Exclude
+    private List<EmpleadosMarcajesDTO> empleadosMarcajes=new ArrayList<>();
 }

@@ -37,7 +37,7 @@ public class EmpleadosMarcajesController {
     
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los Empleados Marcajes", response = EmpleadosMarcajesDTO.class, responseContainer = "List", tags = "Empleados_Marcajes")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -62,7 +62,7 @@ public class EmpleadosMarcajesController {
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nueva marcaje", response = EmpleadosMarcajesDTO.class, tags = "Empleados_Marcajes")
-    @PreAuthorize("hasRole('GESTOR')")
+  //  @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody EmpleadosMarcajesDTO empleado) {
         try {
             return new ResponseEntity<>(empleadoService.create(empleado), HttpStatus.CREATED);
@@ -74,7 +74,7 @@ public class EmpleadosMarcajesController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-    @PreAuthorize("hasRole('GESTOR')")
+//    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosMarcajesDTO depModified) {
         try {
             Optional<EmpleadosMarcajesDTO> depUpdated = empleadoService.update(depModified, id);

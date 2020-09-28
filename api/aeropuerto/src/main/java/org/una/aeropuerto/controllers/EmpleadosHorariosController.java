@@ -50,7 +50,7 @@ public class EmpleadosHorariosController {
     
     
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+   // @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(empleadoService.findById(id), HttpStatus.OK);
@@ -63,7 +63,7 @@ public class EmpleadosHorariosController {
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo horario de empleado", response = EmpleadosHorariosDTO.class, tags = "Empleados_Horarios")
-    @PreAuthorize("hasRole('GESTOR')")
+ //   @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody EmpleadosHorariosDTO empleado) {
         try {
             return new ResponseEntity<>(empleadoService.create(empleado), HttpStatus.CREATED);
@@ -75,7 +75,7 @@ public class EmpleadosHorariosController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-    @PreAuthorize("hasRole('GESTOR')")
+ //   @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosHorariosDTO depModified) {
         try {
             Optional<EmpleadosHorariosDTO> depUpdated = empleadoService.update(depModified, id);
