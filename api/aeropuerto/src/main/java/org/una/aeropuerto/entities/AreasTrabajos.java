@@ -26,7 +26,7 @@ import lombok.ToString;
  * @author ivana
  */
 @Entity
-@Table(name = "Areas_Trabajo")
+@Table(name = "Areas_Trabajos")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,7 +45,7 @@ public class AreasTrabajos implements Serializable {
     private String descripcion;
     
     @Column
-    private Boolean estado;
+    private boolean estado;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaTrabajo")
     private List<EmpleadosAreasTrabajos> empleadosAreasTrabajo;

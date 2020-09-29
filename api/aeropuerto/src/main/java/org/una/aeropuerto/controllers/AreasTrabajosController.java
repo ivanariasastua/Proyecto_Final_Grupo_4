@@ -101,7 +101,8 @@ public class AreasTrabajosController {
 
     @PutMapping("/inactivar/{id}")
     @ApiOperation(value = "Inactivar un area de trabajo", response = AreasTrabajosDTO.class, tags = "Areas_Trabajos")
-    @PreAuthorize("hasRole('GESTOR')")
+ //   @ResponseBody
+//  @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
         try{
             return new ResponseEntity<>(areaService.inactivate(id), HttpStatus.OK);

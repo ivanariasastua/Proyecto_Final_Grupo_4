@@ -37,29 +37,27 @@ public class IncidentesCategoriasController {
 
     @Autowired
     private IIncidentesCategoriasService incidenteService;
-    
-    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su solicitud con el formato esperado";
 
-    @GetMapping()
+    @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes de Categorias", response = IncidentesCategoriasDTO.class, responseContainer = "List", tags = "Incidentes_Categorias")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity<>(incidenteService.findAll(), HttpStatus.OK);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un incidente de categoria a travez de su identificador unico", response = IncidentesCategoriasDTO.class, tags = "Incidentes_Categorias")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-            return new ResponseEntity<>(incidenteService.findById(id),HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(incidenteService.findById(id), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -68,31 +66,28 @@ public class IncidentesCategoriasController {
     @ResponseBody
 //    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody IncidentesCategoriasDTO incidentesCategorias) {
-        try{
+        try {
             return new ResponseEntity<>(incidenteService.create(incidentesCategorias), HttpStatus.CREATED);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/editar/{id}")
     @ResponseBody
-   // @PreAuthorize("hasRole('GESTOR')")
+    // @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody IncidentesCategoriasDTO modificado, BindingResult bindingResult) {
-        if(!bindingResult.hasErrors()){
-            try{
-                Optional<IncidentesCategoriasDTO> updated = incidenteService.update(modificado, id);
-                if(updated.isPresent()){
-                    return new ResponseEntity<>(updated, HttpStatus.OK);
-                }else{
-                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-                }
-            }catch(Exception ex){
-                return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
+        try {
+            Optional<IncidentesCategoriasDTO> updated = incidenteService.update(modificado, id);
+            if (updated.isPresent()) {
+                return new ResponseEntity<>(updated, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        }else{
-            return new ResponseEntity<>(MENSAJE_VERIFICAR_INFORMACION,HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @GetMapping("/nombre")
@@ -100,8 +95,8 @@ public class IncidentesCategoriasController {
     public ResponseEntity<?> findByNombre(@PathVariable(value = "nombre") String nombre) {
         try {
             return new ResponseEntity<>(incidenteService.findByNombre(nombre), HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
