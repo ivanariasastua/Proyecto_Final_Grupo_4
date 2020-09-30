@@ -87,4 +87,14 @@ public class EmpleadosMarcajesController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     } 
+    
+    @GetMapping("Ultimo/{id}")
+    //@PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> findLastByHorarioId(@PathVariable(value = "id") Long id) {
+        try {
+            return new ResponseEntity<>(empleadoService.findLastByHorarioId(id), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

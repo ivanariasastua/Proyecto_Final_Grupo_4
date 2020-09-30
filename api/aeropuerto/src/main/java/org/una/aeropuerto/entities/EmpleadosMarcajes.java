@@ -6,6 +6,7 @@
 package org.una.aeropuerto.entities;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,6 +57,9 @@ public class EmpleadosMarcajes implements Serializable{
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistros;
+    
+    @Column(name = "horas_laboradas")
+    private Integer horasLaboradas;
     
     @PrePersist
     public void PrePersist(){

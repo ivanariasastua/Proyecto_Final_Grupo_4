@@ -55,5 +55,10 @@ public class EmpleadosMarcajesServiceImplementation implements IEmpleadosMarcaje
         }
         return null;
     }
+
+    @Override
+    public Optional<EmpleadosMarcajesDTO> findLastByHorarioId(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(Optional.ofNullable(empleadoRepository.findUltimoMarcaje(id).get().get(0)), EmpleadosMarcajesDTO.class);
+    }
     
 }

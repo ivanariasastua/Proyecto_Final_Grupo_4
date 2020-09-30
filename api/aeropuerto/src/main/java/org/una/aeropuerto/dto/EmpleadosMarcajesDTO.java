@@ -24,9 +24,11 @@ import lombok.ToString;
 public class EmpleadosMarcajesDTO {
     
     private Long id;
-    private EmpleadosHorariosDTO empleadoHorario;
+    @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date horaEntrada;
+    @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date horaSalida;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date fechaRegistro;
+    private Integer horasLaboradas;
 }

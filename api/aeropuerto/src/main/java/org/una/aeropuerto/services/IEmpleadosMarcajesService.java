@@ -21,4 +21,6 @@ public interface IEmpleadosMarcajesService {
     public EmpleadosMarcajesDTO create(EmpleadosMarcajesDTO empleadosMarcajes);
 
     public Optional<EmpleadosMarcajesDTO> update(EmpleadosMarcajesDTO empleadosMarcajes, Long id);
+
+    public Optional<EmpleadosMarcajesDTO> findLastByHorarioId(Long id);
 }

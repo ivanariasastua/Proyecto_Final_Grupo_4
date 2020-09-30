@@ -52,7 +52,20 @@ public class SwaggerConfiguration {
                 .build()
                 .apiInfo(apiInfo())
                 .tags(new Tag("Seguridad", "Metodos de Seguridad"),
-                        new Tag("Empleados", "Entidad de Empleados")
+                        new Tag("Transacciones", "Entidad de Transacciones"),
+                        new Tag("Servicios_Precios", "Entidad de Precios de Servicios"),
+                        new Tag("Gastos_Mantenimientos", "Entidad de Gastos en Servicios"),
+                        new Tag("Servicios", "Entidad de Servicios"),
+                        new Tag("Roles", "Entidad de Roles"),
+                        new Tag("Parametros_Sistema", "Entidad de los Parametros del Sistema"),
+                        new Tag("Incidentes_Registrados_Estados", "Entidad de los estados de los incidentes registrados"),
+                        new Tag("Incidentes_Registrados", "Entidad de los incidentes Registrados"),
+                        new Tag("Incidentes_Categorias", "Entidad de lascategorias de los incidentes"),
+                        new Tag("Empleados", "Entidad de Empleados"),
+                        new Tag("Empleados_Marcajes", "Entidad de los marcajes de los empleados"),
+                        new Tag("Empleados_Horarios", "Entidad de los horarios de los empleados"),
+                        new Tag("Empleados_Areas_Trabajos", "Entidad de la areas de trabajo de los empleados"),
+                        new Tag("Areas_Trabajos", "Entidad de Areas de Trabajo")
                 );
 
     }

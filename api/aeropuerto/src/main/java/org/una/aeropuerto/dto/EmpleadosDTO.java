@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,6 @@ public class EmpleadosDTO {
     private EmpleadosDTO jefe;
     private String contrasenaEncriptada;
     private RolesDTO rol;
-    
+    private List<EmpleadosAreasTrabajosDTO> empleadosAreasTrabajo;
+    private List<EmpleadosHorariosDTO> horarios;
 }
