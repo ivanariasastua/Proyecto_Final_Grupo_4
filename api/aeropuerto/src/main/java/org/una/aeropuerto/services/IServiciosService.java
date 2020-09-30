@@ -26,5 +26,5 @@ public interface IServiciosService {
     
     public Optional<List<ServiciosDTO>> findByNombre(String nombre);
     
-    public Optional<ServiciosDTO> inactivate(Long id);
+  public Optional<List<ServiciosDTO>> findByEstado(boolean estado);
 }

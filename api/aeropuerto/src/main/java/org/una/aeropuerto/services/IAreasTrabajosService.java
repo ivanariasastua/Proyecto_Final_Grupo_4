@@ -24,7 +24,6 @@ public interface IAreasTrabajosService {
     public Optional<AreasTrabajosDTO> update(AreasTrabajosDTO areasTrabajos, Long id);
     
     public Optional<List<AreasTrabajosDTO>> findByNombre(String nombre);
-    
-    public Optional<AreasTrabajosDTO> inactivate(Long id);
-    
+
+    public Optional<List<AreasTrabajosDTO>> findByEstado(boolean estado);
 }

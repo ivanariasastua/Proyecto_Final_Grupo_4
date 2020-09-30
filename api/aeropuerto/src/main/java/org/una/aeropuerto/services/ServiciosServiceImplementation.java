@@ -65,9 +65,9 @@ public class ServiciosServiceImplementation implements IServiciosService {
     }
     
     @Override
-    public Optional<ServiciosDTO> inactivate(Long id) {
-        serviciosRepository.inactivar(id);
-        return ServiceConvertionHelper.oneToOptionalDto(serviciosRepository.findById(id), ServiciosDTO.class);
+    @Transactional(readOnly = true)
+    public Optional<List<ServiciosDTO>> findByEstado(boolean estado) {
+        return ServiceConvertionHelper.findList(serviciosRepository.findByEstado(estado), ServiciosDTO.class);
     }
 
 }

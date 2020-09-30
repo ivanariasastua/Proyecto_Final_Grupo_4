@@ -15,10 +15,8 @@ import org.una.aeropuerto.entities.AreasTrabajos;
  * @author cordo
  */
 public interface IAreasTrabajosRepository extends JpaRepository<AreasTrabajos, Long>{
-    
+    @Query("select u from AreasTrabajos u where UPPER(u.nombre) like CONCAT('%', UPPER(:nombre), '%')")
     public List<AreasTrabajos> findByNombre(String nombre);
 
-    @Query("update AreasTrabajos at set at.estado = 0 where at.id = id")
-    public void inactivar(Long id);
-    
+    public List<AreasTrabajos> findByEstado(boolean estado);
 }
