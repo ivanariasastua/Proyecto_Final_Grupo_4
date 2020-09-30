@@ -24,4 +24,6 @@ public interface IIncidentesCategoriasService {
     public Optional<IncidentesCategoriasDTO> update(IncidentesCategoriasDTO incidentesCategorias, Long id);
 
     public Optional<List<IncidentesCategoriasDTO>> findByNombre(String nombre);
+    
+    public Optional<List<IncidentesCategoriasDTO>> findByEstado(boolean estado);
 }

@@ -15,8 +15,9 @@ import org.una.aeropuerto.entities.Servicios;
  * @author cordo
  */
 public interface IServiciosRepository extends JpaRepository<Servicios, Long>{
-    public List<Servicios> findByNombre(String nombre);
     
-    @Query("update Servicios s set s.estado = 0 where s.id = id")
-    public void inactivar(Long id);
+    @Query("select u from Servicios u where UPPER(u.nombre) like CONCAT('%', UPPER(:nombre), '%')")
+    public List<Servicios> findByNombre(String nombre);
+
+    public List<Servicios> findByEstado(boolean estado);
 }

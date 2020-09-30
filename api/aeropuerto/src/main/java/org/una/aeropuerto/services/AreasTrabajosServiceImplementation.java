@@ -64,11 +64,8 @@ public class AreasTrabajosServiceImplementation implements IAreasTrabajosService
     }
 
     @Override
-    @Transactional
-    public Optional<AreasTrabajosDTO> inactivate(Long id) {
-        areasRepository.inactivar(id);
-        return ServiceConvertionHelper.oneToOptionalDto(areasRepository.findById(id), AreasTrabajosDTO.class);
+    @Transactional(readOnly = true)
+    public Optional<List<AreasTrabajosDTO>> findByEstado(boolean estado) {
+        return ServiceConvertionHelper.findList(areasRepository.findByEstado(estado), AreasTrabajosDTO.class);
     }
-
-
 }

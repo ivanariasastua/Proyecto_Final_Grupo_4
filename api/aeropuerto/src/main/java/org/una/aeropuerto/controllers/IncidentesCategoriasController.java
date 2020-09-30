@@ -7,6 +7,7 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,13 +91,30 @@ public class IncidentesCategoriasController {
 
     }
 
-    @GetMapping("/nombre")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public ResponseEntity<?> findByNombre(@PathVariable(value = "nombre") String nombre) {
+    @GetMapping("/nombre/{term}")
+    @ApiOperation(value = "Obtiene una lista de las categorias por medio de su nombre", response = IncidentesCategoriasDTO.class, responseContainer = "List", tags = "Incidentes_Categorias")
+    //@PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
         try {
-            return new ResponseEntity<>(incidenteService.findByNombre(nombre), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
+            Optional<List<IncidentesCategoriasDTO>> result = incidenteService.findByNombre(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/estado/{term}")
+    @ApiOperation(value = "Obtiene una lista de categorias por medio de su estado", response = IncidentesCategoriasDTO.class, responseContainer = "List", tags = "Incidentes_Categorias")
+    //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean term) {
+        try {
+            return new ResponseEntity<>(incidenteService.findByEstado(term), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -65,5 +65,10 @@ public class IncidentesCategoriasServiceImplementation implements IIncidentesCat
         return ServiceConvertionHelper.findList(incidenteReppository.findByNombre(nombre), IncidentesCategoriasDTO.class);
     }
     
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<IncidentesCategoriasDTO>> findByEstado(boolean estado) {
+        return ServiceConvertionHelper.findList(incidenteReppository.findByEstado(estado), IncidentesCategoriasDTO.class);
+    }
     
 }

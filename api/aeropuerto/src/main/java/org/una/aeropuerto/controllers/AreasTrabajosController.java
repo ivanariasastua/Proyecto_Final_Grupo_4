@@ -7,6 +7,7 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,12 +33,13 @@ import org.una.aeropuerto.services.IAreasTrabajosService;
 @RequestMapping("/areas_trabajos")
 @Api(tags = {"Areas_Trabajos"})
 public class AreasTrabajosController {
+
     @Autowired
     private IAreasTrabajosService areaService;
-    
+
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos las areas de trabajos", response = AreasTrabajosDTO.class, responseContainer = "List", tags = "Areas_Trabajos")
-   // @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    // @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -46,8 +48,7 @@ public class AreasTrabajosController {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    
+
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
@@ -74,7 +75,7 @@ public class AreasTrabajosController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-   // @PreAuthorize("hasRole('GESTOR')")
+    // @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody AreasTrabajosDTO depModified) {
         try {
             Optional<AreasTrabajosDTO> depUpdated = areaService.update(depModified, id);
@@ -87,27 +88,31 @@ public class AreasTrabajosController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de las areas de trabajo por medio de su nombre", response = AreasTrabajosDTO.class, responseContainer = "List", tags = "Areas_Trabajos")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
         try {
-            return new ResponseEntity<>(areaService.findByNombre(term), HttpStatus.OK);
+            Optional<List<AreasTrabajosDTO>> result = areaService.findByNombre(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un area de trabajo", response = AreasTrabajosDTO.class, tags = "Areas_Trabajos")
- //   @ResponseBody
-//  @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
-        try{
-            return new ResponseEntity<>(areaService.inactivate(id), HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+    @GetMapping("/estado/{term}")
+    @ApiOperation(value = "Obtiene una lista de las areas de trabajo por medio de su estado", response = AreasTrabajosDTO.class, responseContainer = "List", tags = "Areas_Trabajos")
+    //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean term) {
+        try {
+            return new ResponseEntity<>(areaService.findByEstado(term), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

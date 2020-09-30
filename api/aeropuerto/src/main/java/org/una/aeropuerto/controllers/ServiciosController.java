@@ -7,6 +7,7 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,23 +96,29 @@ public class ServiciosController {
 
     @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de servicios por medio de su nombre", response = ServiciosDTO.class, responseContainer = "List", tags = "Servicios")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
         try {
-            return new ResponseEntity<>(serviciosService.findByNombre(term), HttpStatus.OK);
+            Optional<List<ServiciosDTO>> result = serviciosService.findByNombre(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/estado/{term}")
+    @ApiOperation(value = "Obtiene una lista de los servicios por medio de su estado", response = ServiciosDTO.class, responseContainer = "List", tags = "Servicios")
+    //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean term) {
+        try {
+            return new ResponseEntity<>(serviciosService.findByEstado(term), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un servicio", response = ServiciosDTO.class, tags = "Empleados_Areas_Trabajos")
-    @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id) {
-        try {
-            return new ResponseEntity<>(serviciosService.inactivate(id), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }
