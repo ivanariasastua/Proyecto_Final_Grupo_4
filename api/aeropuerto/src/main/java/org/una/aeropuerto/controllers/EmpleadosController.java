@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.EmpleadosDTO;
-import org.una.aeropuerto.entities.Empleados;
 import org.una.aeropuerto.services.IEmpleadosService;
 
 /**
@@ -35,18 +34,6 @@ import org.una.aeropuerto.services.IEmpleadosService;
 public class EmpleadosController {
     @Autowired
     private IEmpleadosService empleadoService;
-    
-    
-    @GetMapping("/filter/{nombre}/{cedula}/{estado}/{area}")
-    @ApiOperation(value = "Obtiene una lista de los empleados segun los parametros enviados", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public ResponseEntity<?> getByFiltro(@PathVariable(value = "nombre")String nombre, @PathVariable(value = "cedula")String cedula, @PathVariable(value = "estado")boolean estado, @PathVariable(value = "area")String area){
-        try{
-            return new ResponseEntity<>(empleadoService.filtro(nombre, cedula, true, area), HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
     
     
     @GetMapping("/get")
@@ -108,6 +95,50 @@ public class EmpleadosController {
     public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
         try{
             return new ResponseEntity<>(empleadoService.inactivate(id), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/{cedula}")
+    @ApiOperation(value = "Obtiene una lista de los empleados por cedula", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> getByCedula(@PathVariable("cedula") String cedula){
+        try{
+            return new ResponseEntity<>(empleadoService.findByCedulaAproximate(cedula), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/{nombre}")
+    @ApiOperation(value = "Obtiene una lista de los empleados por nombre", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> getByNombre(@PathVariable("nombre") String nombre){
+        try{
+            return new ResponseEntity<>(empleadoService.findByNombreAproximate(nombre), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/{area}")
+    @ApiOperation(value = "Obtiene una lista de los empleados por el area donde trabaja", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> getByArea(@PathVariable("area") String area){
+        try{
+            return new ResponseEntity<>(empleadoService.findByAreas(area), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/getNoAprobados")
+    @ApiOperation(value = "Obtiene una lista de los empleados cuyo rol aun no se ha aprobado", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> getNoAprobados(){
+        try{
+            return new ResponseEntity<>(empleadoService.findNoAprobados(), HttpStatus.OK);
         }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

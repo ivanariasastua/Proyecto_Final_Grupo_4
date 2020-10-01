@@ -22,11 +22,17 @@ public interface IEmpleadosService {
     
     public Optional<Empleados> findByCedula(String cedula);
     
+    public Optional<List<EmpleadosDTO>> findByCedulaAproximate(String cedula);
+    
+    public Optional<List<EmpleadosDTO>> findByNombreAproximate(String nombre);
+    
     public EmpleadosDTO create(EmpleadosDTO empleados);
 
     public Optional<EmpleadosDTO> update(EmpleadosDTO empleados, Long id);
 
-    public Optional<List<EmpleadosDTO>> filtro(String nombre, String cedula, boolean estado, String area);
+    public Optional<List<EmpleadosDTO>> findByAreas(String area);
 
     public Optional<EmpleadosDTO> inactivate(Long id);
+    
+    public Optional<List<EmpleadosDTO>> findNoAprobados();
 }

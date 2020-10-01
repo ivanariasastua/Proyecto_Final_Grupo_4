@@ -78,12 +78,6 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<EmpleadosDTO>> filtro(String nombre, String cedula, boolean estado, String area) {
-        return ServiceConvertionHelper.findList(empleadoRepository.filtro(nombre, cedula, estado, area), EmpleadosDTO.class);
-    }
-
-    @Override
     @Transactional
     public Optional<EmpleadosDTO> inactivate(Long id) {
         empleadoRepository.inactivar(id);
@@ -106,8 +100,34 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Empleados> findByCedula(String cedula) {
         return Optional.ofNullable(empleadoRepository.findByCedula(cedula));
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<EmpleadosDTO>> findByCedulaAproximate(String cedula) {
+        return ServiceConvertionHelper.findList(empleadoRepository.findByCedulaContaining(cedula), EmpleadosDTO.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<EmpleadosDTO>> findByNombreAproximate(String nombre) {
+        return ServiceConvertionHelper.findList(empleadoRepository.findByNombreContaining(nombre), EmpleadosDTO.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<EmpleadosDTO>> findByAreas(String area) {
+        return ServiceConvertionHelper.findList(empleadoRepository.findByAreas(area), EmpleadosDTO.class);
+    }
+
+    @Override
+    public Optional<List<EmpleadosDTO>> findNoAprobados() {
+        return ServiceConvertionHelper.findList(empleadoRepository.findEmpleadosNoAprobados(), EmpleadosDTO.class);
+    }
+
+    
 
 }

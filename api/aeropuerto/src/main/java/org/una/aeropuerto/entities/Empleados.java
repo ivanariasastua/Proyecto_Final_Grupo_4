@@ -51,6 +51,9 @@ public class Empleados implements Serializable {
     @Column
     private Boolean estado;
     
+    @Column
+    private boolean aprobado;
+    
     @ManyToOne
     @JoinColumn(name="jefe")
     private Empleados jefe;
@@ -83,6 +86,7 @@ public class Empleados implements Serializable {
     @PrePersist
     public void prePersist() {
         estado = true;
+        aprobado = false;
     }
     
 }

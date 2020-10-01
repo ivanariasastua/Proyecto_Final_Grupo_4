@@ -8,6 +8,7 @@ package org.una.aeropuerto.repositories;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.una.aeropuerto.entities.Empleados;
 
 /**
@@ -16,15 +17,22 @@ import org.una.aeropuerto.entities.Empleados;
  */
 public interface IEmpleadosRepository extends JpaRepository<Empleados, Long>{
     
-    public Empleados findByCedula(String cedula);
+    public List<Empleados> findByCedulaContaining(String cedula);
     
-    @Query("Select e from Empleados e "+
-            "join e.empleadosAreasTrabajo eat on e.id = eat.empleado "+
-            "where UPPER(e.nombre) like :nombre and UPPER(e.cedula) like :cedula and e.estado =:estado and eat.areaTrabajo.nombre =:area")
-    public List<Empleados> filtro(String nombre, String cedula, boolean estado, String area);
+    public Empleados findByCedula(String cedula);
 
     @Query("update Empleados em set em.estado = 0 where em.id = id")
     public void inactivar(Long id);
     
+    public List<Empleados> findByNombreContaining(String nombreCompleto);
+    
+    @Query("Select e from Empleados e "+
+            "join e.empleadosAreasTrabajo eat on e.id = eat.empleado "+
+            "where UPPER(eat.areaTrabajo.nombre) like CONCAT('%', UPPER(:area), '%')")
+    public List<Empleados> findByAreas(@Param("area")String area);
+    
     public Empleados findByCedulaAndContrasenaEncriptada(String cedula, String contrasenaEncriptada);
+
+    @Query("Select e from Empleados e WHERE e.aprobado = false")
+    public List<Empleados> findEmpleadosNoAprobados();
 }
