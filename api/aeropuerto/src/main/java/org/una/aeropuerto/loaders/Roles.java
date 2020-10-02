@@ -10,10 +10,10 @@ package org.una.aeropuerto.loaders;
  * @author Ivan Josué Arias Astua
  */
 public enum Roles {
-    ADMINISTRADOR("ADMINISTRADOR"),
-    GESTOR("GESTOR"),
-    AUDITOR("AUDITOR"),
-    GERENTE("GERENTE");
+    ROLE_ADMINISTRADOR("ADMINISTRADOR"),
+    ROLE_GESTOR("GESTOR"),
+    ROLE_AUDITOR("AUDITOR"),
+    ROLE_GERENTE("GERENTE");
     
     private String nombre;
 

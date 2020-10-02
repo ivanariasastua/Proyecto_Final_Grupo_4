@@ -38,9 +38,8 @@ public class EmpleadosController {
     
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los empleados", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity<>(empleadoService.findAll(), HttpStatus.OK);
         } catch (Exception ex) {
@@ -63,7 +62,7 @@ public class EmpleadosController {
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo empleado", response = EmpleadosDTO.class, tags = "Empleados")
-  //  @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody EmpleadosDTO empleado) {
         try { 
             return new ResponseEntity<>(empleadoService.create(empleado), HttpStatus.CREATED);
@@ -75,7 +74,7 @@ public class EmpleadosController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
-  //  @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosDTO depModified) {
         try {
             Optional<EmpleadosDTO> depUpdated = empleadoService.update(depModified, id);
@@ -102,7 +101,7 @@ public class EmpleadosController {
     
     @GetMapping("cedula/{cedula}")
     @ApiOperation(value = "Obtiene una lista de los empleados por cedula", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> getByCedula(@PathVariable("cedula") String cedula){
         try{
             return new ResponseEntity<>(empleadoService.findByCedulaAproximate(cedula), HttpStatus.OK);
@@ -113,7 +112,7 @@ public class EmpleadosController {
     
     @GetMapping("nombre/{nombre}")
     @ApiOperation(value = "Obtiene una lista de los empleados por nombre", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> getByNombre(@PathVariable("nombre") String nombre){
         try{
             return new ResponseEntity<>(empleadoService.findByNombreAproximate(nombre), HttpStatus.OK);
@@ -124,7 +123,7 @@ public class EmpleadosController {
     
     @GetMapping("area/{area}")
     @ApiOperation(value = "Obtiene una lista de los empleados por el area donde trabaja", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> getByArea(@PathVariable("area") String area){
         try{
             return new ResponseEntity<>(empleadoService.findByAreas(area), HttpStatus.OK);
@@ -135,7 +134,7 @@ public class EmpleadosController {
     
     @GetMapping("/getNoAprobados")
     @ApiOperation(value = "Obtiene una lista de los empleados cuyo rol aun no se ha aprobado", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> getNoAprobados(){
         try{
             return new ResponseEntity<>(empleadoService.findNoAprobados(), HttpStatus.OK);

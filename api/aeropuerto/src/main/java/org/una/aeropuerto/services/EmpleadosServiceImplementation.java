@@ -91,7 +91,7 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
         if (empleadoBuscado.isPresent()) {
             Empleados empleado = empleadoBuscado.get();
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(empleado.getRol().getNombre()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+empleado.getRol().getNombre()));
             UserDetails userDetails = new User(empleado.getCedula(), empleado.getContrasenaEncriptada(), authorities);
             return userDetails;
         } else {
