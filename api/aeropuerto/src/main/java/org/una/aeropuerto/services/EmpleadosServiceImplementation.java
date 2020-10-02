@@ -85,6 +85,7 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Empleados> empleadoBuscado = findByCedula(username);
         if (empleadoBuscado.isPresent()) {
