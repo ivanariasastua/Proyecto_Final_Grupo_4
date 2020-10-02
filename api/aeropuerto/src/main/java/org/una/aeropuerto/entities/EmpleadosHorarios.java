@@ -49,11 +49,11 @@ public class EmpleadosHorarios implements Serializable{
     private Empleados empleado;
     
     @Column(name = "hora_entrada")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date horaEntrada;
     
     @Column(name = "hora_salida")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date horaSalida;
     
     @Column(length = 9)

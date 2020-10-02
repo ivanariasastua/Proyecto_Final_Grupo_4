@@ -100,7 +100,7 @@ public class EmpleadosController {
         }
     }
     
-    @GetMapping("/{cedula}")
+    @GetMapping("cedula/{cedula}")
     @ApiOperation(value = "Obtiene una lista de los empleados por cedula", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
   //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> getByCedula(@PathVariable("cedula") String cedula){
@@ -111,7 +111,7 @@ public class EmpleadosController {
         }
     }
     
-    @GetMapping("/{nombre}")
+    @GetMapping("nombre/{nombre}")
     @ApiOperation(value = "Obtiene una lista de los empleados por nombre", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
   //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> getByNombre(@PathVariable("nombre") String nombre){
@@ -122,7 +122,7 @@ public class EmpleadosController {
         }
     }
     
-    @GetMapping("/{area}")
+    @GetMapping("area/{area}")
     @ApiOperation(value = "Obtiene una lista de los empleados por el area donde trabaja", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
   //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> getByArea(@PathVariable("area") String area){

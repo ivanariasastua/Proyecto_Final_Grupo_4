@@ -47,11 +47,11 @@ public class EmpleadosMarcajes implements Serializable{
     private EmpleadosHorarios empleadoHorario;
     
     @Column(name = "hora_entrada")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date horaEntrada;
     
     @Column(name = "hora_salida")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date horaSalida;
     
     @Column(name = "fecha_registro")
