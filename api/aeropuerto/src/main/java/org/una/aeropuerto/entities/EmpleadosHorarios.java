@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;

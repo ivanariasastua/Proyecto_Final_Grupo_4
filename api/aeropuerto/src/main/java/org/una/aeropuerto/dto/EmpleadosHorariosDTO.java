@@ -5,6 +5,9 @@
  */
 package org.una.aeropuerto.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +29,8 @@ import lombok.ToString;
 public class EmpleadosHorariosDTO {
     
     private Long id;
+    @JsonBackReference
+    private EmpleadosDTO empleado;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date horaEntrada;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -33,5 +38,6 @@ public class EmpleadosHorariosDTO {
     private String diaEntrada;
     private String diaSalida;
     private boolean estado;
+    @JsonManagedReference
     private List<EmpleadosMarcajesDTO> empleadosMarcajes=new ArrayList<>();
 }

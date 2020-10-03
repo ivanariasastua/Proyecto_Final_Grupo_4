@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,8 @@ import lombok.ToString;
 public class EmpleadosAreasTrabajosDTO {
     
     private Long id;
+    @JsonBackReference
+    private EmpleadosDTO empleado;
     private AreasTrabajosDTO areaTrabajo;
     private boolean estado;
 }

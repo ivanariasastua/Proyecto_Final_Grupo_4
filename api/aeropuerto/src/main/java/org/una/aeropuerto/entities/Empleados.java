@@ -5,20 +5,20 @@
  */
 package org.una.aeropuerto.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -71,7 +71,7 @@ public class Empleados implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaTrabajo")
     private List<EmpleadosAreasTrabajos> empleadosAreasTrabajo;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleado")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER ,mappedBy = "empleado")
     private List<EmpleadosHorarios> horarios;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "emisor")
