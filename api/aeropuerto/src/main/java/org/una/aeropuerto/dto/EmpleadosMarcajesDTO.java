@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.una.aeropuerto.entities.EmpleadosHorarios;
 
 /**
  *
@@ -27,7 +26,7 @@ public class EmpleadosMarcajesDTO {
     
     private Long id;
     @JsonBackReference
-    private EmpleadosHorarios empleadoHorario;
+    private EmpleadosHorariosDTO empleadoHorario;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date horaEntrada;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
