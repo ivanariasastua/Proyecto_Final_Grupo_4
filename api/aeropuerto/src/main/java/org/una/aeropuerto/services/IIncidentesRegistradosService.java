@@ -14,7 +14,7 @@ import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
  * @author cordo
  */
 public interface IIncidentesRegistradosService {
-    
+
     public Optional<List<IncidentesRegistradosDTO>> findAll();
 
     public Optional<IncidentesRegistradosDTO> findById(Long id);
@@ -22,12 +22,13 @@ public interface IIncidentesRegistradosService {
     public IncidentesRegistradosDTO create(IncidentesRegistradosDTO incidentesRegistrados);
 
     public Optional<IncidentesRegistradosDTO> update(IncidentesRegistradosDTO incidentesRegistrados, Long id);
-    
-    public Optional<List<IncidentesRegistradosDTO>> findByCategoriaId(Long id);
-    
-    public Optional<List<IncidentesRegistradosDTO>> findByAreaTrabajoId(Long id);
-    
-    public Optional<List<IncidentesRegistradosDTO>> filtro(String nomEmisor, String cedEmisor, String nomResponsable, String cedResponsable, String nomCategoria, String nomArea);
-    
-    public Optional<IncidentesRegistradosDTO> inactivate(Long id);
+
+    public Optional<List<IncidentesRegistradosDTO>> findByCategoria(String categoria);
+
+    public Optional<List<IncidentesRegistradosDTO>> findByArea(String area);
+
+    public Optional<List<IncidentesRegistradosDTO>> findByEmisor(String emisor);
+
+    public Optional<List<IncidentesRegistradosDTO>> findByResponsable(String responsable);
+
 }

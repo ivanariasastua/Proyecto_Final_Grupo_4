@@ -4,6 +4,7 @@ package org.una.aeropuerto.repositories;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.una.aeropuerto.entities.IncidentesRegistrados;
 
 /**
@@ -12,25 +13,23 @@ import org.una.aeropuerto.entities.IncidentesRegistrados;
  */
 public interface IIncidentesRegistradosRepository extends JpaRepository<IncidentesRegistrados, Long>{
     
-    public List<IncidentesRegistrados> findByCategoria(Long id);
+    @Query("Select i from IncidentesRegistrados i "+
+            "join i.categoria eat on i.id = eat.id "+
+            "where UPPER(eat.nombre) like CONCAT('%', UPPER(:categoria), '%')")
+    public List<IncidentesRegistrados> findByCategoria(@Param("categoria")String categoria);
     
-    public List<IncidentesRegistrados> findByAreaTrabajoId(Long id);
+    @Query("Select i from IncidentesRegistrados i "+
+            "join i.emisor eat on i.id = eat.id "+
+            "where UPPER(eat.nombre) like CONCAT('%', UPPER(:emisor), '%')")
+    public List<IncidentesRegistrados> findByEmisor(@Param("emisor")String emisor);
     
-    public List<IncidentesRegistrados> findByAreaTrabajo(Long id);
-    
-    @Query("Select ir from IncidentesRegistrados ir " +
-           "join ir.emisor emp on ir.emisor = emp.id or ir.responsable = emp.id " +
-           "join ir.categoria cat on ir.categoria = cat.id " +
-           "join ir.areaTrabajo at on ir.areaTrabajo = at.id " +
-           "where UPPER(emp.nombre) like :nomEmisor and UPPER(emp.cedula) like :cedEmisor and " +
-           "UPPER(emp.nombre) like :nomResponsable and UPPER(emp.cedula) like :cedResponsable and " +
-           "UPPER(cat.nombre) like :nomCategoria and UPPER(at.nombre) like :nomArea")
+    @Query("Select i from IncidentesRegistrados i "+
+            "join i.areaTrabajo eat on i.id = eat.id "+
+            "where UPPER(eat.nombre) like CONCAT('%', UPPER(:area), '%')")
+    public List<IncidentesRegistrados> findByAreas(@Param("area")String area);
 
-    public List<IncidentesRegistrados> filtro(String nomEmisor, String cedEmisor, String nomResponsable, String cedResponsable, String nomCategoria, String nomArea);
-    
-    @Query("update IncidentesRegistrados ir set ir.estado = 0 where ir.id = id")
-    public void inactivar(Long id);
-
-    @Query("update IncidentesRegistrados em set em.estado = 0 where em.id = id")
-    public void Inactivar(Long id);
+    @Query("Select i from IncidentesRegistrados i "+
+            "join i.responsable eat on i.id = eat.id "+
+            "where UPPER(eat.nombre) like CONCAT('%', UPPER(:responsable), '%')")
+    public List<IncidentesRegistrados> findByResponsable(@Param("responsable")String responsable);
 }

@@ -49,38 +49,35 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
     @Override
     @Transactional
     public Optional<IncidentesRegistradosDTO> update(IncidentesRegistradosDTO incidentesRegistrados, Long id) {
-        if(incidenteReppository.findById(id).isPresent()){
-           IncidentesRegistrados entidad = MapperUtils.EntityFromDto(incidentesRegistrados, IncidentesRegistrados.class);
-           entidad = incidenteReppository.save(entidad);
-           return Optional.ofNullable(MapperUtils.DtoFromEntity(entidad, IncidentesRegistradosDTO.class));
-        }else{
-           return null;
+        if (incidenteReppository.findById(id).isPresent()) {
+            IncidentesRegistrados entidad = MapperUtils.EntityFromDto(incidentesRegistrados, IncidentesRegistrados.class);
+            entidad = incidenteReppository.save(entidad);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(entidad, IncidentesRegistradosDTO.class));
+        } else {
+            return null;
         }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<IncidentesRegistradosDTO>> findByCategoriaId(Long id) {
-        return ServiceConvertionHelper.findList(incidenteReppository.findByCategoria(id), IncidentesRegistradosDTO.class);
+    public Optional<List<IncidentesRegistradosDTO>> findByCategoria(String categoria) {
+        return ServiceConvertionHelper.findList(incidenteReppository.findByCategoria(categoria), IncidentesRegistradosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<IncidentesRegistradosDTO>> findByAreaTrabajoId(Long id) {
-        return ServiceConvertionHelper.findList(incidenteReppository.findByAreaTrabajoId(id), IncidentesRegistradosDTO.class);
+    public Optional<List<IncidentesRegistradosDTO>> findByArea(String area) {
+        return ServiceConvertionHelper.findList(incidenteReppository.findByAreas(area), IncidentesRegistradosDTO.class);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<IncidentesRegistradosDTO>> filtro(String nomEmisor, String cedEmisor, String nomResponsable, String cedResponsable, String nomCategoria, String nomArea) {
-        return ServiceConvertionHelper.findList(incidenteReppository.filtro(nomEmisor, cedEmisor, nomResponsable, cedResponsable, nomCategoria, nomArea), IncidentesRegistradosDTO.class);
+    public Optional<List<IncidentesRegistradosDTO>> findByEmisor(String emisor) {
+        return ServiceConvertionHelper.findList(incidenteReppository.findByEmisor(emisor), IncidentesRegistradosDTO.class);
     }
 
     @Override
-    @Transactional
-    public Optional<IncidentesRegistradosDTO> inactivate(Long id) {
-        incidenteReppository.inactivar(id);
-        return ServiceConvertionHelper.oneToOptionalDto(incidenteReppository.findById(id), IncidentesRegistradosDTO.class);
+    public Optional<List<IncidentesRegistradosDTO>> findByResponsable(String responsable) {
+        return ServiceConvertionHelper.findList(incidenteReppository.findByResponsable(responsable), IncidentesRegistradosDTO.class);
     }
 
 }

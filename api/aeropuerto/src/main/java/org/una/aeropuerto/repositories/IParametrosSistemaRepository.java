@@ -17,7 +17,5 @@ import org.una.aeropuerto.entities.ParametrosSistema;
 public interface IParametrosSistemaRepository extends JpaRepository<ParametrosSistema, Long>{
     
     public List<ParametrosSistema> findByValor(String valor);
-    
-    @Query("update ParametrosSistema p set p.estado = 0 where p.id = id")
-    public void inactivar(Long id);
+
 }

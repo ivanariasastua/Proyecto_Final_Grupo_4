@@ -62,10 +62,4 @@ public class ParametrosSistemaServiceImplementation implements IParametrosSistem
     public Optional<List<ParametrosSistemaDTO>> findByValor(String valor) {
         return ServiceConvertionHelper.findList(parametrosRepository.findByValor(valor), ParametrosSistemaDTO.class);
     }
-
-    @Override
-    public Optional<ParametrosSistemaDTO> inactivate(Long id) {
-        parametrosRepository.inactivar(id);
-        return ServiceConvertionHelper.oneToOptionalDto(parametrosRepository.findById(id), ParametrosSistemaDTO.class);
-    }
 }
