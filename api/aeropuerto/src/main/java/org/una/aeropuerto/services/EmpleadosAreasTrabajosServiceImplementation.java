@@ -53,14 +53,12 @@ public class EmpleadosAreasTrabajosServiceImplementation implements IEmpleadosAr
             area = empleadoRepository.save(area);
             return Optional.ofNullable(MapperUtils.DtoFromEntity(area, EmpleadosAreasTrabajosDTO.class));
         }
-        return null;   
+        return null;
     }
 
     @Override
-    @Transactional
-    public Optional<EmpleadosAreasTrabajosDTO> inactivate(Long id) {
-        empleadoRepository.inactivar(id);
-        return ServiceConvertionHelper.oneToOptionalDto(empleadoRepository.findById(id), EmpleadosAreasTrabajosDTO.class);
+    @Transactional(readOnly = true)
+    public Optional<List<EmpleadosAreasTrabajosDTO>> findByAreas(String area) {
+        return ServiceConvertionHelper.findList(empleadoRepository.findByAreas(area), EmpleadosAreasTrabajosDTO.class);
     }
-
 }

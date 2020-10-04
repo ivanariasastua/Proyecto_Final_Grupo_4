@@ -22,10 +22,11 @@ public interface IServiciosGastosService {
 
     public Optional<ServiciosGastosDTO> update(ServiciosGastosDTO gastosMantenimientos, Long id);
     
-    public Optional<List<ServiciosGastosDTO>> findByServiciosId(Long id);
+    public Optional<List<ServiciosGastosDTO>> findByServicios(String servicio);
     
-    public Optional<ServiciosGastosDTO> inactivate(Long id);
+    public Optional<List<ServiciosGastosDTO>> findByEmpresa(String empresa);
     
-    public Optional<List<ServiciosGastosDTO>> filtrado(String servicio, String empresa,String numeroContrato);
+    public Optional<List<ServiciosGastosDTO>> findByContrato(String contrato);
+    
 
 }

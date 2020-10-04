@@ -58,19 +58,20 @@ public class ServiciosGastosServiceImplementation implements IServiciosGastosSer
     }
 
     @Override
-    public Optional<List<ServiciosGastosDTO>> filtrado(String servicio, String empresa, String numeroContrato) {
-        return ServiceConvertionHelper.findList(gastosRepository.filtro(servicio, empresa, numeroContrato), ServiciosGastosDTO.class);
-    }
-
-    @Override
     @Transactional(readOnly = true)
-    public Optional<List<ServiciosGastosDTO>> findByServiciosId(Long id) {
-        return ServiceConvertionHelper.findList(gastosRepository.findByServicio(id), ServiciosGastosDTO.class);
+    public Optional<List<ServiciosGastosDTO>> findByServicios(String servicio) {
+        return ServiceConvertionHelper.findList(gastosRepository.findByServicio(servicio), ServiciosGastosDTO.class);
     }
 
     @Override
-    public Optional<ServiciosGastosDTO> inactivate(Long id) {
-        gastosRepository.inactivar(id);
-        return ServiceConvertionHelper.oneToOptionalDto(gastosRepository.findById(id), ServiciosGastosDTO.class);
+    public Optional<List<ServiciosGastosDTO>> findByEmpresa(String empresa) {
+        return ServiceConvertionHelper.findList(gastosRepository.findByEmpresa(empresa), ServiciosGastosDTO.class);
     }
+
+    @Override
+    public Optional<List<ServiciosGastosDTO>> findByContrato(String empresa) {
+        return ServiceConvertionHelper.findList(gastosRepository.findByContrato(empresa), ServiciosGastosDTO.class);
+    }
+
+
 }

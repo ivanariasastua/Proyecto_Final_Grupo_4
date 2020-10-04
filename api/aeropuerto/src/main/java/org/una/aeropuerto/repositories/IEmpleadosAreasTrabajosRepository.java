@@ -8,6 +8,7 @@ package org.una.aeropuerto.repositories;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.una.aeropuerto.entities.EmpleadosAreasTrabajos;
 
 /**
@@ -16,7 +17,10 @@ import org.una.aeropuerto.entities.EmpleadosAreasTrabajos;
  */
 public interface IEmpleadosAreasTrabajosRepository extends JpaRepository<EmpleadosAreasTrabajos, Long>{
     
-    @Query("update EmpleadosAreasTrabajos eat set eat.estado = 0 where eat.id = id")
-    public void inactivar(Long id);
-    
+ 
+    @Query("Select e from EmpleadosAreasTrabajos e "+
+            "join e.areaTrabajo eat on e.id = eat.id "+
+            "where UPPER(eat.nombre) like CONCAT('%', UPPER(:area), '%')")
+    public List<EmpleadosAreasTrabajos> findByAreas(@Param("area")String area);
+
 }

@@ -23,5 +23,5 @@ public interface IEmpleadosAreasTrabajosService {
 
     public Optional<EmpleadosAreasTrabajosDTO> update(EmpleadosAreasTrabajosDTO empleadosAreasTrabajos, Long id);
 
-    public Optional<EmpleadosAreasTrabajosDTO> inactivate(Long id);
+    public Optional<List<EmpleadosAreasTrabajosDTO>> findByAreas(String area);
 }

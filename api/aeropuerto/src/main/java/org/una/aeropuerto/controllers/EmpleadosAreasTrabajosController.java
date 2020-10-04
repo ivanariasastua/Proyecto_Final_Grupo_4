@@ -7,6 +7,7 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -88,12 +89,17 @@ public class EmpleadosAreasTrabajosController {
         }
     }
     
-    @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un area trabajo empleado", response = EmpleadosAreasTrabajosDTO.class, tags = "Empleados_Areas_Trabajos")
-    @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
+    @GetMapping("/area/{term}")
+    @ApiOperation(value = "Obtiene una lista de los empleados por el area donde trabaja", response = EmpleadosAreasTrabajosDTO.class, responseContainer = "List", tags = "Empleados_Areas_Trabajos")
+  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> getByArea(@PathVariable(value = "term") String term){
         try{
-            return new ResponseEntity<>(empleadoService.inactivate(id), HttpStatus.OK);
+            Optional<List<EmpleadosAreasTrabajosDTO>> result =empleadoService.findByAreas(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
         }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

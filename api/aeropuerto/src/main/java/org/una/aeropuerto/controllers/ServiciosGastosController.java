@@ -7,6 +7,7 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -89,25 +90,48 @@ public class ServiciosGastosController {
         }
     }
 
-    @GetMapping("/gastos_servicios/{id}")
-    @ApiOperation(value = "Obtiene una lista de los gastos de servicios por medio de su servicio", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Servicios_Gastos")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public ResponseEntity<?> findByServiciosId(@PathVariable(value = "id") Long id) {
+    @GetMapping("/servicio/{term}")
+    @ApiOperation(value = "Obtiene una lista de los gastos de servicio por medio de su servicio", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Servicios_Gastos")
+    public ResponseEntity<?> findByServicio(@PathVariable(value = "term") String term) {
         try {
-            return new ResponseEntity<>(gastosService.findByServiciosId(id), HttpStatus.OK);
+            Optional<List<ServiciosGastosDTO>> result = gastosService.findByServicios(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un gasto de servicio", response = ServiciosGastosDTO.class, tags = "Empleados_Areas_Trabajos")
-    @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
-        try{
-            return new ResponseEntity<>(gastosService.inactivate(id), HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+    
+    @GetMapping("/empresa/{term}")
+    @ApiOperation(value = "Obtiene una lista de los gastos de servicios por medio de su empresa", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Servicios_Gastos")
+    public ResponseEntity<?> findByEmpresa(@PathVariable(value = "term") String term) {
+        try {
+            Optional<List<ServiciosGastosDTO>> result = gastosService.findByEmpresa(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/numeroContrato/{term}")
+    @ApiOperation(value = "Obtiene una lista de los gastos de servicios por medio de su contrato", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Servicios_Gastos")
+    public ResponseEntity<?> findByContrato(@PathVariable(value = "term") String term) {
+        try {
+            Optional<List<ServiciosGastosDTO>> result = gastosService.findByContrato(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
