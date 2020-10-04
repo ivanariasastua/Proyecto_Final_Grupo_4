@@ -55,7 +55,7 @@ public class ServiciosPrecios implements Serializable {
     @JoinColumn(name = "servicio")
     private Servicios servicio;
     
-    @Column
+    @Column(columnDefinition="TINYINT")
     private boolean estado;
 
     @PrePersist

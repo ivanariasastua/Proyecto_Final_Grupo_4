@@ -9,7 +9,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.una.aeropuerto.dto.EmpleadosDTO;
 import org.una.aeropuerto.dto.RolesDTO;
-import org.una.aeropuerto.entities.Roles;
+import org.una.aeropuerto.loaders.Roles;
 import org.una.aeropuerto.services.IEmpleadosService;
 import org.una.aeropuerto.services.IRolesService;
 
@@ -33,21 +33,15 @@ public class DataLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
 
-        if (empleadosService.findByCedula(cedula).isEmpty()) {
+        if (empleadosService.findByCedula(cedula) == null) {
+            
+            crearRoles();
             
             RolesDTO rol;
             final String nombre = "GESTOR";
             
             Optional<List<RolesDTO>> Rol = rolesService.findByNombre(nombre);
-
-            if (Rol.isEmpty()) { 
-                rol = new RolesDTO();
-                rol.setNombre(nombre);
-                rol = rolesService.create(rol);
-
-            } else {
-                rol = Rol.get().get(0);
-            }
+            rol = Rol.get().get(0);
             
             EmpleadosDTO empleado = new EmpleadosDTO();
             empleado.setNombre("Usuario");
@@ -62,6 +56,19 @@ public class DataLoader implements ApplicationRunner {
             System.out.println("Se encontro el admin");
         }
 
+    }
+    
+    private void crearRoles(){
+        for(Roles rol : Roles.values()){
+            RolesDTO rolDto = new RolesDTO();
+            rolDto.setNombre(rol.getNombre());
+            if(rolesService.findByNombre(rol.getNombre()) == null){
+                rolesService.create(rolDto);
+                System.out.println("Rol creado");
+            }else{
+                System.out.println("Rol encontrado");
+            }
+        }
     }
 }
 

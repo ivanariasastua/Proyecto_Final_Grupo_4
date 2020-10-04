@@ -49,7 +49,7 @@ public class IncidentesCategorias implements Serializable{
     @Column(name = "descripcion", length = 100)
     private String descripcion;
     
-    @Column
+    @Column(columnDefinition="TINYINT")
     private boolean estado;
     
     @OneToOne

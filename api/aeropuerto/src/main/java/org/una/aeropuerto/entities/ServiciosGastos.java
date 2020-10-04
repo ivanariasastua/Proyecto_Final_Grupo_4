@@ -55,10 +55,10 @@ public class ServiciosGastos implements Serializable{
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
     
-    @Column
+    @Column(columnDefinition="TINYINT")
     private boolean estadoPago;
     
-    @Column
+    @Column(columnDefinition="TINYINT")
     private boolean estadoGasto;
     
     @Column(length = 50)

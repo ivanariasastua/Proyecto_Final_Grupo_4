@@ -46,7 +46,7 @@ public class Servicios implements Serializable {
     @Column(name = "descripcion", length = 100)
     private String descripcion;
     
-    @Column
+    @Column(columnDefinition="TINYINT")
     private boolean estado;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicio") 

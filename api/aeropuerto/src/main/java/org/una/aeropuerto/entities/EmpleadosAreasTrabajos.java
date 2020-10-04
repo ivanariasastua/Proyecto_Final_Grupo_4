@@ -46,7 +46,7 @@ public class EmpleadosAreasTrabajos implements Serializable{
     @JoinColumn(name="area_trabajo")
     private AreasTrabajos areaTrabajo;
     
-    @Column
+    @Column(columnDefinition="TINYINT")
     private boolean estado;
     
     @PrePersist

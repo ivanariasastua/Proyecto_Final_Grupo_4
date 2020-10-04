@@ -48,11 +48,11 @@ public class Empleados implements Serializable {
     @Column(length = 15)
     private String cedula;
     
-    @Column
+    @Column(columnDefinition="TINYINT")
     private Boolean estado;
     
-    @Column
-    private boolean aprobado;
+    @Column(columnDefinition="TINYINT")
+    private Boolean aprobado;
     
     @ManyToOne
     @JoinColumn(name="jefe")

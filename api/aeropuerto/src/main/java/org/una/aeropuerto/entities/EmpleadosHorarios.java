@@ -63,7 +63,7 @@ public class EmpleadosHorarios implements Serializable{
     @Column
     private String diaSalida;
     
-    @Column
+    @Column(columnDefinition="TINYINT")
     private Boolean estado;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleadoHorario")

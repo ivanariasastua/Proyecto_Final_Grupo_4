@@ -44,8 +44,8 @@ public class AreasTrabajos implements Serializable {
     @Column(length = 100)
     private String descripcion;
     
-    @Column
-    private boolean estado;
+    @Column(columnDefinition="TINYINT")
+    private Boolean estado;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaTrabajo")
     private List<EmpleadosAreasTrabajos> empleadosAreasTrabajo;
