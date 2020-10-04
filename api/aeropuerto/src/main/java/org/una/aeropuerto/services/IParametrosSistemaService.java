@@ -24,7 +24,5 @@ public interface IParametrosSistemaService {
 
     public Optional<ParametrosSistemaDTO> update(ParametrosSistemaDTO parametrosSistema, Long id);
 
-    public Optional<ParametrosSistemaDTO> inactivate(Long id);
-    
     public Optional<List<ParametrosSistemaDTO>> findByValor(String valor);
 }

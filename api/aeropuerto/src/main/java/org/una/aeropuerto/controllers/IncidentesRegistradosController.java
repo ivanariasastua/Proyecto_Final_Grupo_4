@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,6 +7,7 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,8 @@ public class IncidentesRegistradosController {
 
     @Autowired
     private IIncidentesRegistradosService incidenteService;
-    
-    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su solicitud con el formato esperado";
 
+    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su solicitud con el formato esperado";
 
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los Incidentes registrados ", response = IncidentesRegistradosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados")
@@ -47,19 +47,19 @@ public class IncidentesRegistradosController {
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            return new ResponseEntity<>(incidenteService.findAll(),HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(incidenteService.findAll(), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un incidente registrado a travez de su identificador unico ", response = IncidentesRegistradosDTO.class, tags = "Incidentes_Registrados")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    // @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-            return new ResponseEntity<>(incidenteService.findById(id),HttpStatus.OK);
-        }catch(Exception ex){
+            return new ResponseEntity<>(incidenteService.findById(id), HttpStatus.OK);
+        } catch (Exception ex) {
             return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -67,11 +67,11 @@ public class IncidentesRegistradosController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
     @ResponseBody
-    @PreAuthorize("hasRole('GESTOR')")
+    // @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody IncidentesRegistradosDTO incidentesRegistrados) {
         try {
-            return new ResponseEntity<>(incidenteService.create(incidentesRegistrados),HttpStatus.CREATED);
-        }catch(Exception ex){
+            return new ResponseEntity<>(incidenteService.create(incidentesRegistrados), HttpStatus.CREATED);
+        } catch (Exception ex) {
             return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -80,62 +80,80 @@ public class IncidentesRegistradosController {
     @ResponseBody
     @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody IncidentesRegistradosDTO modificado, BindingResult bindingResult) {
-        if(!bindingResult.hasErrors()){
-            try{
+        if (!bindingResult.hasErrors()) {
+            try {
                 Optional<IncidentesRegistradosDTO> updated = incidenteService.update(modificado, id);
-                if(updated.isPresent()){
+                if (updated.isPresent()) {
                     return new ResponseEntity<>(updated, HttpStatus.OK);
-                }else{
+                } else {
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        }else{
+        } else {
             return new ResponseEntity<>(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
-    
-    @GetMapping("/categoria/{id}")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public ResponseEntity<?> findByCategoriaId(@PathVariable(value = "id") Long id) {
+
+    @GetMapping("/area/{term}")
+    @ApiOperation(value = "Obtiene una lista de los incidente por medio de su area", response = IncidentesRegistradosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados")
+    public ResponseEntity<?> findByArea(@PathVariable(value = "term") String term) {
         try {
-            return new ResponseEntity<>(incidenteService.findByCategoriaId(id),HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
+            Optional<List<IncidentesRegistradosDTO>> result = incidenteService.findByArea(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    @GetMapping("/areatrabajo/{id}")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public ResponseEntity<?> findByAreaTrabajoId(@PathVariable(value = "id") Long id) {
+
+    @GetMapping("/emisor/{term}")
+    @ApiOperation(value = "Obtiene una lista de los incidentes por medio de su emisor", response = IncidentesRegistradosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados")
+    public ResponseEntity<?> findByEmisor(@PathVariable(value = "term") String term) {
         try {
-            return new ResponseEntity<>(incidenteService.findByAreaTrabajoId(id),HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
+            Optional<List<IncidentesRegistradosDTO>> result = incidenteService.findByEmisor(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    @GetMapping("/filtro/{nomEmisor/cedEmisor/nomResponsable/cedResponsable/nomCategoria/nomArea}")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public ResponseEntity filtro(@PathVariable(value = "nomEmisor") String nomEmisor, @PathVariable(value = "cedEmisor") String cedEmisor,
-                                 @PathVariable(value = "nomResponsable") String nomResponsable, @PathVariable(value = "cedResponsable") String cedResponsable,
-                                 @PathVariable(value = "nomCategoria") String nomCategoria, @PathVariable(value = "nomArea") String nomArea){
-        try{
-            return new ResponseEntity<>(incidenteService.filtro(nomEmisor, cedEmisor, nomResponsable, cedResponsable, nomCategoria, nomArea),HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+    @GetMapping("/categoria/{term}")
+    @ApiOperation(value = "Obtiene una lista de los incidentes por medio de su categoria", response = IncidentesRegistradosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados")
+    public ResponseEntity<?> findByCategoria(@PathVariable(value = "term") String term) {
+        try {
+            Optional<List<IncidentesRegistradosDTO>> result = incidenteService.findByCategoria(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un registro", response = IncidentesRegistradosDTO.class, tags = "Incidentes_Registrados")
-    @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
-        try{
-            return new ResponseEntity<>(incidenteService.inactivate(id), HttpStatus.OK);
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+
+    @GetMapping("/responsable/{term}")
+    @ApiOperation(value = "Obtiene una lista de los incidentes por medio de su responsable", response = IncidentesRegistradosDTO.class, responseContainer = "List", tags = "Incidentes_Registrados")
+    public ResponseEntity<?> findByResponsable(@PathVariable(value = "term") String term) {
+        try {
+            Optional<List<IncidentesRegistradosDTO>> result = incidenteService.findByResponsable(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }
