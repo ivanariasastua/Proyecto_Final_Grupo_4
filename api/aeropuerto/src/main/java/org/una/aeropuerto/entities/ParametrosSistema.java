@@ -46,6 +46,9 @@ public class ParametrosSistema implements Serializable{
     @Column(columnDefinition="TINYINT")
     private boolean estado;
     
+    @Column(name = "codigo_identificador", length = 25)
+    private String codigoIdentificador;
+    
     @PrePersist
     public void PrePersist(){
         estado = true;
