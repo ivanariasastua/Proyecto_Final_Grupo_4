@@ -14,8 +14,8 @@ import org.una.aeropuerto.entities.IncidentesRegistrados;
 public interface IIncidentesRegistradosRepository extends JpaRepository<IncidentesRegistrados, Long>{
     
     @Query("Select i from IncidentesRegistrados i "+
-            "join i.categoria eat on i.id = eat.id "+
-            "where UPPER(eat.nombre) like CONCAT('%', UPPER(:categoria), '%')")
+            /*"join i.categoria eat on i.id = eat.id "+*/
+            "where UPPER(i.categoria.nombre) like CONCAT('%', UPPER(:categoria), '%')")
     public List<IncidentesRegistrados> findByCategoria(@Param("categoria")String categoria);
     
     @Query("Select i from IncidentesRegistrados i "+
@@ -24,8 +24,8 @@ public interface IIncidentesRegistradosRepository extends JpaRepository<Incident
     public List<IncidentesRegistrados> findByEmisor(@Param("emisor")String emisor);
     
     @Query("Select i from IncidentesRegistrados i "+
-            "join i.areaTrabajo eat on i.id = eat.id "+
-            "where UPPER(eat.nombre) like CONCAT('%', UPPER(:area), '%')")
+            /*"join i.areaTrabajo eat on i.id = eat.id "+*/
+            "where UPPER(i.areaTrabajo.nombre) like CONCAT('%', UPPER(:area), '%')")
     public List<IncidentesRegistrados> findByAreas(@Param("area")String area);
 
     @Query("Select i from IncidentesRegistrados i "+
