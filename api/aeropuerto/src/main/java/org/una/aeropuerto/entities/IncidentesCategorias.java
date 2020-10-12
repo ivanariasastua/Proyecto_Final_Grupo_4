@@ -17,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -52,12 +51,15 @@ public class IncidentesCategorias implements Serializable{
     @Column(columnDefinition="TINYINT")
     private boolean estado;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "categoria_superior")
     private IncidentesCategorias categoriaSuperior;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria") 
     private List<IncidentesRegistrados> incidentesRegistrados = new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaSuperior")
+    private List<IncidentesCategorias> subCategorias;
     
     @PrePersist
     public void PrePersist(){

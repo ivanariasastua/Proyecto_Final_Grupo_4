@@ -5,13 +5,10 @@
  */
 package org.una.aeropuerto.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.una.aeropuerto.entities.IncidentesCategorias;
 
 /**
  *
@@ -27,7 +24,5 @@ public class IncidentesCategoriasDTO {
     private String nombre;
     private String descripcion;
     private IncidentesCategoriasDTO categoriaSuperior;
-    private boolean estado;
-//   @ToString.Exclude
-//    private List<IncidentesRegistradosDTO> incidentesRegistrados;
+    private Boolean estado;
 }

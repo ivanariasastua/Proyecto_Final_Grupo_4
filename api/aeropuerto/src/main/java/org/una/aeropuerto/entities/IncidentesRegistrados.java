@@ -58,7 +58,7 @@ public class IncidentesRegistrados implements Serializable{
     private Empleados responsable;
 
     @Column(columnDefinition="TINYINT")
-    public boolean estado;
+    public Boolean estado;
     
     @ManyToOne 
     @JoinColumn(name="area_trabajo")
