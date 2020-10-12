@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.dto;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -27,5 +28,6 @@ public class IncidentesRegistradosDTO {
     private EmpleadosDTO emisor;
     private EmpleadosDTO responsable;
     private AreasTrabajosDTO areaTrabajo;
+    @JsonManagedReference
     private List<IncidentesRegistradosEstadosDTO> incidentesRegistradosEstados = new ArrayList<>();
 }
