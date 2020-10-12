@@ -6,6 +6,7 @@
 package org.una.aeropuerto.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.mail.handlers.text_html;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -45,7 +46,7 @@ public class Empleados implements Serializable {
     @Column(length = 50)
     private String nombre;
     
-    @Column(length = 15)
+    @Column(length = 15, unique = true)
     private String cedula;
     
     @Column(columnDefinition="TINYINT")
@@ -53,6 +54,15 @@ public class Empleados implements Serializable {
     
     @Column(columnDefinition="TINYINT")
     private Boolean aprobado;
+    
+    @Column(columnDefinition="TINYINT")
+    private Boolean solicitud;
+    
+    @Column(name="password_temporal", columnDefinition="TINYINT")
+    private Boolean passwordTemporal;
+    
+    @Column(length = 50, unique = true)
+    private String correo;
     
     @ManyToOne
     @JoinColumn(name="jefe")
@@ -87,6 +97,7 @@ public class Empleados implements Serializable {
     public void prePersist() {
         estado = true;
         aprobado = false;
+        passwordTemporal = false;
     }
     
 }

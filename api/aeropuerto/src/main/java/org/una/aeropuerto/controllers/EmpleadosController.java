@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.EmpleadosDTO;
 import org.una.aeropuerto.services.IEmpleadosService;
+import org.una.aeropuerto.utils.Mailer;
 
 /**
  *
@@ -141,5 +142,5 @@ public class EmpleadosController {
         }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    }    
 }
