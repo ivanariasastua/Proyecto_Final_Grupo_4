@@ -22,7 +22,16 @@ public class Mailer {
     private static final String CORREO = "sistemaaeropuerto@gmail.com"; //correo de donde se envia
     private static final String PASSWORD = "ZU1F!J1mFtCN4Z5h%14z^#guQ0N1Rf"; 
     
-    public static void sendMail(String link, String destino) { //link de activacion
+    
+    public static void sendCorreoSolicitud(String link, String destino){
+        sendMail(destino, getContent(link));
+    }
+    
+    public static void sendCorreoRespuesta(String nombre, String temp, String mensaje, String destino){
+        sendMail(destino, getRespuesta(nombre, temp, mensaje));
+    }
+    
+    public static void sendMail(String destino, String contenido) {
         try {
             Properties propiedades = new Properties();
             propiedades.put("mail.smtp.host", "smtp.gmail.com");
@@ -37,7 +46,7 @@ public class Mailer {
             mensage.addRecipient(Message.RecipientType.TO, to);
             mensage.setSubject("Enlace de recuperación de contraseña");
             
-            mensage.setContent(getContent(link),"text/html");
+            mensage.setContent(contenido,"text/html");
             Transport transport = session.getTransport("smtp");
             transport.connect(CORREO, PASSWORD);
             transport.sendMessage(mensage, mensage.getRecipients(Message.RecipientType.TO));
@@ -55,21 +64,20 @@ public class Mailer {
         "<head>\n" +
         "    <style>\n" +
         "        .contenedor{\n" +
+        "            background-image: url(https://i2.cnnturk.com/i/cnnturk/75/0x0/5e2be80070380e0c60f58c56.jpg);\n" +
+        "            max-width: 400px;\n" +
+        "            background-size: 100% 100%;\n" +
+        "            border-radius: 15px;\n" +
         "            display: flex;\n" +
         "            justify-content: center;\n" +
-        "            background-image: url(https://i2.cnnturk.com/i/cnnturk/75/0x0/5e2be80070380e0c60f58c56.jpg);\n" +
-        "            background-size: 400px 600px;\n" +
-        "            width: 400px;\n" +
-        "            height: 600px;\n" +
-        "            align-items: center;\n" +
-        "            border-radius: 15px;\n" +
+        "            margin: auto;\n"+
         "        }\n" +
         "        .secundario{\n" +
+        "            width: 100%;\n" +
         "            background-color: black;\n" +
         "            opacity: 0.7;\n" +
         "            border-radius: 15px;\n" +
-        "            align-items: center;\n" +
-        "            height: 600px;\n" +
+        "            align-items: center;\n"+
         "        }\n" +
         "        .texto{\n" +
         "            text-align: CENTER;\n" +
@@ -85,6 +93,11 @@ public class Mailer {
         "            color: aliceblue;\n" +
         "            font-size: 15pt;\n" +
         "        }\n" +
+        "        #imgCandado{\n" +
+        "            max-width: 300px;\n" +
+        "            margin-left: 50px;\n" +
+        "            margin-right: 50px;\n" +
+        "        }\n"+
         "    </style>\n" +
         "</head>\n" +
         "<body>\n" +
@@ -99,7 +112,7 @@ public class Mailer {
         "                    Usted ha solicitado el cambio de contraseña,\n" +
         "                    para ello ingrese al siguiente enlace donde\n" +
         "                    se procederá a atender su solicitud.\n" +
-        "                    <br><br><img src=\"https://mobile.servientrega.com/WebSitePortal/assets/img/icons/icon_cambiocontrasena.png\" width=\"300\">\n" +
+        "                    <br><br><img src=\"https://mobile.servientrega.com/WebSitePortal/assets/img/icons/icon_cambiocontrasena.png\" id=\"imgCandado\">\n" +
         "                </blockquote>\n" +
         "                <blockquote class=\"link\">\n" +
         "                    <br>Ingrese al enlace: <a href="+link+">Link para cambiar contraseña</a>\n" +
@@ -112,7 +125,7 @@ public class Mailer {
         return contenido;
     }
     
-    public static String getRespuesta(String nombre, String temp){
+    public static String getRespuesta(String nombre, String temp, String mensaje){
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -121,24 +134,28 @@ public class Mailer {
                 "    <title>Respuesta</title>\n" +
                 "    <style>\n" +
                 "        .cont{\n" +
-                "            background-color: rgb(42, 45, 77);\n" +
+                "            background-image: url(https://i2.cnnturk.com/i/cnnturk/75/0x0/5e2be80070380e0c60f58c56.jpg);\n" +
+                "            max-width: 400px;\n" +
+                "            background-size: 100% 100%;\n" +
                 "            border-radius: 15px;\n" +
                 "            display: flex;\n" +
                 "            justify-content: center;\n" +
+                "            margin: auto;\n" +
                 "        }\n" +
                 "        .text{\n" +
                 "            text-align: CENTER;\n" +
-                "            color: white;\n" +
+                "            color: black;\n" +
                 "            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n" +
                 "        }\n" +
                 "        .cont2{\n" +
                 "            display: flex;\n" +
-                "            justify-content: center;\n" +
                 "            align-items: center;\n" +
                 "            background-color: white;\n" +
                 "            text-align: CENTER;\n" +
                 "            border-radius: 15px;\n" +
-                "            height: 100px;\n" +
+                "            height: 150px;\n" +
+                "            margin-left: 2em;\n" +
+                "            margin-right: 2em;\n" +
                 "        }\n" +
                 "    </style>\n" +
                 "</head>\n" +
@@ -148,11 +165,11 @@ public class Mailer {
                 "            <h1 class=\"text\" style=\"font-size: 26pt;\">Sistema Aeropuerto</h1>\n" +
                 "            <blockquote class=\"text\" style=\"font-size: 16pt;\">\n" +
                 "                "+nombre+", el cambio de contraseña ha sido exitoso\n" +
-                "                Aquí tiene su nueva contraseña:\n" +
+                "                "+mensaje+"\n" +
                 "            </blockquote>\n" +
                 "            <div class=\"cont2\">\n" +
                 "                <blockquote style=\"font-size: 16pt;\">\n" +
-                "                    Contraseña Temporal: "+temp+"\n" +
+                "                    "+temp+"\n" +
                 "                </blockquote>\n" +
                 "            </div>\n" +
                 "            <blockquote class=\"text\" style=\"font-size: 16pt;\">\n" +

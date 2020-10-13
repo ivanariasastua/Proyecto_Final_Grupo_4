@@ -45,7 +45,7 @@ public class CambioContrasenaController {
             if(empleado.isPresent()){
                 empService.update(empleado.get(), empleado.get().getId());
                 InetAddress ip = InetAddress.getLocalHost();
-                Mailer.sendMail("http://"+ip.getHostAddress()+":8989/changePassword/temporalPassword/"+empleado.get().getCedula(), empleado.get().getCorreo());
+                Mailer.sendCorreoSolicitud("http://"+ip.getHostAddress()+":8989/changePassword/temporalPassword/"+empleado.get().getCedula(), empleado.get().getCorreo());
                 return new ResponseEntity<>("Envio del correo en proceso", HttpStatus.OK);
             }
             return new ResponseEntity<>("No se encontro el empleado con esa cedula", HttpStatus.NOT_FOUND);
@@ -67,7 +67,8 @@ public class CambioContrasenaController {
                     dto.setContrasenaEncriptada(temp);
                     System.out.println(dto.getId());
                     empService.update(dto, dto.getId());
-                    return new ResponseEntity<>(Mailer.getRespuesta(emp.get().getNombre(), temp), HttpStatus.OK);
+                    Mailer.sendCorreoRespuesta(dto.getNombre(), "Contraseña Temporal: "+temp, "Aquí esta su nueva contraseña: ", dto.getCorreo());
+                    return new ResponseEntity<>(Mailer.getRespuesta(emp.get().getNombre(), "Recuerde no compartir con nadie su contraseña", "Pronto recibira un correo con la nueva contraseña"), HttpStatus.OK);
                 }else{
                     return new ResponseEntity<>("El usuario no presento ninguna solicitud", HttpStatus.BAD_REQUEST);
                 }
