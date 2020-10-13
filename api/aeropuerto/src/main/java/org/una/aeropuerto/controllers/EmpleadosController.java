@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.EmpleadosDTO;
 import org.una.aeropuerto.services.IEmpleadosService;
-import org.una.aeropuerto.utils.Mailer;
 
 /**
  *
@@ -106,6 +105,17 @@ public class EmpleadosController {
     public ResponseEntity<?> getByCedula(@PathVariable("cedula") String cedula){
         try{
             return new ResponseEntity<>(empleadoService.findByCedulaAproximate(cedula), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("cedulaUnica/{cedula}")
+    @ApiOperation(value = "Obtiene un empleado  por cedula", response = EmpleadosDTO.class, tags = "Empleados")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> getByCedulaUnica(@PathVariable("cedula") String cedula){
+        try{
+            return new ResponseEntity<>(empleadoService.findByCedulaDTO(cedula), HttpStatus.OK);
         }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

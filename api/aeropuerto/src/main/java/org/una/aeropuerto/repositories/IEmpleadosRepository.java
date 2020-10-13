@@ -17,18 +17,19 @@ import org.una.aeropuerto.entities.Empleados;
  */
 public interface IEmpleadosRepository extends JpaRepository<Empleados, Long>{
     
-    public List<Empleados> findByCedulaContaining(String cedula);
+    public List<Empleados> findByCedulaContainingAndEstadoTrue(String cedula);
     
     public Empleados findByCedula(String cedula);
 
     @Query("update Empleados em set em.estado = 0 where em.id = id")
     public void inactivar(Long id);
     
-    public List<Empleados> findByNombreContaining(String nombreCompleto);
+    public List<Empleados> findByNombreContainingAndEstadoTrue(String nombreCompleto);
     
     @Query("Select e from Empleados e "+
             "join e.empleadosAreasTrabajo eat on e.id = eat.empleado "+
-            "where UPPER(eat.areaTrabajo.nombre) like CONCAT('%', UPPER(:area), '%')")
+            "where UPPER(eat.areaTrabajo.nombre) like CONCAT('%', UPPER(:area), '%') "+
+            "and e.estado = true")
     public List<Empleados> findByAreas(@Param("area")String area);
     
     public Empleados findByCedulaAndContrasenaEncriptada(String cedula, String contrasenaEncriptada);

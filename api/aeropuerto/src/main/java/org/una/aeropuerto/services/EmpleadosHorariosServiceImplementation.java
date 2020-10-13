@@ -26,18 +26,6 @@ public class EmpleadosHorariosServiceImplementation implements IEmpleadosHorario
     private IEmpleadosHorariosRepository empleadoRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<EmpleadosHorariosDTO> findById(Long id) {
-        return ServiceConvertionHelper.oneToOptionalDto(empleadoRepository.findById(id), EmpleadosHorariosDTO.class);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<EmpleadosHorariosDTO>> findAll() {
-        return ServiceConvertionHelper.findList(empleadoRepository.findAll(), EmpleadosHorariosDTO.class);
-    }
-
-    @Override
     @Transactional
     public EmpleadosHorariosDTO create(EmpleadosHorariosDTO horarioDto) {
         EmpleadosHorarios horario = MapperUtils.EntityFromDto(horarioDto, EmpleadosHorarios.class);
@@ -57,12 +45,8 @@ public class EmpleadosHorariosServiceImplementation implements IEmpleadosHorario
     }
 
     @Override
-    @Transactional
-    public Optional<EmpleadosHorariosDTO> inactivate(Long id) {
-        empleadoRepository.inactivar(id);
-        return ServiceConvertionHelper.oneToOptionalDto(empleadoRepository.findById(id), EmpleadosHorariosDTO.class);
+    @Transactional(readOnly = true)
+    public Optional<List<EmpleadosHorariosDTO>> findByEmpleadoId(Long id) {
+        return Optional.ofNullable(MapperUtils.DtoListFromEntityList(empleadoRepository.getHorariosMarcajes(id), EmpleadosHorariosDTO.class));
     }
-
-   
-
 }

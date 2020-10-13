@@ -5,8 +5,10 @@
  */
 package org.una.aeropuerto.repositories;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.una.aeropuerto.entities.EmpleadosHorarios;
 
 /**
@@ -15,6 +17,6 @@ import org.una.aeropuerto.entities.EmpleadosHorarios;
  */
 public interface IEmpleadosHorariosRepository extends JpaRepository<EmpleadosHorarios, Long>{
     
-    @Query("update EmpleadosHorarios eh set eh.estado = 0 where eh.id = id")
-    public void inactivar(Long id);
+    @Query("Select e From EmpleadosHorarios e WHERE e.empleado.id = :id and e.estado = true")
+    public List<EmpleadosHorarios> getHorariosMarcajes(@Param("id")Long id);
 }

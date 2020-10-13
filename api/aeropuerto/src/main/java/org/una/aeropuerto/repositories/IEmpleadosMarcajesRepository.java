@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.una.aeropuerto.entities.EmpleadosMarcajes;
 
 /**
@@ -17,8 +18,7 @@ import org.una.aeropuerto.entities.EmpleadosMarcajes;
  */
 public interface IEmpleadosMarcajesRepository extends JpaRepository<EmpleadosMarcajes, Long>{
     
-    @Query("SELECT em FROM EmpleadosMarcajes em "+
-           "WHERE em.empleadoHorario.id = :idHorario "+
-           "ORDER BY em.id DESC")
-    public Optional<List<EmpleadosMarcajes>> findUltimoMarcaje(Long idHorario);
+    @Query("SELECT MAX(em) FROM EmpleadosMarcajes em "+
+           "WHERE em.empleadoHorario.id = :idHorario ")
+    public Optional<EmpleadosMarcajes> findUltimoMarcaje(@Param("idHorario")Long idHorario);
 }

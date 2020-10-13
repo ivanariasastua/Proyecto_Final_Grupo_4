@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,9 +44,6 @@ public class AuthenticationController {
     
     @Autowired
     private IAuthenticationService service;
-    
-    @Autowired 
-    private IEmpleadosService empService;
     
     final String MENSAJE_VERIFICAR_CREDENCIALES = "Debe verificar y proporcionar credenciales correctos para realizar esta acción";
         final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
@@ -78,52 +74,5 @@ public class AuthenticationController {
         }catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-    
-    @PostMapping("/sendEmail")
-    @ApiOperation(value = "Funcion que permite solicitar una nueva contraseña temporat", tags="Seguridad")
-    public ResponseEntity<?> enviarCorreo(@RequestBody EmpleadosDTO empleado){
-        try{
-            empleado.setSolicitud(true);
-            empService.update(empleado, empleado.getId());
-            InetAddress ip = InetAddress.getLocalHost();
-            Mailer.sendMail("http://"+ip.getHostAddress()+":8989/authentication/cambiarContrasena/"+empleado.getCedula(), empleado.getCorreo());
-            return new ResponseEntity<>("Envio del correo en proceso", HttpStatus.OK);
-        }catch(UnknownHostException ex){
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    @GetMapping("cambiarContrasena/{cedula}")
-    public ResponseEntity<?> enviarCorreo(@PathVariable("cedula") String cedula){
-        try{
-            Optional<Empleados> emp = service.findByCedula(cedula);
-            if(emp.isPresent()){
-                EmpleadosDTO dto = MapperUtils.DtoFromEntity(emp.get(), EmpleadosDTO.class);
-                if(dto.getSolicitud()){
-                    String temp = generateTemporalPassword();
-                    dto.setPasswordTemporal(Boolean.TRUE);
-                    dto.setSolicitud(Boolean.FALSE);
-                    dto.setContrasenaEncriptada(temp);
-                    empService.update(dto, dto.getId());
-                    return new ResponseEntity<>(Mailer.getRespuesta(emp.get().getNombre(), temp), HttpStatus.OK);
-                }else{
-                    return new ResponseEntity<>("El usuario no presento ninguna solicitud", HttpStatus.BAD_REQUEST);
-                }
-            }else{
-                return new ResponseEntity<>("No existe el empleado", HttpStatus.NOT_FOUND);
-            }
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    private String generateTemporalPassword(){
-        String tempPassword = "";
-        for(int i = 0; i < 25; i++){
-            tempPassword += (char) (Math.floor(Math.random()*93) + 33);
-        }
-        return tempPassword;
-    }
-    
+    }  
 }

@@ -22,6 +22,8 @@ public interface IEmpleadosService {
     
     public Optional<Empleados> findByCedula(String cedula);
     
+    public Optional<EmpleadosDTO> findByCedulaDTO(String cedula);
+    
     public Optional<List<EmpleadosDTO>> findByCedulaAproximate(String cedula);
     
     public Optional<List<EmpleadosDTO>> findByNombreAproximate(String nombre);

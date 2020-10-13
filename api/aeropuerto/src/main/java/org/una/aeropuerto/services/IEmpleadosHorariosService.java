@@ -14,14 +14,10 @@ import org.una.aeropuerto.dto.EmpleadosHorariosDTO;
  * @author cordo
  */
 public interface IEmpleadosHorariosService {
-    
-    public Optional<List<EmpleadosHorariosDTO>> findAll();
-
-    public Optional<EmpleadosHorariosDTO> findById(Long id);
-    
+        
     public EmpleadosHorariosDTO create(EmpleadosHorariosDTO empleadosHorarios);
 
     public Optional<EmpleadosHorariosDTO> update(EmpleadosHorariosDTO empleadosHorarios, Long id);
 
-    public Optional<EmpleadosHorariosDTO> inactivate(Long id);
+    public Optional<List<EmpleadosHorariosDTO>> findByEmpleadoId(Long id);
 }

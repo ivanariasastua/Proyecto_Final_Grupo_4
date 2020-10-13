@@ -109,13 +109,13 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
     @Override
     @Transactional(readOnly = true)
     public Optional<List<EmpleadosDTO>> findByCedulaAproximate(String cedula) {
-        return ServiceConvertionHelper.findList(empleadoRepository.findByCedulaContaining(cedula), EmpleadosDTO.class);
+        return ServiceConvertionHelper.findList(empleadoRepository.findByCedulaContainingAndEstadoTrue(cedula), EmpleadosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<List<EmpleadosDTO>> findByNombreAproximate(String nombre) {
-        return ServiceConvertionHelper.findList(empleadoRepository.findByNombreContaining(nombre), EmpleadosDTO.class);
+        return ServiceConvertionHelper.findList(empleadoRepository.findByNombreContainingAndEstadoTrue(nombre), EmpleadosDTO.class);
     }
 
     @Override
@@ -127,6 +127,12 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
     @Override
     public Optional<List<EmpleadosDTO>> findNoAprobados() {
         return ServiceConvertionHelper.findList(empleadoRepository.findEmpleadosNoAprobados(), EmpleadosDTO.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<EmpleadosDTO> findByCedulaDTO(String cedula) {
+        return Optional.ofNullable(ServiceConvertionHelper.oneToDto(findByCedula(cedula), EmpleadosDTO.class));
     }
 
     

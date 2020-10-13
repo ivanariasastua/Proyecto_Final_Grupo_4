@@ -35,35 +35,12 @@ import org.una.aeropuerto.services.IEmpleadosHorariosService;
 public class EmpleadosHorariosController {
     @Autowired
     private IEmpleadosHorariosService empleadoService;
-    
-    @GetMapping("/get")
-    @ApiOperation(value = "Obtiene una lista de todos los empleados horarios", response = EmpleadosHorariosDTO.class, responseContainer = "List", tags = "Empleados_Horarios")
-   // @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
-        try {
-            return new ResponseEntity<>(empleadoService.findAll(), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    
-    @GetMapping("/{id}")
-   // @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
-        try {
-            return new ResponseEntity<>(empleadoService.findById(id), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo horario de empleado", response = EmpleadosHorariosDTO.class, tags = "Empleados_Horarios")
- //   @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody EmpleadosHorariosDTO empleado) {
         try {
             return new ResponseEntity<>(empleadoService.create(empleado), HttpStatus.CREATED);
@@ -75,7 +52,7 @@ public class EmpleadosHorariosController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/editar/{id}")
     @ResponseBody
- //   @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosHorariosDTO depModified) {
         try {
             Optional<EmpleadosHorariosDTO> depUpdated = empleadoService.update(depModified, id);
@@ -88,13 +65,12 @@ public class EmpleadosHorariosController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @PutMapping("/inactivar/{id}")
-    @ApiOperation(value = "Inactivar un horario de empleado", response = EmpleadosHorariosDTO.class, tags = "Empleados_Horarios")
-    @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> Inactivar(@PathVariable(value = "id") Long id){
+    
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Obtiene una lista de horarios activos segun un empleado", response = EmpleadosHorariosDTO.class, responseContainer = "List", tags = "Empleados_Horarios")
+    public ResponseEntity<?> getHorariosByEmpleadoId(@PathVariable("id") Long id){
         try{
-            return new ResponseEntity<>(empleadoService.inactivate(id), HttpStatus.OK);
+            return new ResponseEntity<>(empleadoService.findByEmpleadoId(id), HttpStatus.OK);
         }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
