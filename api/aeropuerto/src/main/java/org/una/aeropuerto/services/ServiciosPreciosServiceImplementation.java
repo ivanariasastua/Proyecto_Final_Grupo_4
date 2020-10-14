@@ -27,18 +27,6 @@ public class ServiciosPreciosServiceImplementation implements IServiciosPreciosS
     private IServiciosPreciosRepository servRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<ServiciosPreciosDTO>> findAll() {
-        return ServiceConvertionHelper.findList(servRepository.findAll(), ServiciosPreciosDTO.class);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<ServiciosPreciosDTO> findById(Long id) {
-        return ServiceConvertionHelper.oneToOptionalDto(servRepository.findById(id), ServiciosPreciosDTO.class);
-    }
-
-    @Override
     @Transactional
     public ServiciosPreciosDTO create(ServiciosPreciosDTO serviciosPrecios) {
         ServiciosPrecios serv = MapperUtils.EntityFromDto(serviciosPrecios, ServiciosPrecios.class);

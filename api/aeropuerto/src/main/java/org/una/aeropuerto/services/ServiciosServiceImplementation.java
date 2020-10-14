@@ -33,12 +33,6 @@ public class ServiciosServiceImplementation implements IServiciosService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<ServiciosDTO> findById(Long id) {
-        return ServiceConvertionHelper.oneToOptionalDto(serviciosRepository.findById(id), ServiciosDTO.class);
-    }
-
-    @Override
     @Transactional
     public ServiciosDTO create(ServiciosDTO servicios) {
         Servicios serv = MapperUtils.EntityFromDto(servicios, Servicios.class);

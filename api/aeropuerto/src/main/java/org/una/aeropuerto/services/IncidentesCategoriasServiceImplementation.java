@@ -27,18 +27,6 @@ public class IncidentesCategoriasServiceImplementation implements IIncidentesCat
     private IIncidentesCategoriasRepository incidenteReppository;
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<IncidentesCategoriasDTO>> findAll() {
-        return ServiceConvertionHelper.findList(incidenteReppository.findAll(), IncidentesCategoriasDTO.class);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<IncidentesCategoriasDTO> findById(Long id) {
-        return ServiceConvertionHelper.oneToOptionalDto(incidenteReppository.findById(id), IncidentesCategoriasDTO.class);
-    }
-
-    @Override
     @Transactional
     public IncidentesCategoriasDTO create(IncidentesCategoriasDTO incidentesCategorias) {
         IncidentesCategorias entidad = MapperUtils.EntityFromDto(incidentesCategorias, IncidentesCategorias.class);

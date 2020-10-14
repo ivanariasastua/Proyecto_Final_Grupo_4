@@ -14,9 +14,6 @@ import org.una.aeropuerto.dto.ServiciosGastosDTO;
  * @author cordo
  */
 public interface IServiciosGastosService {
-    public Optional<List<ServiciosGastosDTO>> findAll();
-
-    public Optional<ServiciosGastosDTO> findById(Long id);
     
     public ServiciosGastosDTO create(ServiciosGastosDTO gastosMantenimientos);
 

@@ -15,9 +15,6 @@ import org.una.aeropuerto.dto.AreasTrabajosDTO;
  */
 public interface IAreasTrabajosService {
     
-    public Optional<List<AreasTrabajosDTO>> findAll();
-
-    public Optional<AreasTrabajosDTO> findById(Long id);
     
     public AreasTrabajosDTO create(AreasTrabajosDTO areasTrabajos);
 

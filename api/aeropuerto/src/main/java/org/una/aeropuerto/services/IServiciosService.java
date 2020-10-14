@@ -8,7 +8,6 @@ package org.una.aeropuerto.services;
 import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.dto.ServiciosDTO;
-import org.una.aeropuerto.entities.Servicios;
 
 /**
  *
@@ -18,13 +17,11 @@ public interface IServiciosService {
     
     public Optional<List<ServiciosDTO>> findAll();
 
-    public Optional<ServiciosDTO> findById(Long id);
-    
     public ServiciosDTO create(ServiciosDTO servicios);
 
     public Optional<ServiciosDTO> update(ServiciosDTO servicios, Long id);
     
     public Optional<List<ServiciosDTO>> findByNombre(String nombre);
     
-  public Optional<List<ServiciosDTO>> findByEstado(boolean estado);
+    public Optional<List<ServiciosDTO>> findByEstado(boolean estado);
 }

@@ -27,18 +27,6 @@ public class ServiciosGastosServiceImplementation implements IServiciosGastosSer
     private IServiciosGastosRepository gastosRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<ServiciosGastosDTO>> findAll() {
-        return ServiceConvertionHelper.findList(gastosRepository.findAll(), ServiciosGastosDTO.class);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<ServiciosGastosDTO> findById(Long id) {
-        return ServiceConvertionHelper.oneToOptionalDto(gastosRepository.findById(id), ServiciosGastosDTO.class);
-    }
-
-    @Override
     @Transactional
     public ServiciosGastosDTO create(ServiciosGastosDTO gastosMantenimientos) {
         ServiciosGastos gasto = MapperUtils.EntityFromDto(gastosMantenimientos, ServiciosGastos.class);

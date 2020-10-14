@@ -40,34 +40,11 @@ public class ServiciosPreciosController {
     
     final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
 
-    @GetMapping("/get")
-    @ApiOperation(value = "Obtiene una lista de todos los servicios precios", response = ServiciosPreciosDTO.class, responseContainer = "List", tags = "Servicios_Precios")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
-        try {
-            return new ResponseEntity(servService.findAll(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene un servicio precios a travez de su identificador unico", response = ServiciosPreciosDTO.class, tags = "Servicios_Precios")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
-        try {
-            return new ResponseEntity<>(servService.findById(id), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save/{value}")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo precio de servicio", response = ServiciosPreciosDTO.class, tags = "Servicios_Precios")
-    @PreAuthorize("hasRole('GESTOR')") 
+   // @PreAuthorize("hasRole('GESTOR')") 
     public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody ServiciosPreciosDTO servicio) {
         try {
             return new ResponseEntity(servService.create(servicio), HttpStatus.CREATED);
@@ -78,7 +55,7 @@ public class ServiciosPreciosController {
     @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Permite modificar un precio del servicio a partir de su Id", response = ServiciosPreciosDTO.class, tags = "Servicios_Precios")
-    @PreAuthorize("hasRole('GESTOR')") 
+   // @PreAuthorize("hasRole('GESTOR')") 
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ServiciosPreciosDTO servicioDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

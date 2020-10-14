@@ -15,10 +15,6 @@ import org.una.aeropuerto.entities.ServiciosPrecios;
  * @author cordo
  */
 public interface IServiciosPreciosService {
-    
-    public Optional<List<ServiciosPreciosDTO>> findAll();
-
-    public Optional<ServiciosPreciosDTO> findById(Long id);
 
     public ServiciosPreciosDTO create(ServiciosPreciosDTO serviciosPrecios);
 

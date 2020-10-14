@@ -27,18 +27,6 @@ public class IncidentesRegistradosServiceImplementation implements IIncidentesRe
     private IIncidentesRegistradosRepository incidenteReppository;
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<IncidentesRegistradosDTO>> findAll() {
-        return ServiceConvertionHelper.findList(incidenteReppository.findAll(), IncidentesRegistradosDTO.class);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<IncidentesRegistradosDTO> findById(Long id) {
-        return ServiceConvertionHelper.oneToOptionalDto(incidenteReppository.findById(id), IncidentesRegistradosDTO.class);
-    }
-
-    @Override
     @Transactional
     public IncidentesRegistradosDTO create(IncidentesRegistradosDTO incidentesRegistrados) {
         IncidentesRegistrados entidad = MapperUtils.EntityFromDto(incidentesRegistrados, IncidentesRegistrados.class);

@@ -27,18 +27,6 @@ public class IncidentesRegistradosEstadosServiceImplementation implements IIncid
     private IIncidentesRegistradosEstadosRepository incidenteRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<IncidentesRegistradosEstadosDTO>> findAll() {
-        return ServiceConvertionHelper.findList(incidenteRepository.findAll(), IncidentesRegistradosEstadosDTO.class);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<IncidentesRegistradosEstadosDTO> findById(Long id) {
-        return ServiceConvertionHelper.oneToOptionalDto(incidenteRepository.findById(id), IncidentesRegistradosEstadosDTO.class);
-    }
-
-    @Override
     @Transactional
     public IncidentesRegistradosEstadosDTO create(IncidentesRegistradosEstadosDTO incidentesRegistradosEstados) {
         IncidentesRegistradosEstados entidad = MapperUtils.EntityFromDto(incidentesRegistradosEstados, IncidentesRegistradosEstados.class);
@@ -46,21 +34,4 @@ public class IncidentesRegistradosEstadosServiceImplementation implements IIncid
         return MapperUtils.DtoFromEntity(entidad, IncidentesRegistradosEstadosDTO.class);
     }
 
-    @Override
-    @Transactional
-    public Optional<IncidentesRegistradosEstadosDTO> update(IncidentesRegistradosEstadosDTO incidentesRegistradosEstados, Long id) {
-        if(incidenteRepository.findById(id).isPresent()){
-            IncidentesRegistradosEstados entidad = MapperUtils.EntityFromDto(incidentesRegistradosEstados, IncidentesRegistradosEstados.class);
-            entidad = incidenteRepository.save(entidad);
-            return Optional.ofNullable(MapperUtils.DtoFromEntity(entidad, IncidentesRegistradosEstadosDTO.class));
-        }else{
-            return null;
-        }
-    
-    }
-
-    @Override
-    public Optional<List<IncidentesRegistradosEstadosDTO>> findByIncidentesRegistradosId(Long id) {
-        return ServiceConvertionHelper.findList(incidenteRepository.findByIncidenteRegistrado(id), IncidentesRegistradosEstadosDTO.class);
-    }
 }

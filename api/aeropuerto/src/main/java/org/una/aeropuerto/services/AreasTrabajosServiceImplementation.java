@@ -27,18 +27,6 @@ public class AreasTrabajosServiceImplementation implements IAreasTrabajosService
     private IAreasTrabajosRepository areasRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<AreasTrabajosDTO> findById(Long id) {
-        return ServiceConvertionHelper.oneToOptionalDto(areasRepository.findById(id), AreasTrabajosDTO.class);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<AreasTrabajosDTO>> findAll() {
-        return ServiceConvertionHelper.findList(areasRepository.findAll(), AreasTrabajosDTO.class);
-    }
-
-    @Override
     @Transactional
     public AreasTrabajosDTO create(AreasTrabajosDTO area) {
         AreasTrabajos ent = MapperUtils.EntityFromDto(area, AreasTrabajos.class);

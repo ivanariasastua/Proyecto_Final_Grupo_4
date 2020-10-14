@@ -15,10 +15,6 @@ import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
  */
 public interface IIncidentesRegistradosService {
 
-    public Optional<List<IncidentesRegistradosDTO>> findAll();
-
-    public Optional<IncidentesRegistradosDTO> findById(Long id);
-
     public IncidentesRegistradosDTO create(IncidentesRegistradosDTO incidentesRegistrados);
 
     public Optional<IncidentesRegistradosDTO> update(IncidentesRegistradosDTO incidentesRegistrados, Long id);
