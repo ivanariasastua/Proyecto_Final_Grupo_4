@@ -126,7 +126,7 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
 
     @Override
     public Optional<List<EmpleadosDTO>> findNoAprobados() {
-        return ServiceConvertionHelper.findList(empleadoRepository.findEmpleadosNoAprobados(), EmpleadosDTO.class);
+        return ServiceConvertionHelper.findList(empleadoRepository.findByAprobadoFalseAndEstadoTrue(), EmpleadosDTO.class);
     }
 
     @Override
@@ -134,7 +134,4 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
     public Optional<EmpleadosDTO> findByCedulaDTO(String cedula) {
         return Optional.ofNullable(ServiceConvertionHelper.oneToDto(findByCedula(cedula), EmpleadosDTO.class));
     }
-
-    
-
 }

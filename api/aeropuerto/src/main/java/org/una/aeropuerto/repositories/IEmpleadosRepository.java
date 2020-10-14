@@ -34,6 +34,5 @@ public interface IEmpleadosRepository extends JpaRepository<Empleados, Long>{
     
     public Empleados findByCedulaAndContrasenaEncriptada(String cedula, String contrasenaEncriptada);
 
-    @Query("Select e from Empleados e WHERE e.aprobado = false")
-    public List<Empleados> findEmpleadosNoAprobados();
+    public List<Empleados> findByAprobadoFalseAndEstadoTrue();
 }
