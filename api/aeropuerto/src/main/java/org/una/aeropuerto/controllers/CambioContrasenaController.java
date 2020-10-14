@@ -93,8 +93,16 @@ public class CambioContrasenaController {
     
     private String generateTemporalPassword(){
         String tempPassword = "";
-        for(int i = 0; i < 25; i++){
-            tempPassword += (char) (Math.floor(Math.random()*93) + 33);
+        int cont = 0, aux = 0;
+        char caracter;
+        while(cont < 25){
+            caracter = (char) (Math.floor(Math.random()*74) + 48);
+            aux = caracter;
+            System.out.println(aux+" : "+caracter);
+            if((aux >= 65 && aux <= 90) || (aux >= 97 && aux <= 122) || (aux >= 48 && aux <= 57)){
+                tempPassword += caracter;
+                cont++;
+            }
         }
         return tempPassword;
     }
