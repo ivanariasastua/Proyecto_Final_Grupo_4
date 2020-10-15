@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,11 +40,11 @@ public class ServiciosPreciosController {
     final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/save/{value}")
+    @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo precio de servicio", response = ServiciosPreciosDTO.class, tags = "Servicios_Precios")
    // @PreAuthorize("hasRole('GESTOR')") 
-    public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody ServiciosPreciosDTO servicio) {
+    public ResponseEntity<?> create(@RequestBody ServiciosPreciosDTO servicio) {
         try {
             return new ResponseEntity(servService.create(servicio), HttpStatus.CREATED);
         } catch (Exception e) {
