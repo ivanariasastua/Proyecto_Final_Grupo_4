@@ -63,7 +63,7 @@ public class CambioContrasenaController {
                 if(dto.getSolicitud()){
                     String temp = generateTemporalPassword();
                     dto.setPasswordTemporal(Boolean.TRUE);
-                    dto.setSolicitud(Boolean.FALSE);
+                    dto.setSolicitud(Boolean.TRUE);
                     dto.setContrasenaEncriptada(temp);
                     System.out.println(dto.getId());
                     empService.update(dto, dto.getId());
@@ -83,8 +83,11 @@ public class CambioContrasenaController {
     @PostMapping("cambiarContrasena")
     public ResponseEntity<?> chagePassword(@RequestBody EmpleadosDTO empleado){
         try{
-            if(empleado.getPasswordTemporal())  
+            System.out.println(empleado.getPasswordTemporal());
+            if(empleado.getPasswordTemporal()){
+                empleado.setPasswordTemporal(Boolean.FALSE);
                 return new ResponseEntity<>(empService.update(empleado, empleado.getId()), HttpStatus.OK);
+            }
             return new ResponseEntity<>("El usuario no ha solicitado un cambio de contraseña", HttpStatus.BAD_REQUEST);
         }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
