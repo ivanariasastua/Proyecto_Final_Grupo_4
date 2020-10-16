@@ -15,7 +15,7 @@ import org.una.aeropuerto.dto.ServiciosDTO;
  */
 public interface IServiciosService {
     
-    public Optional<List<ServiciosDTO>> findAll();
+    public Optional<ServiciosDTO> findById(Long id);
 
     public ServiciosDTO create(ServiciosDTO servicios);
 

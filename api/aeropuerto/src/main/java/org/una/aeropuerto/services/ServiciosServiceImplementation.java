@@ -28,8 +28,8 @@ public class ServiciosServiceImplementation implements IServiciosService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<ServiciosDTO>> findAll() {
-        return ServiceConvertionHelper.findList(serviciosRepository.findAll(), ServiciosDTO.class);
+    public Optional<ServiciosDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(serviciosRepository.findById(id), ServiciosDTO.class);
     }
 
     @Override
