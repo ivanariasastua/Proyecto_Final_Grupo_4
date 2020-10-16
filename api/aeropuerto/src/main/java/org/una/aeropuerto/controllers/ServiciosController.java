@@ -38,15 +38,13 @@ public class ServiciosController {
     @Autowired
     private IServiciosService serviciosService;
 
-    @GetMapping("/get")
-    @ApiOperation(value = "Obtiene una lista de todos las Servicios", response = ServiciosDTO.class, responseContainer = "List", tags = "Servicios")
+    @GetMapping("/get/{id}")
     //@PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-            return new ResponseEntity(serviciosService.findAll(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(serviciosService.findById(id), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -67,7 +65,7 @@ public class ServiciosController {
     @ResponseBody
     @ApiOperation(value = "Permite modificar un Servicio a partir de su Id", response = ServiciosDTO.class, tags = "Servicios")
     //   @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ServiciosDTO servicioDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ServiciosDTO servicioDTO) {
         try {
             Optional<ServiciosDTO> servicioUpdated = serviciosService.update(servicioDTO, id);
             if (servicioUpdated.isPresent()) {

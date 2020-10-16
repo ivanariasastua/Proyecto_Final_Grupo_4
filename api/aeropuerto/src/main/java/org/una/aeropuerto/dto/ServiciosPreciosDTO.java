@@ -27,7 +27,6 @@ public class ServiciosPreciosDTO {
     private float costo;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date fechaRegistro;
-  //  @ToString.Exclude
     @JsonBackReference
     private ServiciosDTO servicio;
     private boolean estado;
