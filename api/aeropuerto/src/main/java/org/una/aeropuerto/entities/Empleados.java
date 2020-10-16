@@ -68,7 +68,7 @@ public class Empleados implements Serializable {
     @JoinColumn(name="jefe")
     private Empleados jefe;
     
-    @Column(name = "contrasena_encriptada", length = 100)
+    @Column(name = "contrasena_encriptada", length = 30)
     private String contrasenaEncriptada;
     
     @ManyToOne 
