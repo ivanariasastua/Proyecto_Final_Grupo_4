@@ -68,6 +68,7 @@ public class EmpleadosHorariosController {
     
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene una lista de horarios activos segun un empleado", response = EmpleadosHorariosDTO.class, responseContainer = "List", tags = "Empleados_Horarios")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public ResponseEntity<?> getHorariosByEmpleadoId(@PathVariable("id") Long id){
         try{
             return new ResponseEntity<>(empleadoService.findByEmpleadoId(id), HttpStatus.OK);

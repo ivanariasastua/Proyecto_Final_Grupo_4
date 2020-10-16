@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,7 @@ public class ServiciosController {
     private IServiciosService serviciosService;
 
     @GetMapping("/get/{id}")
-    //@PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(serviciosService.findById(id), HttpStatus.OK);
@@ -52,7 +53,7 @@ public class ServiciosController {
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo servicio", response = ServiciosDTO.class, tags = "Servicios")
-    //  @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody ServiciosDTO servicio) {
         try {
             return new ResponseEntity(serviciosService.create(servicio), HttpStatus.CREATED);
@@ -64,7 +65,7 @@ public class ServiciosController {
     @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Permite modificar un Servicio a partir de su Id", response = ServiciosDTO.class, tags = "Servicios")
-    //   @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ServiciosDTO servicioDTO) {
         try {
             Optional<ServiciosDTO> servicioUpdated = serviciosService.update(servicioDTO, id);
@@ -81,7 +82,7 @@ public class ServiciosController {
 
     @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de servicios por medio de su nombre", response = ServiciosDTO.class, responseContainer = "List", tags = "Servicios")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
         try {
             Optional<List<ServiciosDTO>> result = serviciosService.findByNombre(term);
@@ -97,7 +98,7 @@ public class ServiciosController {
     
     @GetMapping("/estado/{term}")
     @ApiOperation(value = "Obtiene una lista de los servicios por medio de su estado", response = ServiciosDTO.class, responseContainer = "List", tags = "Servicios")
-    //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean term) {
         try {
             return new ResponseEntity<>(serviciosService.findByEstado(term), HttpStatus.OK);

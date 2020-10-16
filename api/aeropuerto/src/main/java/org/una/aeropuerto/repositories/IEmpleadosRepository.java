@@ -17,14 +17,14 @@ import org.una.aeropuerto.entities.Empleados;
  */
 public interface IEmpleadosRepository extends JpaRepository<Empleados, Long>{
     
-    public List<Empleados> findByCedulaContainingAndEstadoTrue(String cedula);
+    public List<Empleados> findByCedulaContaining(String cedula);
     
     public Empleados findByCedula(String cedula);
 
     @Query("update Empleados em set em.estado = 0 where em.id = id")
     public void inactivar(Long id);
     
-    public List<Empleados> findByNombreContainingAndEstadoTrue(String nombreCompleto);
+    public List<Empleados> findByNombreContaining(String nombreCompleto);
     
     @Query("Select e from Empleados e "+
             "join e.empleadosAreasTrabajo eat on e.id = eat.empleado "+

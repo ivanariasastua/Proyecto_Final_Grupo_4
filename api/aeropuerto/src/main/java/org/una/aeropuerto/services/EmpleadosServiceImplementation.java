@@ -109,13 +109,13 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
     @Override
     @Transactional(readOnly = true)
     public Optional<List<EmpleadosDTO>> findByCedulaAproximate(String cedula) {
-        return ServiceConvertionHelper.findList(empleadoRepository.findByCedulaContainingAndEstadoTrue(cedula), EmpleadosDTO.class);
+        return ServiceConvertionHelper.findList(empleadoRepository.findByCedulaContaining(cedula), EmpleadosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<List<EmpleadosDTO>> findByNombreAproximate(String nombre) {
-        return ServiceConvertionHelper.findList(empleadoRepository.findByNombreContainingAndEstadoTrue(nombre), EmpleadosDTO.class);
+        return ServiceConvertionHelper.findList(empleadoRepository.findByNombreContaining(nombre), EmpleadosDTO.class);
     }
 
     @Override

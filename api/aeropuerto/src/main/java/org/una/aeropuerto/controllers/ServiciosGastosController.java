@@ -41,7 +41,7 @@ public class ServiciosGastosController {
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo gasto de servicio", response = ServiciosGastosDTO.class, tags = "Servicios_Gastos")
-//    @PreAuthorize("hasRole('GESTOR')") 
+    @PreAuthorize("hasRole('GESTOR')") 
     public ResponseEntity<?> create(@RequestBody ServiciosGastosDTO servicio) {
         try {
             return new ResponseEntity<>(gastosService.create(servicio), HttpStatus.CREATED);
@@ -53,7 +53,7 @@ public class ServiciosGastosController {
     @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Modifica un gasto de servicio existente", response = ServiciosGastosDTO.class, tags = "Servicios_Gastos")
-//    @PreAuthorize("hasRole('GESTOR')") 
+    @PreAuthorize("hasRole('GESTOR')") 
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ServiciosGastosDTO servModified) {
         try {
             Optional<ServiciosGastosDTO> servUpdated = gastosService.update(servModified, id);
@@ -69,6 +69,7 @@ public class ServiciosGastosController {
 
     @GetMapping("/servicio/{term}")
     @ApiOperation(value = "Obtiene una lista de los gastos de servicio por medio de su servicio", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Servicios_Gastos")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public ResponseEntity<?> findByServicio(@PathVariable(value = "term") String term) {
         try {
             Optional<List<ServiciosGastosDTO>> result = gastosService.findByServicios(term);
@@ -84,6 +85,7 @@ public class ServiciosGastosController {
     
     @GetMapping("/empresa/{term}")
     @ApiOperation(value = "Obtiene una lista de los gastos de servicios por medio de su empresa", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Servicios_Gastos")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public ResponseEntity<?> findByEmpresa(@PathVariable(value = "term") String term) {
         try {
             Optional<List<ServiciosGastosDTO>> result = gastosService.findByEmpresa(term);
@@ -99,6 +101,7 @@ public class ServiciosGastosController {
     
     @GetMapping("/numeroContrato/{term}")
     @ApiOperation(value = "Obtiene una lista de los gastos de servicios por medio de su contrato", response = ServiciosGastosDTO.class, responseContainer = "List", tags = "Servicios_Gastos")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public ResponseEntity<?> findByContrato(@PathVariable(value = "term") String term) {
         try {
             Optional<List<ServiciosGastosDTO>> result = gastosService.findByContrato(term);

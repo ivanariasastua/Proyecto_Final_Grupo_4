@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +42,7 @@ public class IncidentesCategoriasController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
     @ResponseBody
-//    @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody IncidentesCategoriasDTO incidentesCategorias) {
         try {
             return new ResponseEntity<>(incidenteService.create(incidentesCategorias), HttpStatus.CREATED);
@@ -52,7 +53,7 @@ public class IncidentesCategoriasController {
 
     @PutMapping("/editar/{id}")
     @ResponseBody
-    // @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody IncidentesCategoriasDTO modificado, BindingResult bindingResult) {
         try {
             Optional<IncidentesCategoriasDTO> updated = incidenteService.update(modificado, id);
@@ -69,7 +70,7 @@ public class IncidentesCategoriasController {
 
     @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de las categorias por medio de su nombre", response = IncidentesCategoriasDTO.class, responseContainer = "List", tags = "Incidentes_Categorias")
-    //@PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
         try {
             Optional<List<IncidentesCategoriasDTO>> result = incidenteService.findByNombre(term);
@@ -85,7 +86,7 @@ public class IncidentesCategoriasController {
     
     @GetMapping("/estado/{term}")
     @ApiOperation(value = "Obtiene una lista de categorias por medio de su estado", response = IncidentesCategoriasDTO.class, responseContainer = "List", tags = "Incidentes_Categorias")
-    //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean term) {
         try {
             return new ResponseEntity<>(incidenteService.findByEstado(term), HttpStatus.OK);

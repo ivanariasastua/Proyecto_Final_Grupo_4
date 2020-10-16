@@ -44,7 +44,7 @@ public class IncidentesRegistradosController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
     @ResponseBody
-    // @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('GESTOR')")
     public ResponseEntity<?> create(@RequestBody IncidentesRegistradosDTO incidentesRegistrados) {
         try {
             return new ResponseEntity<>(incidenteService.create(incidentesRegistrados), HttpStatus.CREATED);

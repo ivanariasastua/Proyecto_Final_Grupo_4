@@ -36,18 +36,6 @@ public class TransaccionesController {
     @Autowired
     private ITransaccionesService transaccionService;
 
-    @GetMapping("/get")
-    @ApiOperation(value = "Obtiene una lista de todos las transacciones", response = TransaccionesDTO.class, responseContainer = "List", tags = "Transacciones")
-    @PreAuthorize("hasRole('AUDITOR')")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
-        try {
-            return new ResponseEntity<>(transaccionService.findAll(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un tipo de transaccion a travez de su identificador unico", response = TransaccionesDTO.class, tags = "Transacciones")
     @PreAuthorize("hasRole('AUDITOR')")

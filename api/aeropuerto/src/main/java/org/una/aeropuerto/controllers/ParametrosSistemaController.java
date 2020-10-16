@@ -38,7 +38,7 @@ public class ParametrosSistemaController {
 
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los parametros del sistema", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -50,7 +50,7 @@ public class ParametrosSistemaController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un parametro del sistema a travez de su identificador unico", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(parametrosService.findById(id), HttpStatus.OK);
@@ -63,7 +63,7 @@ public class ParametrosSistemaController {
     @PostMapping("/save/{value}")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo parametro", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
-    @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE')")
     public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody ParametrosSistemaDTO parametros) {
         try {
             return new ResponseEntity<>(parametrosService.create(parametros), HttpStatus.CREATED);
@@ -75,7 +75,7 @@ public class ParametrosSistemaController {
     @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Modifica un parametro existente", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
-    @PreAuthorize("hasRole('GESTOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ParametrosSistemaDTO servModified) {
         try {
             Optional<ParametrosSistemaDTO> servUpdated = parametrosService.update(servModified, id);
@@ -91,7 +91,7 @@ public class ParametrosSistemaController {
 
     @GetMapping("/valor")
     @ApiOperation(value = "Obtiene una lista de los parametros por medio del valor", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByValor(@PathVariable(value = "valor") String valor) {
         try {
             return new ResponseEntity<>(parametrosService.findByValor(valor), HttpStatus.OK);

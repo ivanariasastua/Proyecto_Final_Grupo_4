@@ -11,7 +11,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,29 +31,9 @@ import org.una.aeropuerto.services.IEmpleadosMarcajesService;
 @RequestMapping("/empleados_marcajes")
 @Api(tags = {"Empleados_Marcajes"})
 public class EmpleadosMarcajesController {
+    
     @Autowired
     private IEmpleadosMarcajesService empleadoService;
-    
-    @GetMapping("/get")
-    @ApiOperation(value = "Obtiene una lista de todos los Empleados Marcajes", response = EmpleadosMarcajesDTO.class, responseContainer = "List", tags = "Empleados_Marcajes")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
-        try {
-            return new ResponseEntity<>(empleadoService.findAll(), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
-        try {
-            return new ResponseEntity<>(empleadoService.findById(id), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")

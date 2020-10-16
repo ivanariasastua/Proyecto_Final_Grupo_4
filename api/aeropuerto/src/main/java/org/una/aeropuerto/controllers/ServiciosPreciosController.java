@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,7 +40,7 @@ public class ServiciosPreciosController {
     @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo precio de servicio", response = ServiciosPreciosDTO.class, tags = "Servicios_Precios")
-    // @PreAuthorize("hasRole('GESTOR')") 
+    @PreAuthorize("hasRole('GESTOR')") 
     public ResponseEntity<?> create(@RequestBody ServiciosPreciosDTO servicio) {
         try {
             return new ResponseEntity(servService.create(servicio), HttpStatus.CREATED);
@@ -51,7 +52,7 @@ public class ServiciosPreciosController {
     @PutMapping("/editar/{id}")
     @ResponseBody
     @ApiOperation(value = "Permite modificar un precio del servicio a partir de su Id", response = ServiciosPreciosDTO.class, tags = "Servicios_Precios")
-    // @PreAuthorize("hasRole('GESTOR')") 
+    @PreAuthorize("hasRole('GESTOR')") 
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ServiciosPreciosDTO servicioDTO) {
         try {
             Optional<ServiciosPreciosDTO> servicioUpdated = servService.update(servicioDTO, id);

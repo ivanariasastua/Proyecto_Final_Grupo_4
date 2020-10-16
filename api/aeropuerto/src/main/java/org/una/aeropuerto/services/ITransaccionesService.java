@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.dto.TransaccionesDTO;
-import org.una.aeropuerto.entities.Transacciones;
 
 /**
  *
@@ -17,8 +16,6 @@ import org.una.aeropuerto.entities.Transacciones;
  */
 public interface ITransaccionesService {
     
-    public Optional<List<TransaccionesDTO>> findAll();
-
     public Optional<TransaccionesDTO> findById(Long id);
     
     public TransaccionesDTO create(TransaccionesDTO transacciones);

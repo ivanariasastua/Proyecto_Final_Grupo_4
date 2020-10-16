@@ -38,7 +38,7 @@ public class RolesController {
 
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los roles", response = RolesDTO.class, responseContainer = "List", tags = "Roles")
-  //  @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -49,7 +49,7 @@ public class RolesController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(rolService.findById(id), HttpStatus.OK);
