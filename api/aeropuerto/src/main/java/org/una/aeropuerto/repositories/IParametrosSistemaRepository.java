@@ -5,9 +5,9 @@
  */
 package org.una.aeropuerto.repositories;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.una.aeropuerto.entities.ParametrosSistema;
 
 /**
@@ -16,6 +16,9 @@ import org.una.aeropuerto.entities.ParametrosSistema;
  */
 public interface IParametrosSistemaRepository extends JpaRepository<ParametrosSistema, Long>{
     
-    public List<ParametrosSistema> findByValor(String valor);
+    public ParametrosSistema findByValor(String valor);
+    public ParametrosSistema findByCodigoIndentificador(String codigoIndentificador);
+    public List<ParametrosSistema> findByFechaRegistroBetween(Date fecha1, Date fecha2);
+    public List<ParametrosSistema> findByFechaModificacionBetween(Date fecha1, Date fecha2);
 
 }

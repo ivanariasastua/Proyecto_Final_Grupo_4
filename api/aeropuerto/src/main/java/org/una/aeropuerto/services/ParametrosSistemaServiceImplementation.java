@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,6 @@ public class ParametrosSistemaServiceImplementation implements IParametrosSistem
 
     @Autowired
     private IParametrosSistemaRepository parametrosRepository;
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<ParametrosSistemaDTO>> findAll() {
-        return ServiceConvertionHelper.findList(parametrosRepository.findAll(), ParametrosSistemaDTO.class);
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -58,8 +53,22 @@ public class ParametrosSistemaServiceImplementation implements IParametrosSistem
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<ParametrosSistemaDTO>> findByValor(String valor) {
-        return ServiceConvertionHelper.findList(parametrosRepository.findByValor(valor), ParametrosSistemaDTO.class);
+    public Optional<ParametrosSistemaDTO> findByCodigoIdentificador(String codigo) {
+        return ServiceConvertionHelper.oneToOptionalDto(parametrosRepository.findByCodigoIndentificador(codigo), ParametrosSistemaDTO.class);
+    }
+
+    @Override
+    public Optional<List<ParametrosSistemaDTO>> findByFechaRegistro(Date fecha1, Date fecha2) {
+        return ServiceConvertionHelper.findList(parametrosRepository.findByFechaRegistroBetween(fecha1, fecha2), ParametrosSistemaDTO.class);
+    }
+
+    @Override
+    public Optional<List<ParametrosSistemaDTO>> findByFechaModificacion(Date fecha1, Date fech2) {
+        return ServiceConvertionHelper.findList(parametrosRepository.findByFechaModificacionBetween(fecha1, fech2), ParametrosSistemaDTO.class);
+    }
+
+    @Override
+    public Optional<ParametrosSistemaDTO> findByValor(String valor) {
+        return ServiceConvertionHelper.oneToOptionalDto(parametrosRepository.findByValor(valor), ParametrosSistemaDTO.class);
     }
 }

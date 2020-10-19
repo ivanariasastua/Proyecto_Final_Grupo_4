@@ -5,18 +5,16 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.dto.ParametrosSistemaDTO;
-import org.una.aeropuerto.entities.ParametrosSistema;
 
 /**
  *
  * @author cordo
  */
 public interface IParametrosSistemaService {
-    
-    public Optional<List<ParametrosSistemaDTO>> findAll();
 
     public Optional<ParametrosSistemaDTO> findById(Long id);
 
@@ -24,5 +22,11 @@ public interface IParametrosSistemaService {
 
     public Optional<ParametrosSistemaDTO> update(ParametrosSistemaDTO parametrosSistema, Long id);
 
-    public Optional<List<ParametrosSistemaDTO>> findByValor(String valor);
+    public Optional<ParametrosSistemaDTO> findByValor(String valor);
+    
+    public Optional<ParametrosSistemaDTO> findByCodigoIdentificador(String codigo);
+    
+    public Optional<List<ParametrosSistemaDTO>> findByFechaRegistro(Date fecha1, Date fecha2);
+    
+    public Optional<List<ParametrosSistemaDTO>> findByFechaModificacion(Date fecha1, Date fech2);
 }

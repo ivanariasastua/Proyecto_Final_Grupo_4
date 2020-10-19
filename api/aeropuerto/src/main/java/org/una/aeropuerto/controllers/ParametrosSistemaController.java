@@ -7,6 +7,7 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.Date;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,18 +36,6 @@ public class ParametrosSistemaController {
 
     @Autowired
     private IParametrosSistemaService parametrosService;
-
-    @GetMapping("/get")
-    @ApiOperation(value = "Obtiene una lista de todos los parametros del sistema", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
-        try {
-            return new ResponseEntity<>(parametrosService.findAll(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un parametro del sistema a travez de su identificador unico", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
@@ -89,12 +78,45 @@ public class ParametrosSistemaController {
         }
     }
 
-    @GetMapping("/valor")
-    @ApiOperation(value = "Obtiene una lista de los parametros por medio del valor", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
+    @GetMapping("/valor/{valor}")
+    @ApiOperation(value = "Obtiene un parametro por medio del valor", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<?> findByValor(@PathVariable(value = "valor") String valor) {
         try {
             return new ResponseEntity<>(parametrosService.findByValor(valor), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/codigoIdentiicador/{codigo}")
+    @ApiOperation(value = "Obtiene un parametro por medio del codigo", response = ParametrosSistemaDTO.class,  tags = "Parametros_Sistema")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> findByCodigoIdentificador(@PathVariable(value = "codigo") String codigo) {
+        try {
+            return new ResponseEntity<>(parametrosService.findByCodigoIdentificador(codigo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/fechaRegisto/{fecha1}/fecha2")
+    @ApiOperation(value = "Obtiene una lista de los parametros por medio de un intervalo de fechas", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> findByFechaRegristro(@PathVariable(value = "fecha1") Date fecha1, @PathVariable("fecha2") Date fecha2) {
+        try {
+            return new ResponseEntity<>(parametrosService.findByFechaRegistro(fecha1, fecha2), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/fechaModificacion/{fecha1}/fecha2")
+    @ApiOperation(value = "Obtiene una lista de los parametros por medio de un intervalo de fechas", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> findByFechaModificacion(@PathVariable(value = "fecha1") Date fecha1, @PathVariable("fecha2") Date fecha2) {
+        try {
+            return new ResponseEntity<>(parametrosService.findByFechaModificacion(fecha1, fecha2), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
