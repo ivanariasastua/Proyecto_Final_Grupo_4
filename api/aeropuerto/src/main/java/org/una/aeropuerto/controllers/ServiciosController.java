@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.una.aeropuerto.dto.ParametrosSistemaDTO;
 import org.una.aeropuerto.dto.ServiciosDTO;
+import org.una.aeropuerto.services.IParametrosSistemaService;
 import org.una.aeropuerto.services.IServiciosService;
 
 /**
@@ -38,6 +39,9 @@ public class ServiciosController {
 
     @Autowired
     private IServiciosService serviciosService;
+    
+    @Autowired
+    private IParametrosSistemaService paramService;
 
     @GetMapping("/get/{id}")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
@@ -107,4 +111,26 @@ public class ServiciosController {
         }
     }
 
+    @PutMapping("/inactivar/id/cedula/codigo")
+    @ResponseBody
+    @PreAuthorize("hasRole('GERENTE') or hasRole('GESTOR')")
+    public ResponseEntity<?> inactivate(@RequestBody ServiciosDTO servicioInactivar, @PathVariable("id") Long id, @PathVariable("cedula") String cedula, @PathVariable("codigo") String codigo){
+        try{
+            Optional<ParametrosSistemaDTO> parametro = paramService.findByCodigoIdentificador(cedula);
+            if(parametro.isPresent()){
+                if(parametro.get().getValor().equals(codigo)){
+                    servicioInactivar.setEstado(false);
+                    Optional<ServiciosDTO> servicioUpdated = serviciosService.update(servicioInactivar, id);
+                    if(servicioUpdated.isPresent()){
+                        return new ResponseEntity<>(servicioUpdated, HttpStatus.OK);
+                    }
+                    return new ResponseEntity<>("No se encontro el servicio a inativar", HttpStatus.NOT_FOUND);
+                }
+                return new ResponseEntity<>("Los valores del parametro necesario no coinciden", HttpStatus.NOT_ACCEPTABLE);
+            }
+            return new ResponseEntity<>("No se encontro el parametro de sistema correspondiente", HttpStatus.NOT_FOUND);
+        }catch(Exception e){
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

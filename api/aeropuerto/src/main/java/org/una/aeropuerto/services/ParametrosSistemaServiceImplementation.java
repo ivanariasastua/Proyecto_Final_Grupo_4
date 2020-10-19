@@ -54,7 +54,7 @@ public class ParametrosSistemaServiceImplementation implements IParametrosSistem
 
     @Override
     public Optional<ParametrosSistemaDTO> findByCodigoIdentificador(String codigo) {
-        return ServiceConvertionHelper.oneToOptionalDto(parametrosRepository.findByCodigoIndentificador(codigo), ParametrosSistemaDTO.class);
+        return ServiceConvertionHelper.oneToOptionalDto(parametrosRepository.findByCodigoIdentificador(codigo), ParametrosSistemaDTO.class);
     }
 
     @Override

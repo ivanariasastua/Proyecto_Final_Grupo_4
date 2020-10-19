@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.EmpleadosHorariosDTO;
+import org.una.aeropuerto.dto.ParametrosSistemaDTO;
 import org.una.aeropuerto.services.IEmpleadosHorariosService;
+import org.una.aeropuerto.services.IParametrosSistemaService;
 
 /**
  *
@@ -33,8 +35,12 @@ import org.una.aeropuerto.services.IEmpleadosHorariosService;
 @RequestMapping("/empleados_horarios")
 @Api(tags = {"Empleados_Horarios"})
 public class EmpleadosHorariosController {
+    
     @Autowired
     private IEmpleadosHorariosService empleadoService;
+    
+    @Autowired
+    private IParametrosSistemaService paramService;
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
@@ -62,6 +68,29 @@ public class EmpleadosHorariosController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PutMapping("/inactivar/id/cedula/codigo")
+    @ResponseBody
+    @PreAuthorize("hasRole('GERENTE') or hasRole('GESTOR')")
+    public ResponseEntity<?> inactivate(@RequestBody EmpleadosHorariosDTO empleadoHorarioInactivar, @PathVariable("id") Long id, @PathVariable("cedula") String cedula, @PathVariable("codigo") String codigo){
+        try{
+            Optional<ParametrosSistemaDTO> parametro = paramService.findByCodigoIdentificador(cedula);         
+            if(parametro.isPresent()){
+                if(parametro.get().getValor().equals(codigo)){
+                    empleadoHorarioInactivar.setEstado(false);
+                    Optional<EmpleadosHorariosDTO> empleadoHorarioUpdated = empleadoService.update(empleadoHorarioInactivar, id);
+                    if(empleadoHorarioUpdated.isPresent()){
+                        return new ResponseEntity<>(empleadoHorarioUpdated, HttpStatus.OK);
+                    }
+                    return new ResponseEntity<>("No se encontro el horario del empleado a inativar", HttpStatus.NOT_FOUND);
+                }
+                return new ResponseEntity<>("Los valores del parametro necesario no coinciden", HttpStatus.NOT_ACCEPTABLE);
+            }
+            return new ResponseEntity<>("No se encontro el parametro de sistema correspondiente", HttpStatus.NOT_FOUND);
+        }catch(Exception e){
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

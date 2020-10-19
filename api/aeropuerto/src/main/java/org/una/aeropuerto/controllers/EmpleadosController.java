@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.EmpleadosDTO;
+import org.una.aeropuerto.dto.ParametrosSistemaDTO;
 import org.una.aeropuerto.services.IEmpleadosService;
+import org.una.aeropuerto.services.IParametrosSistemaService;
 
 /**
  *
@@ -32,8 +34,12 @@ import org.una.aeropuerto.services.IEmpleadosService;
 @RequestMapping("/empleados")
 @Api(tags = {"Empleados"})
 public class EmpleadosController {
+    
     @Autowired
     private IEmpleadosService empleadoService;
+    
+    @Autowired
+    private IParametrosSistemaService paramService;
     
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
@@ -74,6 +80,29 @@ public class EmpleadosController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }    
+    
+    @PutMapping("/inactivar/id/cedula/codigo")
+    @ResponseBody
+    @PreAuthorize("hasRole('GERENTE') or hasRole('GESTOR')")
+    public ResponseEntity<?> inactivate(@RequestBody EmpleadosDTO empleadoInactivar, @PathVariable("id") Long id, @PathVariable("cedula") String cedula, @PathVariable("codigo") String codigo){
+        try{
+            Optional<ParametrosSistemaDTO> parametro = paramService.findByCodigoIdentificador(cedula);         
+            if(parametro.isPresent()){
+                if(parametro.get().getValor().equals(codigo)){
+                    empleadoInactivar.setEstado(false);
+                    Optional<EmpleadosDTO> empleadoUpdated = empleadoService.update(empleadoInactivar, id);
+                    if(empleadoUpdated.isPresent()){
+                        return new ResponseEntity<>(empleadoUpdated, HttpStatus.OK);
+                    }
+                    return new ResponseEntity<>("No se encontro el empleado a inativar", HttpStatus.NOT_FOUND);
+                }
+                return new ResponseEntity<>("Los valores del parametro necesario no coinciden", HttpStatus.NOT_ACCEPTABLE);
+            }
+            return new ResponseEntity<>("No se encontro el parametro de sistema correspondiente", HttpStatus.NOT_FOUND);
+        }catch(Exception e){
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     
     @GetMapping("cedula/{cedula}")
     @ApiOperation(value = "Obtiene una lista de los empleados por cedula", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")

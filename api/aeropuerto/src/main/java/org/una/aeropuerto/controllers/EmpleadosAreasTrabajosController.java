@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.EmpleadosAreasTrabajosDTO;
+import org.una.aeropuerto.dto.ParametrosSistemaDTO;
 import org.una.aeropuerto.services.IEmpleadosAreasTrabajosService;
+import org.una.aeropuerto.services.IParametrosSistemaService;
 
 /**
  *
@@ -36,6 +38,9 @@ public class EmpleadosAreasTrabajosController {
 
     @Autowired
     private IEmpleadosAreasTrabajosService empleadoService;
+    
+    @Autowired
+    private IParametrosSistemaService paramService;
 
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los empleados areas trabajos", response = EmpleadosAreasTrabajosDTO.class, responseContainer = "List", tags = "Empleados_Areas_Trabajos")
@@ -76,15 +81,38 @@ public class EmpleadosAreasTrabajosController {
     @PutMapping("/editar/{id}")
     @ResponseBody
     @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosAreasTrabajosDTO depModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody EmpleadosAreasTrabajosDTO empleadoAreaModified) {
         try {
-            Optional<EmpleadosAreasTrabajosDTO> depUpdated = empleadoService.update(depModified, id);
-            if (depUpdated.isPresent()) {
-                return new ResponseEntity<>(depUpdated.get(), HttpStatus.OK);
+            Optional<EmpleadosAreasTrabajosDTO> empleadoAreaUpdated = empleadoService.update(empleadoAreaModified, id);
+            if (empleadoAreaUpdated.isPresent()) {
+                return new ResponseEntity<>(empleadoAreaUpdated.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PutMapping("/inactivar/id/cedula/codigo")
+    @ResponseBody
+    @PreAuthorize("hasRole('GERENTE') or hasRole('GESTOR')")
+    public ResponseEntity<?> inactivate(@RequestBody EmpleadosAreasTrabajosDTO empleadoAreaInactivar, @PathVariable("id") Long id, @PathVariable("cedula") String cedula, @PathVariable("codigo") String codigo){
+        try{
+            Optional<ParametrosSistemaDTO> parametro = paramService.findByCodigoIdentificador(cedula);
+            if(parametro.isPresent()){
+                if(parametro.get().getValor().equals(codigo)){
+                    empleadoAreaInactivar.setEstado(false);
+                    Optional<EmpleadosAreasTrabajosDTO> empleadoAreaUpdated = empleadoService.update(empleadoAreaInactivar, id);
+                    if(empleadoAreaUpdated.isPresent()){
+                        return new ResponseEntity<>(empleadoAreaUpdated, HttpStatus.OK);
+                    }
+                    return new ResponseEntity<>("No se encontro la area de trabajo del empleado a inativar", HttpStatus.NOT_FOUND);
+                }
+                return new ResponseEntity<>("Los valores del parametro necesario no coinciden", HttpStatus.NOT_ACCEPTABLE);
+            }
+            return new ResponseEntity<>("No se encontro el parametro de sistema correspondiente", HttpStatus.NOT_FOUND);
+        }catch(Exception e){
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
