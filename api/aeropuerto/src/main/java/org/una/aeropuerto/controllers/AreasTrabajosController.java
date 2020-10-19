@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.AreasTrabajosDTO;
+import org.una.aeropuerto.dto.ParametrosSistemaDTO;
 import org.una.aeropuerto.services.IAreasTrabajosService;
+import org.una.aeropuerto.services.IParametrosSistemaService;
 
 /**
  *
@@ -36,6 +38,9 @@ public class AreasTrabajosController {
 
     @Autowired
     private IAreasTrabajosService areaService;
+    
+    @Autowired
+    private IParametrosSistemaService paramService;
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
@@ -54,15 +59,40 @@ public class AreasTrabajosController {
     @PutMapping("/editar/{id}")
     @ResponseBody
     @PreAuthorize("hasRole('GESTOR')")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody AreasTrabajosDTO depModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody AreasTrabajosDTO areaModified) {
         try {
-            Optional<AreasTrabajosDTO> depUpdated = areaService.update(depModified, id);
-            if (depUpdated.isPresent()) {
-                return new ResponseEntity<>(depUpdated, HttpStatus.OK);
+            if(!areaModified.isEstado())
+                return new ResponseEntity<>("No puede modificar inactivar este registro desde aquí", HttpStatus.NOT_ACCEPTABLE);
+            Optional<AreasTrabajosDTO> areaUpdated = areaService.update(areaModified, id);
+            if (areaUpdated.isPresent()) {
+                return new ResponseEntity<>(areaUpdated, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PutMapping("/inactivar/id/cedula/codigo")
+    @ResponseBody
+    @PreAuthorize("hasRole('GERENTE') or hasRole('GESTOR')")
+    public ResponseEntity<?> inactivate(@RequestBody AreasTrabajosDTO areaInactivar, @PathVariable("id") Long id, @PathVariable("cedula") String cedula, @PathVariable("codigo") String codigo){
+        try{
+            Optional<ParametrosSistemaDTO> parametro = paramService.findByCodigoIdentificador(cedula);
+            if(parametro.isPresent()){
+                if(parametro.get().getValor().equals(codigo)){
+                    areaInactivar.setEstado(false);
+                    Optional<AreasTrabajosDTO> areaUpdated = areaService.update(areaInactivar, id);
+                    if(areaUpdated.isPresent()){
+                        return new ResponseEntity<>(areaUpdated, HttpStatus.OK);
+                    }
+                    return new ResponseEntity<>("No se encontro el area a inativar", HttpStatus.NOT_FOUND);
+                }
+                return new ResponseEntity<>("Los valores del parametro necesario no coinciden", HttpStatus.NOT_ACCEPTABLE);
+            }
+            return new ResponseEntity<>("No se encontro el parametro de sistema correspondiente", HttpStatus.NOT_FOUND);
+        }catch(Exception e){
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
