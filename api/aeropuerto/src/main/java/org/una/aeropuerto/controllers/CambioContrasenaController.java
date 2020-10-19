@@ -43,6 +43,7 @@ public class CambioContrasenaController {
         try{
             Optional<EmpleadosDTO> empleado = empService.findByCedulaDTO(cedula);
             if(empleado.isPresent()){
+                empleado.get().setSolicitud(Boolean.TRUE);
                 empService.update(empleado.get(), empleado.get().getId());
                 InetAddress ip = InetAddress.getLocalHost();
                 Mailer.sendCorreoSolicitud("http://"+ip.getHostAddress()+":8989/changePassword/temporalPassword/"+empleado.get().getCedula(), empleado.get().getCorreo());
@@ -63,7 +64,7 @@ public class CambioContrasenaController {
                 if(dto.getSolicitud()){
                     String temp = generateTemporalPassword();
                     dto.setPasswordTemporal(Boolean.TRUE);
-                    dto.setSolicitud(Boolean.TRUE);
+                    dto.setSolicitud(Boolean.FALSE);
                     dto.setContrasenaEncriptada(temp);
                     System.out.println(dto.getId());
                     empService.update(dto, dto.getId());
