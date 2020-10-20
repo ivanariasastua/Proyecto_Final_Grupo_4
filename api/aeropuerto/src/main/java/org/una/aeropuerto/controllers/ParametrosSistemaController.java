@@ -49,11 +49,11 @@ public class ParametrosSistemaController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/save/{value}")
+    @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea un nuevo parametro", response = ParametrosSistemaDTO.class, tags = "Parametros_Sistema")
     @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE')")
-    public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody ParametrosSistemaDTO parametros) {
+    public ResponseEntity<?> create(@RequestBody ParametrosSistemaDTO parametros) {
         try {
             return new ResponseEntity<>(parametrosService.create(parametros), HttpStatus.CREATED);
         } catch (Exception e) {
