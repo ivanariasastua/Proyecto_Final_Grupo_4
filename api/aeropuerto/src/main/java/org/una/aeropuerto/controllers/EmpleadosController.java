@@ -81,7 +81,7 @@ public class EmpleadosController {
         }
     }    
     
-    @PutMapping("/inactivar/id/cedula/codigo")
+    @PutMapping("/inactivar/{id}/{cedula}/{codigo}")
     @ResponseBody
     @PreAuthorize("hasRole('GERENTE') or hasRole('GESTOR')")
     public ResponseEntity<?> inactivate(@RequestBody EmpleadosDTO empleadoInactivar, @PathVariable("id") Long id, @PathVariable("cedula") String cedula, @PathVariable("codigo") String codigo){
