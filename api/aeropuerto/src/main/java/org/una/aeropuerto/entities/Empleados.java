@@ -5,8 +5,6 @@
  */
 package org.una.aeropuerto.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sun.mail.handlers.text_html;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
