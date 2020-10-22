@@ -125,13 +125,26 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
     }
 
     @Override
-    public Optional<List<EmpleadosDTO>> findNoAprobados() {
-        return ServiceConvertionHelper.findList(empleadoRepository.findByAprobadoFalseAndEstadoTrue(), EmpleadosDTO.class);
+    @Transactional(readOnly = true)
+    public Optional<List<EmpleadosDTO>> findNoAprobadosbyRol(Long rol) {
+        return ServiceConvertionHelper.findList(empleadoRepository.findByAprobadoFalseAndEstadoTrueAndRol(rol), EmpleadosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<EmpleadosDTO> findByCedulaDTO(String cedula) {
         return Optional.ofNullable(ServiceConvertionHelper.OneToDto(findByCedula(cedula), EmpleadosDTO.class));
+    }
+
+    @Override
+    @Transactional
+    public Optional<EmpleadosDTO> aprobarEmpleado(Long id) {
+        if (empleadoRepository.findById(id).isPresent()) {
+            Empleados empleado = empleadoRepository.findById(id).get();
+            empleado.setAprobado(Boolean.TRUE);
+            empleadoRepository.save(empleado);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(empleado, EmpleadosDTO.class));
+        }
+        return null;
     }
 }

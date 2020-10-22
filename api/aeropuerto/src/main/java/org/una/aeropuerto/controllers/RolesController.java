@@ -38,7 +38,6 @@ public class RolesController {
 
     @GetMapping("/get")
     @ApiOperation(value = "Obtiene una lista de todos los roles", response = RolesDTO.class, responseContainer = "List", tags = "Roles")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {

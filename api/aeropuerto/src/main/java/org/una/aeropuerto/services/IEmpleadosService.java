@@ -36,5 +36,7 @@ public interface IEmpleadosService {
 
     public Optional<EmpleadosDTO> inactivate(Long id);
     
-    public Optional<List<EmpleadosDTO>> findNoAprobados();
+    public Optional<List<EmpleadosDTO>> findNoAprobadosbyRol(Long rol);
+    
+    public Optional<EmpleadosDTO> aprobarEmpleado(Long id);
 }

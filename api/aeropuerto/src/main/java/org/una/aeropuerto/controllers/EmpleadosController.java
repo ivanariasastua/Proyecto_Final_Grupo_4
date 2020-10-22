@@ -148,14 +148,25 @@ public class EmpleadosController {
         }
     }
     
-    @GetMapping("/getNoAprobados")
+    @GetMapping("getNoAprobados/{rol}")
     @ApiOperation(value = "Obtiene una lista de los empleados cuyo rol aun no se ha aprobado", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public ResponseEntity<?> getNoAprobados(){
+    public ResponseEntity<?> getNoAprobadosbyRol(@PathVariable("rol") Long rol){
         try{
-            return new ResponseEntity<>(empleadoService.findNoAprobados(), HttpStatus.OK);
+            return new ResponseEntity<>(empleadoService.findNoAprobadosbyRol(rol), HttpStatus.OK);
         }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }    
+    }
+    
+    @GetMapping("aprobar/{id}")
+    @ApiOperation(value = "Se aprueba al empleado elegido", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<?> aprobarEmpleado(@PathVariable("id") Long id){
+        try{
+            return new ResponseEntity<>(empleadoService.aprobarEmpleado(id), HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
