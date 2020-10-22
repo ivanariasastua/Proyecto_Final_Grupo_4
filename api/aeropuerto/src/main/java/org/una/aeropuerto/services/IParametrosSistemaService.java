@@ -26,7 +26,7 @@ public interface IParametrosSistemaService {
     
     public Optional<ParametrosSistemaDTO> findByCodigoIdentificador(String codigo);
     
-    public Optional<List<ParametrosSistemaDTO>> findByFechaRegistro(Date fecha1, Date fecha2);
+    public Optional<List<ParametrosSistemaDTO>> findByFechaRegistro(String fecha1, String fecha2);
     
-    public Optional<List<ParametrosSistemaDTO>> findByFechaModificacion(Date fecha1, Date fech2);
+    public Optional<List<ParametrosSistemaDTO>> findByFechaModificacion(Date fecha1, Date fecha2);
 }

@@ -100,10 +100,10 @@ public class ParametrosSistemaController {
         }
     }
     
-    @GetMapping("/fechaRegisto/{fecha1}/fecha2")
+    @GetMapping("/fechaRegisto/{fecha1}/{fecha2}")
     @ApiOperation(value = "Obtiene una lista de los parametros por medio de un intervalo de fechas", response = ParametrosSistemaDTO.class, responseContainer = "List", tags = "Parametros_Sistema")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public ResponseEntity<?> findByFechaRegristro(@PathVariable(value = "fecha1") Date fecha1, @PathVariable("fecha2") Date fecha2) {
+    public ResponseEntity<?> findByFechaRegistro(@PathVariable(value = "fecha1") String fecha1, @PathVariable("fecha2") String fecha2) {
         try {
             return new ResponseEntity<>(parametrosService.findByFechaRegistro(fecha1, fecha2), HttpStatus.OK);
         } catch (Exception e) {

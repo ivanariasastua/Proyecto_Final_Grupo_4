@@ -5,6 +5,8 @@
  */
 package org.una.aeropuerto.services;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -58,13 +60,17 @@ public class ParametrosSistemaServiceImplementation implements IParametrosSistem
     }
 
     @Override
-    public Optional<List<ParametrosSistemaDTO>> findByFechaRegistro(Date fecha1, Date fecha2) {
-        return ServiceConvertionHelper.findList(parametrosRepository.findByFechaRegistroBetween(fecha1, fecha2), ParametrosSistemaDTO.class);
+    public Optional<List<ParametrosSistemaDTO>> findByFechaRegistro(String fecha1, String fecha2) {
+        LocalDate lDate1 = LocalDate.parse(fecha1);
+        LocalDate lDate2 = LocalDate.parse(fecha2);
+        Date date1 = Date.from(lDate1.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Date date2 = Date.from(lDate2.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        return ServiceConvertionHelper.findList(parametrosRepository.findByFechaRegistroBetween(date1, date2), ParametrosSistemaDTO.class);
     }
 
     @Override
-    public Optional<List<ParametrosSistemaDTO>> findByFechaModificacion(Date fecha1, Date fech2) {
-        return ServiceConvertionHelper.findList(parametrosRepository.findByFechaModificacionBetween(fecha1, fech2), ParametrosSistemaDTO.class);
+    public Optional<List<ParametrosSistemaDTO>> findByFechaModificacion(Date fecha1, Date fecha2) {
+        return ServiceConvertionHelper.findList(parametrosRepository.findByFechaModificacionBetween(fecha1, fecha2), ParametrosSistemaDTO.class);
     }
 
     @Override
