@@ -40,11 +40,21 @@ public class IncidentesRegistradosController {
 
     @Autowired
     private IIncidentesRegistradosService incidenteService;
-    
+
     @Autowired
     private IParametrosSistemaService paramService;
 
     final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su solicitud con el formato esperado";
+
+    @GetMapping("/get/{id}")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
+    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
+        try {
+            return new ResponseEntity<>(incidenteService.findById(id), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/save")
@@ -137,18 +147,18 @@ public class IncidentesRegistradosController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @PutMapping("/inactivar/{id}/{cedula}/{codigo}")
     @ResponseBody
     @PreAuthorize("hasRole('GERENTE') or hasRole('GESTOR')")
-    public ResponseEntity<?> inactivate(@RequestBody IncidentesRegistradosDTO incidenteInactivar, @PathVariable("id") Long id, @PathVariable("cedula") String cedula, @PathVariable("codigo") String codigo){
-        try{
+    public ResponseEntity<?> inactivate(@RequestBody IncidentesRegistradosDTO incidenteInactivar, @PathVariable("id") Long id, @PathVariable("cedula") String cedula, @PathVariable("codigo") String codigo) {
+        try {
             Optional<ParametrosSistemaDTO> parametro = paramService.findByCodigoIdentificador(cedula);
-            if(parametro.isPresent()){
-                if(parametro.get().getValor().equals(codigo)){
+            if (parametro.isPresent()) {
+                if (parametro.get().getValor().equals(codigo)) {
                     incidenteInactivar.setEstado(false);
                     Optional<IncidentesRegistradosDTO> incidenteUpdated = incidenteService.update(incidenteInactivar, id);
-                    if(incidenteUpdated.isPresent()){
+                    if (incidenteUpdated.isPresent()) {
                         return new ResponseEntity<>(incidenteUpdated, HttpStatus.OK);
                     }
                     return new ResponseEntity<>("No se encontro el incidente a inativar", HttpStatus.NOT_FOUND);
@@ -156,7 +166,7 @@ public class IncidentesRegistradosController {
                 return new ResponseEntity<>("Los valores del parametro necesario no coinciden", HttpStatus.NOT_ACCEPTABLE);
             }
             return new ResponseEntity<>("No se encontro el parametro de sistema correspondiente", HttpStatus.NOT_FOUND);
-        }catch(Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

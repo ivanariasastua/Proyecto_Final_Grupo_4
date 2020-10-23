@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,9 @@ public class IncidentesRegistradosDTO {
     private String descripcion;
     private IncidentesCategoriasDTO categoria;
     public Boolean estado;
+   // @JsonBackReference
     private EmpleadosDTO emisor;
+   // @JsonBackReference
     private EmpleadosDTO responsable;
     private AreasTrabajosDTO areaTrabajo;
     @JsonManagedReference
