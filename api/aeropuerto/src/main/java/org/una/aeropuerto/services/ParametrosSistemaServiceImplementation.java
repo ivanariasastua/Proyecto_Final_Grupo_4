@@ -49,7 +49,7 @@ public class ParametrosSistemaServiceImplementation implements IParametrosSistem
         if (parametrosRepository.findById(id).isPresent()) {
             ParametrosSistema param = MapperUtils.EntityFromDto(parametrosSistema, ParametrosSistema.class);
             param = parametrosRepository.save(param);
-            return ServiceConvertionHelper.oneToOptionalDto(param, ParametrosSistemaDTO.class);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(param, ParametrosSistemaDTO.class));
         }
         return null;
     }
