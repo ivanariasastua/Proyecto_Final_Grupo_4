@@ -32,8 +32,7 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-
-        if (empleadosService.findByCedula(cedula) == null) {
+        if (empleadosService.findByCedula(cedula).isEmpty()) {
             
             crearRoles();
             
@@ -62,7 +61,7 @@ public class DataLoader implements ApplicationRunner {
         for(Roles rol : Roles.values()){
             RolesDTO rolDto = new RolesDTO();
             rolDto.setNombre(rol.getNombre());
-            if(rolesService.findByNombre(rol.getNombre()) == null){
+            if(rolesService.findByNombre(rol.getNombre()).get().isEmpty()){
                 rolesService.create(rolDto);
                 System.out.println("Rol creado");
             }else{
