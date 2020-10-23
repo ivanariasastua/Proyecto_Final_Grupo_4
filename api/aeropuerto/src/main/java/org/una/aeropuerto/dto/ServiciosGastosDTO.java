@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.Date;
 import javax.json.bind.annotation.JsonbDateFormat;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ import lombok.ToString;
 public class ServiciosGastosDTO {
 
     private Long id;
+   // @JsonBackReference
     private ServiciosDTO servicio;
     private String empresa;
     @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")

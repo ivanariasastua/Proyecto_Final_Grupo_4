@@ -19,8 +19,8 @@ public interface IIncidentesRegistradosRepository extends JpaRepository<Incident
     public List<IncidentesRegistrados> findByCategoria(@Param("categoria")String categoria);
     
     @Query("Select i from IncidentesRegistrados i "+
-            "join i.emisor eat on i.id = eat.id "+
-            "where UPPER(eat.nombre) like CONCAT('%', UPPER(:emisor), '%')")
+         /*   "join i.emisor eat on i.id = eat.id "+*/
+            "where UPPER(i.emisor.nombre) like CONCAT('%', UPPER(:emisor), '%')")
     public List<IncidentesRegistrados> findByEmisor(@Param("emisor")String emisor);
     
     @Query("Select i from IncidentesRegistrados i "+
@@ -29,7 +29,7 @@ public interface IIncidentesRegistradosRepository extends JpaRepository<Incident
     public List<IncidentesRegistrados> findByAreas(@Param("area")String area);
 
     @Query("Select i from IncidentesRegistrados i "+
-            "join i.responsable eat on i.id = eat.id "+
-            "where UPPER(eat.nombre) like CONCAT('%', UPPER(:responsable), '%')")
+     /*       "join i.responsable eat on i.id = eat.id "+*/
+            "where UPPER(i.responsable.nombre) like CONCAT('%', UPPER(:responsable), '%')")
     public List<IncidentesRegistrados> findByResponsable(@Param("responsable")String responsable);
 }

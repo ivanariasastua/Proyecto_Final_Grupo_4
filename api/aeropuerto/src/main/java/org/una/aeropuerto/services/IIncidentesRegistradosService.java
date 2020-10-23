@@ -14,6 +14,8 @@ import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
  * @author cordo
  */
 public interface IIncidentesRegistradosService {
+    
+    public IncidentesRegistradosDTO findById(Long id);
 
     public IncidentesRegistradosDTO create(IncidentesRegistradosDTO incidentesRegistrados);
 

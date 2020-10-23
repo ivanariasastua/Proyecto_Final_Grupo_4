@@ -18,8 +18,8 @@ import org.una.aeropuerto.entities.ServiciosGastos;
 public interface IServiciosGastosRepository extends JpaRepository<ServiciosGastos, Long>{
     
     @Query("Select sg from ServiciosGastos sg "+
-            "join sg.servicio s on sg.id = s.id "+
-            "where UPPER(s.nombre) like CONCAT('%', UPPER(:servicio), '%')")
+         /*   "join sg.servicio s on sg.id = s.id "+*/
+            "where UPPER(sg.servicio.nombre) like CONCAT('%', UPPER(:servicio), '%')")
     public List<ServiciosGastos> findByServicio(@Param("servicio")String servicio);
     
     @Query("select sg from ServiciosGastos sg where UPPER(sg.empresa) like CONCAT('%', UPPER(:empresa), '%')")
