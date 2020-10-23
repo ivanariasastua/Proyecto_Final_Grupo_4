@@ -32,7 +32,7 @@ public class ParametrosSistemaServiceImplementation implements IParametrosSistem
     @Override
     @Transactional(readOnly = true)
     public Optional<ParametrosSistemaDTO> findById(Long id) {
-        return ServiceConvertionHelper.oneToOptionalDto(parametrosRepository.findById(id), ParametrosSistemaDTO.class);
+        return ServiceConvertionHelper.OptionalOneToOptionalDto(parametrosRepository.findById(id), ParametrosSistemaDTO.class);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ParametrosSistemaServiceImplementation implements IParametrosSistem
         if (parametrosRepository.findById(id).isPresent()) {
             ParametrosSistema param = MapperUtils.EntityFromDto(parametrosSistema, ParametrosSistema.class);
             param = parametrosRepository.save(param);
-            return Optional.ofNullable(MapperUtils.DtoFromEntity(param, ParametrosSistemaDTO.class));
+            return ServiceConvertionHelper.oneToOptionalDto(param, ParametrosSistemaDTO.class);
         }
         return null;
     }
