@@ -56,13 +56,13 @@ public class EmpleadosMarcajes implements Serializable{
     
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaRegistros;
+    private Date fechaRegistro;
     
     @Column(name = "horas_laboradas")
     private Integer horasLaboradas;
     
     @PrePersist
     public void PrePersist(){
-        fechaRegistros = new Date();
+        fechaRegistro = new Date();
     }
 }
