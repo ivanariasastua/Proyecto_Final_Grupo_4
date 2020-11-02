@@ -12,6 +12,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class ReportesController {
     @Autowired 
     private IReportesService service;
     
-    @GetMapping("reporteGastos/{fecha}/{empresa}/{servicio}/{estPago}/{estGasto}/{responsable}")
+    @GetMapping("reporteGastos1/{fecha}/{empresa}/{servicio}/{estPago}/{estGasto}/{responsable}")
     public ResponseEntity<?> reporteGastosFechaAntesDe(@PathVariable("fecha")Date fecha, @PathVariable("empresa")String empresa, 
     @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("estGasto")boolean estGasto, @PathVariable("responsable")String responsable){
         try{
@@ -46,18 +47,19 @@ public class ReportesController {
                 if(lista == null || lista.isEmpty()){
                     return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
                 }else{
-                    JasperViewer viewer = ReportBuilder.reporteGastos(lista);
-                    String temp = Base64.getEncoder().encodeToString(viewer.toString().getBytes());
+                    JasperPrint jprint = ReportBuilder.reporteGastos(lista);
                     ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
                     ObjectOutputStream bytes = new ObjectOutputStream(byteArray);
-                    bytes.writeObject(viewer);
+                    bytes.writeObject(jprint);
                     bytes.flush();
+                    String temp = Base64.getEncoder().encodeToString(byteArray.toByteArray());
                     return new ResponseEntity<>(temp, HttpStatus.OK);
                 }
             }else{
-                return new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }catch(Exception ex){
+            System.out.println("reporte: "+ex);
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
