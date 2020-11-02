@@ -2,6 +2,8 @@
 <!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_gastos" pageWidth="1080" pageHeight="595" orientation="Landscape" columnWidth="1060" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" uuid="d187652a-c3bd-4094-b991-e2095efc6f32">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="costo" class="java.lang.String"/>
+	<parameter name="gastos" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -27,7 +29,8 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="25" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Reporte de Gastos en mantenimiento]]></text>
+				<text><![CDATA[Reporte de Gastos en mantenimiento
+]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="60" width="1060" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="1682fce6-8d66-4b7e-8c94-3a66c95db709"/>
@@ -210,72 +213,84 @@
 				<reportElement x="0" y="0" width="50" height="30" uuid="fb65092c-bacc-4742-a238-31a0f39d0a7c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7dfdc799-7ff2-41de-b5d3-85b4d2628eb4"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="50" y="0" width="100" height="30" uuid="271335cd-2048-4757-89d7-354ca8920d56">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="df9191e3-c74f-4cc6-9c94-ac497870c484"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{servicio}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="150" y="0" width="100" height="30" uuid="0e1636ae-8400-4896-80dd-8dd15b9e23e6">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c5b54ad0-57fb-4b9f-bba8-a8c31e96b6ba"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{costo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="250" y="0" width="100" height="30" uuid="85cd77dd-3a49-46ea-b758-cac514c789aa">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d4eec9e7-17ce-4745-a3cc-d6426aa3cd49"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{empresa}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="350" y="0" width="100" height="30" uuid="34c2f8b1-9840-4c6b-8b71-5e3752b9649c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c533904e-5103-42a6-a15d-63275ab1d571"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fechaRegistro}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="450" y="0" width="60" height="30" uuid="0351c8c2-d3cb-4045-9522-6d4a56c10d4b">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8550f662-7483-470e-8d94-de2d434b5c2d"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{estadoPago}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="510" y="0" width="50" height="30" uuid="9157b627-8bca-499e-a0c6-30be08b709cc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1d606bda-f9ac-48a7-8c2c-bbb4ab9bdd1d"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{estadoGasto}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="560" y="0" width="100" height="30" uuid="80aa0394-b742-4860-a5fc-2b046fa1d049">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="108df99a-b9bc-4149-bad1-a862dc9e8924"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{numeroContrato}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="660" y="0" width="100" height="30" uuid="be649f64-46c5-4c2d-b77a-38789a0b0e5e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="106584ea-e14a-4477-b502-d0fabd6ca439"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{perioricidad}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="760" y="0" width="100" height="30" uuid="0d728bfa-8704-4847-aacb-d8b72b061126">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4c0a4a6-26eb-42e7-b7da-fa5e840d8666"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{duracion}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="860" y="0" width="100" height="30" uuid="38b6018d-3086-4f90-85bd-f5783fd741f1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="27cfb5c4-48d7-4699-b670-9f70649f5055"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{responsable}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="960" y="0" width="100" height="30" uuid="1d5d7d20-28a0-4496-9c20-0a2fcba35efe">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f7bc718-950b-4467-8a83-65b997e232b8"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -295,6 +310,31 @@
 		<band height="54" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="55" splitType="Stretch">
+			<staticText>
+				<reportElement x="520" y="1" width="170" height="53" uuid="3aa9bf65-4230-4d03-b2e8-0a79325157e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Costo total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="690" y="0" width="370" height="55" uuid="dd89a632-9724-4c9d-aded-18b5a60d1a60"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{costo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="160" height="51" uuid="a1b02230-1db8-4a83-a1b8-99b0d06661a2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de gastos:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="2" width="170" height="51" uuid="f7937c90-9c32-4e55-b51a-4f7d6748581e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{gastos}]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>
