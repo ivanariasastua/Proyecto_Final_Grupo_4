@@ -56,7 +56,7 @@ public class IncidentesCategorias implements Serializable{
     private IncidentesCategorias categoriaSuperior;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria") 
-    private List<IncidentesRegistrados> incidentesRegistrados = new ArrayList<>();
+    private List<IncidentesRegistrados> incidentesRegistrados;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaSuperior")
     private List<IncidentesCategorias> subCategorias;

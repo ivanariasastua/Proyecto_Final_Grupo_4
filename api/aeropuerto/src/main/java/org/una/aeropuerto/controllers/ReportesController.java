@@ -13,10 +13,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,7 +78,7 @@ public class ReportesController {
         }
     }
     
-    @GetMapping("reporteGastos1/{fecha}/{fecha2}/{empresa}/{servicio}/{estPago}/{responsable}")
+    @GetMapping("reporteGastos3/{fecha}/{fecha2}/{empresa}/{servicio}/{estPago}/{responsable}")
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
     @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("responsable")String responsable){
         try{
@@ -101,7 +98,7 @@ public class ReportesController {
         }
     }
     
-    @GetMapping("reporteGastos1/{fecha}/{fecha2}/{empresa}/{servicio}/{estGasto}/{responsable}")
+    @GetMapping("reporteGastos4/{fecha}/{fecha2}/{empresa}/{servicio}/{estGasto}/{responsable}")
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
     @PathVariable("servicio")String servicio, @PathVariable("responsable")String responsable, @PathVariable("estGasto")boolean estGasto){
         try{
