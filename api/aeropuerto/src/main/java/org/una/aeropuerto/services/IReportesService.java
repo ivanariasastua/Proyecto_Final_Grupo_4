@@ -19,13 +19,13 @@ import org.una.aeropuerto.dto.TransaccionesDTO;
  */
 public interface IReportesService {
     
-    public Optional<List<ServiciosGastosDTO>> serviciosGastosIncidentesAntesDe(String empresa, Date fecha, String servicio, boolean estadoPago, boolean estadoGasto, String responsable);
+    public Optional<List<ServiciosGastosDTO>> serviciosGastos(String empresa, Date fecha, Date fecha2, String servicio, boolean estadoPago, boolean estadoGasto, String responsable);
+        
+    public Optional<List<ServiciosGastosDTO>> serviciosGastos(String empresa, Date fecha, Date fecha2, String servicio, boolean estadoPago, String responsable);
     
-    public Optional<List<ServiciosGastosDTO>> serviciosGastosIncidentesDespuesDe(String empresa, Date fecha, String servicio, boolean estadoPago, boolean estadoGasto, String responsable);
+    public Optional<List<ServiciosGastosDTO>> serviciosGastos(String empresa, Date fecha, Date fecha2, String servicio, String responsable, boolean estadoGasto);
     
-    public Optional<List<ServiciosGastosDTO>> serviciosGastosIncidentesAntesDe(String empresa, Date fecha, String servicio, String responsable);
-    
-    public Optional<List<ServiciosGastosDTO>> serviciosGastosIncidentesDespuesDe(String empresa, Date fecha, String servicio, String responsable);
+    public Optional<List<ServiciosGastosDTO>> serviciosGastos(String empresa, Date fecha, Date fecha2, String servicio, String responsable);
     /*
     public Optional<List<IncidentesRegistradosDTO>> incidentesRegistradosReportes();
 

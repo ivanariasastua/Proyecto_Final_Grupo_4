@@ -25,24 +25,22 @@ public class ReportesServiceImplementation implements IReportesService{
     private IServiciosGastosRepository serviciosGastosRepository;
 
     @Override
-    public Optional<List<ServiciosGastosDTO>> serviciosGastosIncidentesAntesDe(String empresa, Date fecha, String servicio, boolean estadoPago, boolean estadoGasto, String responsable) {
-        return ServiceConvertionHelper.findList(serviciosGastosRepository.findByFechaRegistroAntesServicioEmpresa(fecha, empresa, servicio, estadoPago, estadoGasto, responsable), ServiciosGastosDTO.class);
+    public Optional<List<ServiciosGastosDTO>> serviciosGastos(String empresa, Date fecha, Date fecha2, String servicio, boolean estadoPago, boolean estadoGasto, String responsable) {
+        return ServiceConvertionHelper.findList(serviciosGastosRepository.findByFechaRegistroServicioEmpresaEstados(fecha, fecha2, empresa, servicio, estadoPago, estadoGasto, responsable), ServiciosGastosDTO.class);
     }
 
     @Override
-    public Optional<List<ServiciosGastosDTO>> serviciosGastosIncidentesDespuesDe(String empresa, Date fecha, String servicio, boolean estadoPago, boolean estadoGasto, String responsable) {
-        return ServiceConvertionHelper.findList(serviciosGastosRepository.findByFechaRegistroDespuesServicioEmpresa(fecha, empresa, servicio, estadoPago, estadoGasto, responsable), ServiciosGastosDTO.class);
+    public Optional<List<ServiciosGastosDTO>> serviciosGastos(String empresa, Date fecha, Date fecha2, String servicio, String responsable) {
+        return ServiceConvertionHelper.findList(serviciosGastosRepository.findByFechaRegistroServicioEmpresa(fecha, fecha2, empresa, servicio, responsable), ServiciosGastosDTO.class);
     }
 
     @Override
-    public Optional<List<ServiciosGastosDTO>> serviciosGastosIncidentesAntesDe(String empresa, Date fecha, String servicio, String responsable) {
-        return ServiceConvertionHelper.findList(serviciosGastosRepository.findByFechaRegistroAntesServicioEmpresa(fecha, empresa, servicio, responsable), ServiciosGastosDTO.class);
+    public Optional<List<ServiciosGastosDTO>> serviciosGastos(String empresa, Date fecha, Date fecha2, String servicio, boolean estadoPago, String responsable) {
+        return ServiceConvertionHelper.findList(serviciosGastosRepository.findByFechaRegistroServicioEmpresaEstadoPago(fecha, fecha2, empresa, servicio, estadoPago, responsable), ServiciosGastosDTO.class);
     }
 
     @Override
-    public Optional<List<ServiciosGastosDTO>> serviciosGastosIncidentesDespuesDe(String empresa, Date fecha, String servicio, String responsable) {
-        return ServiceConvertionHelper.findList(serviciosGastosRepository.findByFechaRegistroDespuesServicioEmpresa(fecha, empresa, servicio, responsable), ServiciosGastosDTO.class);
+    public Optional<List<ServiciosGastosDTO>> serviciosGastos(String empresa, Date fecha, Date fecha2, String servicio, String responsable, boolean estadoGasto) {
+        return ServiceConvertionHelper.findList(serviciosGastosRepository.findByFechaRegistroServicioEmpresaEstadoGasto(fecha, fecha2, empresa, servicio, responsable, estadoGasto), ServiciosGastosDTO.class);
     }
-    
-
 }

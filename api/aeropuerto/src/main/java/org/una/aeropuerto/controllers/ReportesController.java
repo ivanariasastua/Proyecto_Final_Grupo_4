@@ -7,11 +7,14 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,23 +40,37 @@ public class ReportesController {
     @Autowired 
     private IReportesService service;
     
-    @GetMapping("reporteGastos1/{fecha}/{empresa}/{servicio}/{estPago}/{estGasto}/{responsable}")
-    public ResponseEntity<?> reporteGastosFechaAntesDe(@PathVariable("fecha")Date fecha, @PathVariable("empresa")String empresa, 
+    @GetMapping("reporteGastos1/{fecha}/{fecha2}/{empresa}/{servicio}/{estPago}/{estGasto}/{responsable}")
+    public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
     @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("estGasto")boolean estGasto, @PathVariable("responsable")String responsable){
         try{
-            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastosIncidentesAntesDe(empresa, fecha, servicio, estPago, estGasto, responsable);
+            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa, fecha, fecha2, servicio, estPago, estGasto, responsable);
             if(optional.isPresent()){
                 List<ServiciosGastosDTO> lista = optional.get();
                 if(lista == null || lista.isEmpty()){
                     return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
                 }else{
-                    JasperPrint jprint = ReportBuilder.reporteGastos(lista);
-                    ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-                    ObjectOutputStream bytes = new ObjectOutputStream(byteArray);
-                    bytes.writeObject(jprint);
-                    bytes.flush();
-                    String temp = Base64.getEncoder().encodeToString(byteArray.toByteArray());
-                    return new ResponseEntity<>(temp, HttpStatus.OK);
+                    return new ResponseEntity<>(convertirReporte(lista), HttpStatus.OK);
+                }
+            }else{
+                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("reporteGastos2/{fecha}/{fecha2}/{empresa}/{servicio}/{responsable}")
+    public ResponseEntity<?> reporteGastosSinEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
+    @PathVariable("servicio")String servicio, @PathVariable("responsable")String responsable){
+        try{
+            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa, fecha, fecha2, servicio, responsable);
+            if(optional.isPresent()){
+                List<ServiciosGastosDTO> lista = optional.get();
+                if(lista == null || lista.isEmpty()){
+                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                }else{
+                    return new ResponseEntity<>(convertirReporte(lista), HttpStatus.OK);
                 }
             }else{
                 return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,5 +79,64 @@ public class ReportesController {
             System.out.println("reporte: "+ex);
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    
+    @GetMapping("reporteGastos1/{fecha}/{fecha2}/{empresa}/{servicio}/{estPago}/{responsable}")
+    public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
+    @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("responsable")String responsable){
+        try{
+            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa, fecha, fecha2, servicio, estPago, responsable);
+            if(optional.isPresent()){
+                List<ServiciosGastosDTO> lista = optional.get();
+                if(lista == null || lista.isEmpty()){
+                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                }else{
+                    return new ResponseEntity<>(convertirReporte(lista), HttpStatus.OK);
+                }
+            }else{
+                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("reporteGastos1/{fecha}/{fecha2}/{empresa}/{servicio}/{estGasto}/{responsable}")
+    public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
+    @PathVariable("servicio")String servicio, @PathVariable("responsable")String responsable, @PathVariable("estGasto")boolean estGasto){
+        try{
+            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa, fecha, fecha2, servicio, responsable, estGasto);
+            if(optional.isPresent()){
+                List<ServiciosGastosDTO> lista = optional.get();
+                if(lista == null || lista.isEmpty()){
+                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                }else{
+                    return new ResponseEntity<>(convertirReporte(lista), HttpStatus.OK);
+                }
+            }else{
+                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    private String convertirReporte(List<ServiciosGastosDTO> lista){
+        ObjectOutputStream bytes = null;
+        try {
+            JasperPrint jprint = ReportBuilder.reporteGastos(lista);
+            ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+            bytes = new ObjectOutputStream(byteArray);
+            bytes.writeObject(jprint);
+            bytes.flush();
+            return Base64.getEncoder().encodeToString(byteArray.toByteArray());
+        } catch (IOException ex) {
+            System.out.println("Error generando reporte: ["+ex+"]");
+        } finally {
+            try {
+                bytes.close();
+            } catch (IOException ex) {}
+        }
+        return "";
     }
 }

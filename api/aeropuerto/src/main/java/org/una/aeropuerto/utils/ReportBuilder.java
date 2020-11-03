@@ -46,9 +46,6 @@ public class ReportBuilder {
             JasperReport report = JasperCompileManager.compileReport(file.getAbsolutePath());
             JasperPrint jprint = JasperFillManager.fillReport(report, map, new JRBeanCollectionDataSource(datos));
             return jprint;
-            /*JasperViewer viewer = new JasperViewer(jprint, false);
-            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            return viewer;*/
         } catch (JRException ex) {
             System.out.println("Error al cargar el reporte [ "+ex+" ]");
             return null;
