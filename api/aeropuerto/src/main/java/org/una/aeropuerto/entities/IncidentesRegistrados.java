@@ -7,6 +7,7 @@ package org.una.aeropuerto.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,9 +20,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -64,11 +69,17 @@ public class IncidentesRegistrados implements Serializable{
     @JoinColumn(name="area_trabajo")
     private AreasTrabajos areaTrabajo;
     
+    @Column(name = "fecha_registro", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Setter(AccessLevel.NONE)
+    private Date fechaRegistro;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "incidenteRegistrado") 
     private List<IncidentesRegistradosEstados> incidentesRegistradosEstados = new ArrayList<>();
 
     @PrePersist
     public void PrePersist(){
         this.estado = true;
+        fechaRegistro = new Date();
     }
 }

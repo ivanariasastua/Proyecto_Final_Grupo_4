@@ -81,13 +81,13 @@ public class Empleados implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER ,mappedBy = "empleado")
     private List<EmpleadosHorarios> horarios;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "emisor")
-    private List<IncidentesRegistrados> incidentesEmitidos;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "responsable")
-    private List<IncidentesRegistrados> incidentesResponsable;
-    
+//    
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "emisor")
+//    private List<IncidentesRegistrados> incidentesEmitidos;
+//    
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "responsable")
+//    private List<IncidentesRegistrados> incidentesResponsable;
+//    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "responsable")
     private List<ServiciosGastos> gastosResponsable;
     
