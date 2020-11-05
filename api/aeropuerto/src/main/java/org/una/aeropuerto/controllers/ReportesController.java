@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.ServiciosGastosDTO;
 import org.una.aeropuerto.services.IReportesService;
 import org.una.aeropuerto.utils.ReportBuilder;
+import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
 
 /**
  *
@@ -135,5 +136,31 @@ public class ReportesController {
             } catch (IOException ex) {}
         }
         return "";
+    }
+    
+    @GetMapping("reporteIncidente/{fechaIni}/{estado}/{responsable}/{emisor}")
+    public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
+        try{
+            Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni, estado, responsable,emisor);
+            if(optional.isPresent()){
+                List<IncidentesRegistradosDTO> lista = optional.get();
+                if(lista == null || lista.isEmpty()){
+                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                }else{
+                    JasperPrint jprint = ReportBuilder.reporteIncidente(lista);
+                    ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                    ObjectOutputStream bytes = new ObjectOutputStream(byteArray);
+                    bytes.writeObject(jprint);
+                    bytes.flush();
+                    String temp = Base64.getEncoder().encodeToString(byteArray.toByteArray());
+                    return new ResponseEntity<>(temp, HttpStatus.OK);
+                }
+            }else{
+                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }catch(Exception ex){
+            System.out.println("reporte: "+ex);
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
