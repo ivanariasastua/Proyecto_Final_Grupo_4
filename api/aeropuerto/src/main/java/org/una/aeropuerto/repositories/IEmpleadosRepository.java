@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.repositories;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -37,4 +38,5 @@ public interface IEmpleadosRepository extends JpaRepository<Empleados, Long>{
     @Query("Select e from Empleados e "+
            "Where e.estado = 1 and e.aprobado = 0 and e.rol.id = :rol")
     public List<Empleados> findByAprobadoFalseAndEstadoTrueAndRol(@Param("rol") Long rol);
+    
 }

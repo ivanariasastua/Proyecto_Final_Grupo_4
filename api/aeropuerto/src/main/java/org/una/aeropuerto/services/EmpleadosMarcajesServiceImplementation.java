@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,12 @@ public class EmpleadosMarcajesServiceImplementation implements IEmpleadosMarcaje
     @Override
     public Optional<EmpleadosMarcajesDTO> findLastByHorarioId(Long id) {
         return ServiceConvertionHelper.OptionalOneToOptionalDto(empleadoRepository.findUltimoMarcaje(id), EmpleadosMarcajesDTO.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<EmpleadosMarcajesDTO>> findByEmpleadoCedulaAndFechas(String cedula, Date fecha1, Date fecha2) {
+        return ServiceConvertionHelper.findList(empleadoRepository.findByEmpleadoCedulaAndFechas(cedula, fecha1, fecha2), EmpleadosMarcajesDTO.class);
     }
     
 }

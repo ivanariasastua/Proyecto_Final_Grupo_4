@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.dto.EmpleadosMarcajesDTO;
@@ -23,4 +24,6 @@ public interface IEmpleadosMarcajesService {
     public Optional<EmpleadosMarcajesDTO> update(EmpleadosMarcajesDTO empleadosMarcajes, Long id);
 
     public Optional<EmpleadosMarcajesDTO> findLastByHorarioId(Long id);
+    
+    public Optional<List<EmpleadosMarcajesDTO>> findByEmpleadoCedulaAndFechas(String cedula, Date fecha1, Date fecha2);
 }
