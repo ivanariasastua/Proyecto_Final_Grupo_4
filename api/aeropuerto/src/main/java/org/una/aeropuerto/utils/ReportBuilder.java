@@ -10,29 +10,25 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
 import org.springframework.util.ResourceUtils;
 import org.una.aeropuerto.dto.ServiciosGastosDTO;
 import org.una.aeropuerto.AeropuertoApplication;
 import org.una.aeropuerto.dto.EmpleadosMarcajesDTO;
+import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
 
 /**
  *
  * @author Ivan Josué Arias Astua
  */
 public class ReportBuilder {
-    
-    public static JasperPrint reporteGastos(List<ServiciosGastosDTO> lista){
+
+    public static JasperPrint reporteGastos(List<ServiciosGastosDTO> lista) {
         try {
             List<ReporteGastos> datos = new ArrayList<>();
             Float costo = 0F;
@@ -48,10 +44,32 @@ public class ReportBuilder {
             JasperPrint jprint = JasperFillManager.fillReport(report, map, new JRBeanCollectionDataSource(datos));
             return jprint;
         } catch (JRException ex) {
-            System.out.println("Error al cargar el reporte [ "+ex+" ]");
+            System.out.println("Error al cargar el reporte [ " + ex + " ]");
             return null;
         } catch (FileNotFoundException ex) {
-            System.out.println("Error al cargar el reporte [ "+ex+" ]");
+            System.out.println("Error al cargar el reporte [ " + ex + " ]");
+            return null;
+        }
+    }
+
+    public static JasperPrint reporteIncidente(List<IncidentesRegistradosDTO> lista) {
+        try {
+            List<ReporteIncidentes> datos = new ArrayList<>();
+            lista.forEach(x -> {
+                datos.add(new ReporteIncidentes(x));
+            });
+            System.out.println("datos  " + datos);
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("total", String.valueOf(datos.size()));
+            File file = ResourceUtils.getFile("classpath:rep_incidentes.jrxml");
+            JasperReport report = JasperCompileManager.compileReport(file.getAbsolutePath());
+            JasperPrint jprint = JasperFillManager.fillReport(report, map, new JRBeanCollectionDataSource(datos));
+            return jprint;
+        } catch (JRException ex) {
+            System.out.println("Error al cargar el reporte [ " + ex + " ]");
+            return null;
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error al cargar el reporte [ " + ex + " ]");
             return null;
         }
     }

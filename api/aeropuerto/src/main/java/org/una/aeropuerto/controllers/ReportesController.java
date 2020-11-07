@@ -27,6 +27,7 @@ import org.una.aeropuerto.services.IEmpleadosMarcajesService;
 import org.una.aeropuerto.services.IReportesService;
 import org.una.aeropuerto.utils.ReportBuilder;
 import org.una.aeropuerto.utils.ReporteHorarios;
+import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
 
 /**
  *
@@ -47,7 +48,7 @@ public class ReportesController {
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
     @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("estGasto")boolean estGasto, @PathVariable("responsable")String responsable){
         try{
-            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa, fecha, fecha2, servicio, estPago, estGasto, responsable);
+            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : empresa, fecha, fecha2, servicio.equals("null") ? "%" : servicio, estPago, estGasto, responsable.equals("null") ? "%" : responsable);
             if(optional.isPresent()){
                 List<ServiciosGastosDTO> lista = optional.get();
                 if(lista == null || lista.isEmpty()){
@@ -67,7 +68,7 @@ public class ReportesController {
     public ResponseEntity<?> reporteGastosSinEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
     @PathVariable("servicio")String servicio, @PathVariable("responsable")String responsable){
         try{
-            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa, fecha, fecha2, servicio, responsable);
+            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : empresa, fecha, fecha2, servicio.equals("null") ? "%" : servicio, responsable.equals("null") ? "%" : responsable);
             if(optional.isPresent()){
                 List<ServiciosGastosDTO> lista = optional.get();
                 if(lista == null || lista.isEmpty()){
@@ -88,7 +89,7 @@ public class ReportesController {
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
     @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("responsable")String responsable){
         try{
-            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa, fecha, fecha2, servicio, estPago, responsable);
+            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : empresa, fecha, fecha2, servicio.equals("null") ? "%" : servicio, estPago, responsable.equals("null") ? "%" : responsable);
             if(optional.isPresent()){
                 List<ServiciosGastosDTO> lista = optional.get();
                 if(lista == null || lista.isEmpty()){
@@ -108,7 +109,7 @@ public class ReportesController {
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
     @PathVariable("servicio")String servicio, @PathVariable("responsable")String responsable, @PathVariable("estGasto")boolean estGasto){
         try{
-            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa, fecha, fecha2, servicio, responsable, estGasto);
+            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : empresa, fecha, fecha2, servicio.equals("null") ? "%" : servicio, responsable.equals("null") ? "%" : responsable, estGasto);
             if(optional.isPresent()){
                 List<ServiciosGastosDTO> lista = optional.get();
                 if(lista == null || lista.isEmpty()){
@@ -145,24 +146,18 @@ public class ReportesController {
     }
     
     private String convertirReporte(List<ServiciosGastosDTO> lista){
-        ObjectOutputStream bytes = null;
         try {
             JasperPrint jprint = ReportBuilder.reporteGastos(lista);
             ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-            bytes = new ObjectOutputStream(byteArray);
+            ObjectOutputStream bytes = new ObjectOutputStream(byteArray);
             bytes.writeObject(jprint);
             bytes.flush();
             return Base64.getEncoder().encodeToString(byteArray.toByteArray());
         } catch (IOException ex) {
             System.out.println("Error generando reporte: ["+ex+"]");
-        } finally {
-            try {
-                bytes.close();
-            } catch (IOException ex) {}
         }
         return "";
     }
-    
     
     private String convertirReporteHorasLaboradas(List<EmpleadosMarcajesDTO> lista){
         ReporteHorarios horarios = new ReporteHorarios();
@@ -184,4 +179,29 @@ public class ReportesController {
         return "";
     }
     
+    @GetMapping("reporteIncidente/{fechaIni}/{estado}/{responsable}/{emisor}")
+    public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
+        try{
+            Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni, estado, responsable,emisor);
+            if(optional.isPresent()){
+                List<IncidentesRegistradosDTO> lista = optional.get();
+                if(lista == null || lista.isEmpty()){
+                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                }else{
+                    JasperPrint jprint = ReportBuilder.reporteIncidente(lista);
+                    ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                    ObjectOutputStream bytes = new ObjectOutputStream(byteArray);
+                    bytes.writeObject(jprint);
+                    bytes.flush();
+                    String temp = Base64.getEncoder().encodeToString(byteArray.toByteArray());
+                    return new ResponseEntity<>(temp, HttpStatus.OK);
+                }
+            }else{
+                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }catch(Exception ex){
+            System.out.println("reporte: "+ex);
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

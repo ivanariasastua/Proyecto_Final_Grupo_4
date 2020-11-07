@@ -21,4 +21,6 @@ public interface ITransaccionesRepository  extends JpaRepository<Transacciones, 
     
     @Query("Select t from Transacciones t where t.empleado.cedula = :empleado and t.fechaRegistro between :fechaInicio and :fechaFinal")
     public List<Transacciones> findFilter(String empleado, Date fechaInicio, Date fechaFinal);
+    
+    public List<Transacciones> findByFechaRegistroBetween(Date fechaInicio, Date fechaFinal);
 }
