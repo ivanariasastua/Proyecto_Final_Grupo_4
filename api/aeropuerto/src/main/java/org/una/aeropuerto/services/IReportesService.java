@@ -8,7 +8,6 @@ package org.una.aeropuerto.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.una.aeropuerto.dto.EmpleadosHorariosDTO;
 import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
 import org.una.aeropuerto.dto.ServiciosGastosDTO;
 import org.una.aeropuerto.dto.TransaccionesDTO;
@@ -28,8 +27,6 @@ public interface IReportesService {
     public Optional<List<ServiciosGastosDTO>> serviciosGastos(String empresa, Date fecha, Date fecha2, String servicio, String responsable);
     
     public Optional<List<IncidentesRegistradosDTO>> incidentesRegistradosReportes(Date fechaIni,boolean estado, String responsable,String emisor);
-/*
-    public Optional<List<TransaccionesDTO>> transaccionesReportes();
-    
-    public Optional<List<EmpleadosHorariosDTO>> horariosReportes();*/
+
+    public Optional<List<TransaccionesDTO>> transacciones(Date fecha1, Date fecha2);
 }

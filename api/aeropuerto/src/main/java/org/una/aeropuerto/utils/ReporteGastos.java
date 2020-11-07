@@ -31,7 +31,7 @@ public class ReporteGastos {
     public ReporteGastos(ServiciosGastosDTO gasto){
         this.id = gasto.getId();
         this.servicio = gasto.getServicio().getNombre();
-        this.costo = String.valueOf(gasto.getServicio().getServiciosPrecios().stream().max(Comparator.comparing(p -> p.getId())).get().getCosto());
+        this.costo = gasto.getServicio().getServiciosPrecios().isEmpty()? "0.0" : String.valueOf(gasto.getServicio().getServiciosPrecios().stream().max(Comparator.comparing(p -> p.getId())).get().getCosto());
         this.empresa = gasto.getEmpresa();
         this.fechaRegistro = formato.format(gasto.getFechaRegistro());
         this.estadoPago = gasto.isEstadoPago() ? "P" : "NP";
