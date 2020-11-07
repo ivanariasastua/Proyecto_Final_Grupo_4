@@ -66,4 +66,42 @@ public class ReporteHorarios {
         }
         reportes.add(new ReporteHorarios(lista.get(0), String.valueOf(horas)));
     }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getHorasLaboradas() {
+        return horasLaboradas;
+    }
+
+    public String getHoraEntrada() {
+        return horaEntrada;
+    }
+
+    public String getHoraSalida() {
+        return horaSalida;
+    }
+
+    public String getDiaEntrada() {
+        return diaEntrada;
+    }
+
+    public String getDiaSalida() {
+        return diaSalida;
+    }
+
+    public SimpleDateFormat getFormato() {
+        return formato;
+    }
+
+    public List<ReporteHorarios> getReportes() {
+        return reportes;
+    }
+    
+    
 }
