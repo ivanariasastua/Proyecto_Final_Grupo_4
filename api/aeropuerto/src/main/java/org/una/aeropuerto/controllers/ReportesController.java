@@ -133,10 +133,10 @@ public class ReportesController {
         return "";
     }
     
-    @GetMapping("reporteIncidente/{fechaIni}/{estado}/{responsable}/{emisor}")
-    public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
+    @GetMapping("reporteIncidente/{fechaIni}/{fechaFin}/{estado}/{responsable}/{emisor}")
+    public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("fechaFin")Date fechaFin,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
         try{
-            Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni, estado, responsable,emisor);
+            Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni,fechaFin, estado, responsable,emisor);
             if(optional.isPresent()){
                 List<IncidentesRegistradosDTO> lista = optional.get();
                 if(lista == null || lista.isEmpty()){
@@ -154,7 +154,6 @@ public class ReportesController {
                 return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }catch(Exception ex){
-            System.out.println("reporte: "+ex);
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

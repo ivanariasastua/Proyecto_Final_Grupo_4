@@ -55,8 +55,8 @@ public class ReportesServiceImplementation implements IReportesService{
     }
 
     @Override
-    public Optional<List<IncidentesRegistradosDTO>> incidentesRegistradosReportes(Date fechaIni, boolean estado, String responsable, String emisor) {
-        return ServiceConvertionHelper.findList(incidentesRepository.findByFiltro(fechaIni, estado, responsable, emisor), IncidentesRegistradosDTO.class);
+    public Optional<List<IncidentesRegistradosDTO>> incidentesRegistradosReportes(Date fechaIni, Date fechaFin,boolean estado, String responsable, String emisor) {
+        return ServiceConvertionHelper.findList(incidentesRepository.findByFiltro(fechaIni,fechaFin, estado, responsable, emisor), IncidentesRegistradosDTO.class);
     }
 
     @Override

@@ -26,7 +26,7 @@ public interface IReportesService {
     
     public Optional<List<ServiciosGastosDTO>> serviciosGastos(String empresa, Date fecha, Date fecha2, String servicio, String responsable);
     
-    public Optional<List<IncidentesRegistradosDTO>> incidentesRegistradosReportes(Date fechaIni,boolean estado, String responsable,String emisor);
+    public Optional<List<IncidentesRegistradosDTO>> incidentesRegistradosReportes(Date fechaIni,Date fechaFin, boolean estado, String responsable,String emisor);
 
     public Optional<List<TransaccionesDTO>> transacciones(Date fecha1, Date fecha2);
 }

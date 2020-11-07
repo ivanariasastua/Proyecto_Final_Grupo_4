@@ -27,7 +27,7 @@ public class ReporteIncidentes {
     public ReporteIncidentes(IncidentesRegistradosDTO incidente){
         this.id=incidente.getId();
         this.categoria=incidente.getCategoria().getNombre();
-        this.estado=String.valueOf(incidente.estado);
+        this.estado= incidente.estado ? "Activo":"Inactivo";
         this.emisor=incidente.getEmisor().getNombre();
         this.responsable=incidente.getResponsable().getNombre();
         this.areaTrabajo=incidente.getAreaTrabajo().getNombre();

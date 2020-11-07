@@ -56,7 +56,6 @@ public class ReportBuilder {
             lista.forEach(x -> {
                 datos.add(new ReporteIncidentes(x));
             });
-            System.out.println("datos  " + datos);
             HashMap<String, Object> map = new HashMap<>();
             map.put("total", String.valueOf(datos.size()));
             File file = ResourceUtils.getFile("classpath:rep_incidentes.jrxml");
