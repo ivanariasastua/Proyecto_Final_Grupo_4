@@ -21,9 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.una.aeropuerto.dto.EmpleadosMarcajesDTO;
 import org.una.aeropuerto.dto.ServiciosGastosDTO;
+import org.una.aeropuerto.services.IEmpleadosMarcajesService;
 import org.una.aeropuerto.services.IReportesService;
 import org.una.aeropuerto.utils.ReportBuilder;
+import org.una.aeropuerto.utils.ReporteHorarios;
 import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
 
 /**
@@ -37,6 +40,9 @@ public class ReportesController {
     
     @Autowired 
     private IReportesService service;
+    
+    @Autowired
+    private IEmpleadosMarcajesService empMarcajeService;
     
     @GetMapping("reporteGastos1/{fecha}/{fecha2}/{empresa}/{servicio}/{estPago}/{estGasto}/{responsable}")
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
@@ -119,6 +125,26 @@ public class ReportesController {
         }
     }
     
+    @GetMapping("reporteHoras/{cedula}/{fecha1}/{fecha2}")
+    public ResponseEntity<?> reporteHorasLaboradas(@PathVariable("cedula") String cedula, @PathVariable("fecha1") Date fecha1, 
+                                                   @PathVariable("fecha2") Date fecha2){
+        try{
+            Optional<List<EmpleadosMarcajesDTO>> optional = empMarcajeService.findByEmpleadoCedulaAndFechas(cedula, fecha1, fecha2);
+            if(optional.isPresent()){
+                List<EmpleadosMarcajesDTO> lista = optional.get();
+                if(lista == null || lista.isEmpty()){
+                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                }else{
+                    return new ResponseEntity<>(convertirReporteHorasLaboradas(lista), HttpStatus.OK);
+                }
+            }else{
+                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     private String convertirReporte(List<ServiciosGastosDTO> lista){
         try {
             JasperPrint jprint = ReportBuilder.reporteGastos(lista);
@@ -133,8 +159,33 @@ public class ReportesController {
         return "";
     }
     
+
     @GetMapping("reporteIncidente/{fechaIni}/{fechaFin}/{estado}/{responsable}/{emisor}")
     public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("fechaFin")Date fechaFin,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
+
+    private String convertirReporteHorasLaboradas(List<EmpleadosMarcajesDTO> lista){
+        ReporteHorarios horarios = new ReporteHorarios();
+        ObjectOutputStream bytes = null;
+        try {
+            JasperPrint jprint = ReportBuilder.reporteHorasLaboradas(horarios.unirMarcajesMismoHorario(lista));
+            ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+            bytes = new ObjectOutputStream(byteArray);
+            bytes.writeObject(jprint);
+            bytes.flush();
+            return Base64.getEncoder().encodeToString(byteArray.toByteArray());
+        } catch (IOException ex) {
+            System.out.println("Error generando reporte: ["+ex+"]");
+        } finally {
+            try {
+                bytes.close();
+            } catch (IOException ex) {}
+        }
+        return "";
+    }
+    
+    @GetMapping("reporteIncidente/{fechaIni}/{estado}/{responsable}/{emisor}")
+    public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
+
         try{
             Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni,fechaFin, estado, responsable,emisor);
             if(optional.isPresent()){

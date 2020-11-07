@@ -18,6 +18,8 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.util.ResourceUtils;
 import org.una.aeropuerto.dto.ServiciosGastosDTO;
+import org.una.aeropuerto.AeropuertoApplication;
+import org.una.aeropuerto.dto.EmpleadosMarcajesDTO;
 import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
 
 /**
@@ -67,6 +69,23 @@ public class ReportBuilder {
             return null;
         } catch (FileNotFoundException ex) {
             System.out.println("Error al cargar el reporte [ " + ex + " ]");
+            return null;
+        }
+    }
+    
+    public static JasperPrint reporteHorasLaboradas(List<ReporteHorarios> lista) throws FileNotFoundException{
+        try {
+            File file = ResourceUtils.getFile("classpath:rep_horas_laboradas.jrxml");
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("total", "Empleado 1: 74837\nEmpleado 2:4887394\nEmpleado 3: 4894");
+            JasperReport report = JasperCompileManager.compileReport(file.getAbsolutePath());
+            JasperPrint jprint = JasperFillManager.fillReport(report, map, new JRBeanCollectionDataSource(lista));
+            return jprint;
+        } catch (JRException ex) {
+            System.out.println("Error al cargar el reporte [ "+ex+" ]");
+            return null;
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error al cargar el reporte [ "+ex+" ]");
             return null;
         }
     }

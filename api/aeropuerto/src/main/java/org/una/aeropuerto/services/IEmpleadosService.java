@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.dto.EmpleadosDTO;
@@ -39,4 +40,5 @@ public interface IEmpleadosService {
     public Optional<List<EmpleadosDTO>> findNoAprobadosbyRol(Long rol);
     
     public Optional<EmpleadosDTO> aprobarEmpleado(Long id);
+
 }

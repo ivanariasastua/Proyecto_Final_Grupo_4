@@ -6,10 +6,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 
-/**
- *
- * @author Dios
- */
+
 public class MapperUtils {
     private static ModelMapper modelMapper = new ModelMapper();
 

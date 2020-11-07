@@ -7,6 +7,8 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -68,6 +70,16 @@ public class EmpleadosMarcajesController {
         try {
             return new ResponseEntity<>(empleadoService.findLastByHorarioId(id), HttpStatus.OK);
         } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("reporteHoras/{cedula}/{fecha1}/{fecha2}")
+    public ResponseEntity<?> reporteHorasLaboradas(@PathVariable("cedula") String cedula, @PathVariable("fecha1") Date fecha1, 
+                                                   @PathVariable("fecha2") Date fecha2){
+        try{
+            return new ResponseEntity<>(empleadoService.findByEmpleadoCedulaAndFechas(cedula, fecha1, fecha2), HttpStatus.OK);
+        }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
