@@ -158,10 +158,6 @@ public class ReportesController {
         }
         return "";
     }
-    
-
-    @GetMapping("reporteIncidente/{fechaIni}/{fechaFin}/{estado}/{responsable}/{emisor}")
-    public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("fechaFin")Date fechaFin,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
 
     private String convertirReporteHorasLaboradas(List<EmpleadosMarcajesDTO> lista){
         ReporteHorarios horarios = new ReporteHorarios();
@@ -183,8 +179,8 @@ public class ReportesController {
         return "";
     }
     
-    @GetMapping("reporteIncidente/{fechaIni}/{estado}/{responsable}/{emisor}")
-    public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
+    @GetMapping("reporteIncidente/{fechaIni}/{fechaFin}/{estado}/{responsable}/{emisor}")
+    public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("fechaFin")Date fechaFin,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
 
         try{
             Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni,fechaFin, estado, responsable,emisor);
