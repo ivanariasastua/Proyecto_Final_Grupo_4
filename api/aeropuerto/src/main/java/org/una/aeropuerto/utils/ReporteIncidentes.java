@@ -6,6 +6,10 @@
 package org.una.aeropuerto.utils;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
 
 /**
@@ -21,8 +25,6 @@ public class ReporteIncidentes {
     private String estado;
     private String categoria;
     private String areaTrabajo;
-    private final SimpleDateFormat formato = new SimpleDateFormat("HH:mm:ss");
-
     
     public ReporteIncidentes(IncidentesRegistradosDTO incidente){
         this.id=incidente.getId();
@@ -31,7 +33,7 @@ public class ReporteIncidentes {
         this.emisor=incidente.getEmisor().getNombre();
         this.responsable=incidente.getResponsable().getNombre();
         this.areaTrabajo=incidente.getAreaTrabajo().getNombre();
-        this.fechaRegistro = formato.format(incidente.getFechaRegistro());
+        this.fechaRegistro = asLocalDate(incidente.getFechaRegistro()).toString();
     }
     
     public Long getId() {
@@ -62,9 +64,8 @@ public class ReporteIncidentes {
         return areaTrabajo;
     }
 
-    public SimpleDateFormat getFormato() {
-        return formato;
+    private static LocalDate asLocalDate(Date date) {
+        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
     }
-    
     
 }

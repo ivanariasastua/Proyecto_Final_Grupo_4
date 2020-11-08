@@ -48,10 +48,10 @@ public class TransaccionesController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/save/{value}")
+    @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea una nueva transaccion", response = TransaccionesDTO.class, tags = "Transacciones")
-    public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody TransaccionesDTO transaccion) {
+    public ResponseEntity<?> create(@RequestBody TransaccionesDTO transaccion) {
         try {
             return new ResponseEntity<>(transaccionService.create(transaccion), HttpStatus.CREATED);
         } catch (Exception e) {
