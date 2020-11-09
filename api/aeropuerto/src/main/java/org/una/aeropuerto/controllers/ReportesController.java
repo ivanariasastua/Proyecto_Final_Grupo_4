@@ -160,10 +160,11 @@ public class ReportesController {
     }
 
     private String convertirReporteHorasLaboradas(List<EmpleadosMarcajesDTO> lista){
-        ReporteHorarios horarios = new ReporteHorarios();
         ObjectOutputStream bytes = null;
         try {
-            JasperPrint jprint = ReportBuilder.reporteHorasLaboradas(horarios.unirMarcajesMismoHorario(lista));
+            List<ReporteHorarios> reportes = ReporteHorarios.unirMarcajesSegunHorario(lista);
+            String info = ReporteHorarios.sumarHorasLaboradasEmpleados(reportes);
+            JasperPrint jprint = ReportBuilder.reporteHorasLaboradas(reportes,info);
             ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
             bytes = new ObjectOutputStream(byteArray);
             bytes.writeObject(jprint);

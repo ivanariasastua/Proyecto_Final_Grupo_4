@@ -73,11 +73,12 @@ public class ReportBuilder {
         }
     }
     
-    public static JasperPrint reporteHorasLaboradas(List<ReporteHorarios> lista) throws FileNotFoundException{
+    public static JasperPrint reporteHorasLaboradas(List<ReporteHorarios> lista, String totalHoras) throws FileNotFoundException{
         try {
             File file = ResourceUtils.getFile("classpath:rep_horas_laboradas.jrxml");
+            System.out.println("Entró");
             HashMap<String, Object> map = new HashMap<>();
-            map.put("total", "Empleado 1: 74837\nEmpleado 2:4887394\nEmpleado 3: 4894");
+            map.put("total", totalHoras);
             JasperReport report = JasperCompileManager.compileReport(file.getAbsolutePath());
             JasperPrint jprint = JasperFillManager.fillReport(report, map, new JRBeanCollectionDataSource(lista));
             return jprint;
