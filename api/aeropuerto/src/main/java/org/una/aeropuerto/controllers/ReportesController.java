@@ -179,12 +179,19 @@ public class ReportesController {
         }
         return "";
     }
-    
+    @GetMapping("reporteIncidente2/{fechaIni}/{fechaFin}/{responsable}/{emisor}")
+    public ResponseEntity<?> reporteIncidentes2(@PathVariable("fechaIni")Date fechaIni,@PathVariable("fechaFin")Date fechaFin, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
+        Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni,fechaFin,responsable,emisor);
+        return crearReporteIncident(optional);
+    }
     @GetMapping("reporteIncidente/{fechaIni}/{fechaFin}/{estado}/{responsable}/{emisor}")
     public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("fechaFin")Date fechaFin,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
-
+        Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni,fechaFin, estado, responsable,emisor);
+        return crearReporteIncident(optional);
+    }
+    
+    public ResponseEntity crearReporteIncident(Optional<List<IncidentesRegistradosDTO>> optional){
         try{
-            Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni,fechaFin, estado, responsable,emisor);
             if(optional.isPresent()){
                 List<IncidentesRegistradosDTO> lista = optional.get();
                 if(lista == null || lista.isEmpty()){
@@ -205,4 +212,5 @@ public class ReportesController {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
 }

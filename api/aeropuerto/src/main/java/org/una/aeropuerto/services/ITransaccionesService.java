@@ -16,13 +16,9 @@ import org.una.aeropuerto.dto.TransaccionesDTO;
  */
 public interface ITransaccionesService {
     
-    public Optional<TransaccionesDTO> findById(Long id);
-    
     public TransaccionesDTO create(TransaccionesDTO transacciones);
 
-    public Optional<TransaccionesDTO> update(TransaccionesDTO transacciones, Long id);
-    
     public Optional<List<TransaccionesDTO>> findByAccion(String accion);
     
-    public Optional<List<TransaccionesDTO>> filtro(String empleado, Date fechaInicio, Date fechaFinal);
+    public Optional<List<TransaccionesDTO>> findByFechas(Date fechaInicio, Date fechaFinal);
 }

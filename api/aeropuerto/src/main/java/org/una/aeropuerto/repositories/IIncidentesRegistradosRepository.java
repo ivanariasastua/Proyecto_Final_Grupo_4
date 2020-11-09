@@ -33,4 +33,9 @@ public interface IIncidentesRegistradosRepository extends JpaRepository<Incident
             + "and i.estado = :estado and UPPER(i.emisor.nombre) like CONCAT('%', UPPER(:emisor), '%')")
     public List<IncidentesRegistrados> findByFiltro(@Param("fechaIni") Date fechaIni, @Param("fechaFin") Date fechaFin, @Param("estado") boolean estado,
             @Param("responsable") String reponsable, @Param("emisor") String emisor);
+    
+    @Query("SELECT i FROM IncidentesRegistrados i WHERE  UPPER(i.responsable.nombre) like CONCAT('%', UPPER(:responsable), '%') and i.fechaRegistro BETWEEN :fechaIni AND :fechaFin "
+            + "and UPPER(i.emisor.nombre) like CONCAT('%', UPPER(:emisor), '%')")
+    public List<IncidentesRegistrados> findByFiltro(@Param("fechaIni") Date fechaIni, @Param("fechaFin") Date fechaFin,
+            @Param("responsable") String reponsable, @Param("emisor") String emisor);
 }

@@ -7,6 +7,8 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,22 +38,11 @@ public class TransaccionesController {
     @Autowired
     private ITransaccionesService transaccionService;
 
-    @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene un tipo de transaccion a travez de su identificador unico", response = TransaccionesDTO.class, tags = "Transacciones")
-    @PreAuthorize("hasRole('AUDITOR')")
-    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
-        try {
-            return new ResponseEntity<>(transaccionService.findById(id), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/save/{value}")
+    @PostMapping("/save")
     @ResponseBody
     @ApiOperation(value = "Crea una nueva transaccion", response = TransaccionesDTO.class, tags = "Transacciones")
-    public ResponseEntity<?> create(@PathVariable(value = "value") String value, @RequestBody TransaccionesDTO transaccion) {
+    public ResponseEntity<?> create(@RequestBody TransaccionesDTO transaccion) {
         try {
             return new ResponseEntity<>(transaccionService.create(transaccion), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -59,31 +50,34 @@ public class TransaccionesController {
         }
     }
 
-    @PutMapping("/editar/{id}")
-    @ResponseBody
-    @ApiOperation(value = "Modifica una transaccion existente", response = TransaccionesDTO.class, tags = "Transacciones")
-    @PreAuthorize("hasRole('AUDITOR')")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody TransaccionesDTO tranModified) {
+    @GetMapping("/accion/{term}")
+    @ApiOperation(value = "Obtiene una lista de las transacciones por medio de su accion", response = TransaccionesDTO.class, responseContainer = "List", tags = "Transacciones")
+    public ResponseEntity<?> findByAccion(@PathVariable(value = "term") String term) {
         try {
-            Optional<TransaccionesDTO> servUpdated = transaccionService.update(tranModified, id);
-            if (servUpdated.isPresent()) {
-                return new ResponseEntity<>(servUpdated.get(), HttpStatus.OK);
+            Optional<List<TransaccionesDTO>> result = transaccionService.findByAccion(term);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/fechas/{fechaInicio}/{fechaFinal}")
+    @ApiOperation(value = "Obtiene una lista de las transacciones por medio de las fechas", response = TransaccionesDTO.class, responseContainer = "List", tags = "Transacciones")
+    public ResponseEntity<?> findByFechas(@PathVariable("fechaInicio")Date fechaInicio,@PathVariable("fechaFinal")Date fechaFinal){
+        try {
+            Optional<List<TransaccionesDTO>> result = transaccionService.findByFechas(fechaInicio,fechaFinal);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/accion/{term}")
-    @ApiOperation(value = "Obtiene una lista de las transacciones por medio de su accion", response = TransaccionesDTO.class, responseContainer = "List", tags = "Transacciones")
-    @PreAuthorize("hasRole('AUDITOR')")
-    public ResponseEntity<?> findByAccion(@PathVariable(value = "term") String term) {
-        try {
-            return new ResponseEntity<>(transaccionService.findByAccion(term), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }
