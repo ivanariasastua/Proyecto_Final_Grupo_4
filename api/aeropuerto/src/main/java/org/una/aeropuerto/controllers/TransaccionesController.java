@@ -17,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -83,9 +82,14 @@ public class TransaccionesController {
     @GetMapping("/filtro/{fecha1}/{fecha2}/{empleado}")
     @ApiOperation(value = "Obtiene una lista de las transacciones por medio de un flitrado por fechas y/o la cedula de un empleado", response = TransaccionesDTO.class, responseContainer = "List", tags = "Transacciones")
     @PreAuthorize("hasRole('AUDITOR')")
-    public ResponseEntity<?> findByFilter(@PathVariable(value = "fecha1") Date fecha1, @PathVariable(value="fecha2")Date fecha2, @PathVariable(value="empleado")String empleado) {
+    public ResponseEntity<?> findByFilter(@PathVariable("fecha1") Date fecha1, @PathVariable("fecha2")Date fecha2, @PathVariable("empleado")String empleado) {
         try {
-            return new ResponseEntity<>(transaccionService.filtro(empleado, fecha1, fecha2), HttpStatus.OK);
+            Optional<List<TransaccionesDTO>> result = transaccionService.filtro(empleado, fecha1, fecha2);
+            if (result.isPresent()) {
+                return new ResponseEntity<>(result.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }

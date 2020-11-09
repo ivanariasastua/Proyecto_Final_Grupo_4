@@ -47,8 +47,10 @@ public class TransaccionesServiceImplementation implements ITransaccionesService
     }
 	
     @Override
+    @Transactional(readOnly = true)
     public Optional<List<TransaccionesDTO>> filtro(String empleado, Date fechaInicio, Date fechaFinal) {
-        return ServiceConvertionHelper.findList(transRepository.findFilter(empleado.equals("null") ? "%" : empleado, fechaInicio, fechaFinal), TransaccionesDTO.class);
+        List<Transacciones> lista = transRepository.findFilter(empleado.equals("null") ? "%" : empleado, fechaInicio, fechaFinal);
+        return ServiceConvertionHelper.findList(lista, TransaccionesDTO.class);
     }
 
 }
