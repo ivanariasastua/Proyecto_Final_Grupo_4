@@ -20,6 +20,8 @@ public interface ITransaccionesRepository  extends JpaRepository<Transacciones, 
     @Query("select t from Transacciones t where UPPER(t.accion) like CONCAT('%', UPPER(:accion), '%')")
     public List<Transacciones> findByAccion(String accion);
 
-    @Query("Select t from Transacciones t where t.fechaRegistro between :fechaInicio and :fechaFinal")
+    @Query("Select t from Transacciones t where t.empleado.cedula like :empleado and t.fechaRegistro between :fechaInicio and :fechaFinal")
+    public List<Transacciones> findFilter(String empleado, Date fechaInicio, Date fechaFinal);
+
     public List<Transacciones> findByFechaRegistroBetween(Date fechaInicio, Date fechaFinal);
 }
