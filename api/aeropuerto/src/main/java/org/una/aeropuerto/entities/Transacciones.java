@@ -46,7 +46,7 @@ public class Transacciones implements Serializable {
     @JoinColumn(name="empleado")
     private Empleados empleado;
     
-    @Column(length = 50)
+    @Column(length = 80)
     private String accion;
     
     @Column(name = "fecha_registro", updatable = false)

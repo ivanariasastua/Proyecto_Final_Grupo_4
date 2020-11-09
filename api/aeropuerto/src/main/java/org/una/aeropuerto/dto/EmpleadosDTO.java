@@ -38,4 +38,11 @@ public class EmpleadosDTO {
     private List<EmpleadosAreasTrabajosDTO> empleadosAreasTrabajo;
     @JsonManagedReference
     private List<EmpleadosHorariosDTO> horarios;
+    
+    public EmpleadosDTO(Long id, String nombre, String cedula, boolean estado) {
+        this.id=id;
+        this.nombre=nombre;
+        this.cedula=cedula;
+        this.estado=estado;
+    }
 }

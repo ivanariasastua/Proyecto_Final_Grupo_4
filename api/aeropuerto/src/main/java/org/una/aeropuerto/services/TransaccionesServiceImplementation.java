@@ -28,28 +28,11 @@ public class TransaccionesServiceImplementation implements ITransaccionesService
     private ITransaccionesRepository transRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<TransaccionesDTO> findById(Long id) {
-        return ServiceConvertionHelper.oneToOptionalDto(transRepository.findById(id), TransaccionesDTO.class);
-    }
-
-    @Override
     @Transactional
     public TransaccionesDTO create(TransaccionesDTO transacciones) {
         Transacciones trans = MapperUtils.EntityFromDto(transacciones, Transacciones.class);
         trans = transRepository.save(trans);
         return MapperUtils.DtoFromEntity(trans, TransaccionesDTO.class);
-    }
-
-    @Override
-    @Transactional
-    public Optional<TransaccionesDTO> update(TransaccionesDTO transacciones, Long id) {
-        if (transRepository.findById(id).isPresent()) {
-            Transacciones trans = MapperUtils.EntityFromDto(transacciones, Transacciones.class);
-            trans = transRepository.save(trans);
-            return Optional.ofNullable(MapperUtils.DtoFromEntity(trans, TransaccionesDTO.class));
-        }
-        return null;
     }
 
     @Override
@@ -59,8 +42,8 @@ public class TransaccionesServiceImplementation implements ITransaccionesService
     }
 
     @Override
-    public Optional<List<TransaccionesDTO>> filtro(String empleado, Date fechaInicio, Date fechaFinal) {
-        return ServiceConvertionHelper.findList(transRepository.findFilter(empleado, fechaInicio, fechaFinal), TransaccionesDTO.class);
+    public Optional<List<TransaccionesDTO>> findByFechas(Date fechaInicio, Date fechaFinal) {
+        return ServiceConvertionHelper.findList(transRepository.findByFechaRegistroBetween(fechaInicio, fechaFinal), TransaccionesDTO.class);
     }
 
 }
