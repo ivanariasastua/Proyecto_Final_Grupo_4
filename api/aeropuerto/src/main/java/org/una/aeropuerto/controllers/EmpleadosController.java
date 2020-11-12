@@ -129,7 +129,7 @@ public class EmpleadosController {
     
     @GetMapping("nombre/{nombre}")
     @ApiOperation(value = "Obtiene una lista de los empleados por nombre", response = EmpleadosDTO.class, responseContainer = "List", tags = "Empleados")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('AUDITOR')")
     public ResponseEntity<?> getByNombre(@PathVariable("nombre") String nombre){
         try{
             return new ResponseEntity<>(empleadoService.findByNombreAproximate(nombre), HttpStatus.OK);

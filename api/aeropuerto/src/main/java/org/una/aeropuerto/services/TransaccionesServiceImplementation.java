@@ -45,5 +45,12 @@ public class TransaccionesServiceImplementation implements ITransaccionesService
     public Optional<List<TransaccionesDTO>> findByFechas(Date fechaInicio, Date fechaFinal) {
         return ServiceConvertionHelper.findList(transRepository.findByFechaRegistroBetween(fechaInicio, fechaFinal), TransaccionesDTO.class);
     }
+	
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<TransaccionesDTO>> filtro(String empleado, Date fechaInicio, Date fechaFinal) {
+        List<Transacciones> lista = transRepository.findFilter(empleado.equals("null") ? "%" : empleado, fechaInicio, fechaFinal);
+        return ServiceConvertionHelper.findList(lista, TransaccionesDTO.class);
+    }
 
 }

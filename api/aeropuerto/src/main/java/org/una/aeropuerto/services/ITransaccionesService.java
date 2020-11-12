@@ -21,4 +21,6 @@ public interface ITransaccionesService {
     public Optional<List<TransaccionesDTO>> findByAccion(String accion);
     
     public Optional<List<TransaccionesDTO>> findByFechas(Date fechaInicio, Date fechaFinal);
+    
+    public Optional<List<TransaccionesDTO>> filtro(String empleado, Date fechaInicio, Date fechaFinal);
 }

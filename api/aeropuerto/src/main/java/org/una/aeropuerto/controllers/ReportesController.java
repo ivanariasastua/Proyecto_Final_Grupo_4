@@ -181,12 +181,12 @@ public class ReportesController {
     }
     @GetMapping("reporteIncidente2/{fechaIni}/{fechaFin}/{responsable}/{emisor}")
     public ResponseEntity<?> reporteIncidentes2(@PathVariable("fechaIni")Date fechaIni,@PathVariable("fechaFin")Date fechaFin, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
-        Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni,fechaFin,responsable,emisor);
+        Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni,fechaFin,responsable.equals("null") ? "%" : responsable, emisor.equals("null") ? "%" : emisor);
         return crearReporteIncident(optional);
     }
     @GetMapping("reporteIncidente/{fechaIni}/{fechaFin}/{estado}/{responsable}/{emisor}")
     public ResponseEntity<?> reporteIncidentes(@PathVariable("fechaIni")Date fechaIni,@PathVariable("fechaFin")Date fechaFin,@PathVariable("estado")boolean estado, @PathVariable("responsable")String responsable, @PathVariable("emisor")String emisor){
-        Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni,fechaFin, estado, responsable,emisor);
+        Optional<List<IncidentesRegistradosDTO>> optional = service.incidentesRegistradosReportes(fechaIni,fechaFin, estado, responsable.equals("null") ? "%" : responsable, emisor.equals("null") ? "%" : emisor);
         return crearReporteIncident(optional);
     }
     
