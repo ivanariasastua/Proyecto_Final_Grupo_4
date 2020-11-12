@@ -129,7 +129,7 @@ public class ReportesController {
     public ResponseEntity<?> reporteHorasLaboradas(@PathVariable("cedula") String cedula, @PathVariable("fecha1") Date fecha1, 
                                                    @PathVariable("fecha2") Date fecha2){
         try{
-            Optional<List<EmpleadosMarcajesDTO>> optional = empMarcajeService.findByEmpleadoCedulaAndFechas(cedula, fecha1, fecha2);
+            Optional<List<EmpleadosMarcajesDTO>> optional = empMarcajeService.findByEmpleadoCedulaAndFechas(cedula.equals("null") ? "%" : cedula, fecha1, fecha2);
             if(optional.isPresent()){
                 List<EmpleadosMarcajesDTO> lista = optional.get();
                 if(lista == null || lista.isEmpty()){
