@@ -48,7 +48,7 @@ public class ReportesController {
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
     @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("estGasto")boolean estGasto, @PathVariable("responsable")String responsable){
         try{
-            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : empresa, fecha, fecha2, servicio.equals("null") ? "%" : servicio, estPago, estGasto, responsable.equals("null") ? "%" : responsable);
+            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : '%'+empresa+'%', fecha, fecha2, servicio.equals("null") ? "%" : servicio, estPago, estGasto, responsable.equals("null") ? "%" : responsable);
             if(optional.isPresent()){
                 List<ServiciosGastosDTO> lista = optional.get();
                 if(lista == null || lista.isEmpty()){
@@ -129,7 +129,7 @@ public class ReportesController {
     public ResponseEntity<?> reporteHorasLaboradas(@PathVariable("cedula") String cedula, @PathVariable("fecha1") Date fecha1, 
                                                    @PathVariable("fecha2") Date fecha2){
         try{
-            Optional<List<EmpleadosMarcajesDTO>> optional = empMarcajeService.findByEmpleadoCedulaAndFechas(cedula.equals("null") ? "%" : cedula, fecha1, fecha2);
+            Optional<List<EmpleadosMarcajesDTO>> optional = empMarcajeService.findByEmpleadoCedulaAndFechas(cedula.equals("null") ? "%" : '%'+cedula+'%', fecha1, fecha2);
             if(optional.isPresent()){
                 List<EmpleadosMarcajesDTO> lista = optional.get();
                 if(lista == null || lista.isEmpty()){

@@ -24,7 +24,7 @@ public interface IEmpleadosMarcajesRepository extends JpaRepository<EmpleadosMar
     public Optional<EmpleadosMarcajes> findUltimoMarcaje(@Param("idHorario")Long idHorario);
     
     @Query("SELECT mar FROM EmpleadosMarcajes mar "
-         + "WHERE UPPER(mar.empleadoHorario.empleado.cedula) LIKE CONCAT('%',:cedula,'%') "
+         + "WHERE mar.empleadoHorario.empleado.cedula LIKE CONCAT('%',:cedula,'%') "
          + "AND mar.fechaRegistro BETWEEN :fecha1 AND :fecha2 AND mar.empleadoHorario.estado = true")
     public List<EmpleadosMarcajes> findByEmpleadoCedulaAndFechas(@Param("cedula") String cedula, @Param("fecha1") Date fecha1, 
                                                                      @Param("fecha2") Date fecha2);

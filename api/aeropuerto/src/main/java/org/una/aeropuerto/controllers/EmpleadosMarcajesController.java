@@ -78,7 +78,7 @@ public class EmpleadosMarcajesController {
     public ResponseEntity<?> reporteHorasLaboradas(@PathVariable("cedula") String cedula, @PathVariable("fecha1") Date fecha1, 
                                                    @PathVariable("fecha2") Date fecha2){
         try{
-            return new ResponseEntity<>(empleadoService.findByEmpleadoCedulaAndFechas(cedula, fecha1, fecha2), HttpStatus.OK);
+            return new ResponseEntity<>(empleadoService.findByEmpleadoCedulaAndFechas(cedula.equals("null") ? "%" : cedula, fecha1, fecha2), HttpStatus.OK);
         }catch(Exception ex){
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
