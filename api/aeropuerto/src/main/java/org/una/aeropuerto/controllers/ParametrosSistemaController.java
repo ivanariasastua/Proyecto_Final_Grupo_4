@@ -89,9 +89,9 @@ public class ParametrosSistemaController {
         }
     }
     
-    @GetMapping("/codigoIdentiicador/{codigo}")
+    @GetMapping("/codigoIdentificador/{codigo}")
     @ApiOperation(value = "Obtiene un parametro por medio del codigo", response = ParametrosSistemaDTO.class,  tags = "Parametros_Sistema")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE')")
     public ResponseEntity<?> findByCodigoIdentificador(@PathVariable(value = "codigo") String codigo) {
         try {
             return new ResponseEntity<>(parametrosService.findByCodigoIdentificador(codigo), HttpStatus.OK);
