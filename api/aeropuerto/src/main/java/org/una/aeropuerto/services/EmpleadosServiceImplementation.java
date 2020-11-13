@@ -134,7 +134,7 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
     @Override
     @Transactional(readOnly = true)
     public Optional<EmpleadosDTO> findByCedulaDTO(String cedula) {
-        return Optional.ofNullable(ServiceConvertionHelper.OneToDto(findByCedula(cedula), EmpleadosDTO.class));
+        return Optional.ofNullable(ServiceConvertionHelper.OptionalOneToDto(findByCedula(cedula), EmpleadosDTO.class));
     }
 
     @Override
