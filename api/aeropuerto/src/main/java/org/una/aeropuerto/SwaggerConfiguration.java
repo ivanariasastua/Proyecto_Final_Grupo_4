@@ -65,7 +65,10 @@ public class SwaggerConfiguration {
                         new Tag("Empleados_Marcajes", "Entidad de los marcajes de los empleados"),
                         new Tag("Empleados_Horarios", "Entidad de los horarios de los empleados"),
                         new Tag("Empleados_Areas_Trabajos", "Entidad de la areas de trabajo de los empleados"),
-                        new Tag("Areas_Trabajos", "Entidad de Areas de Trabajo")
+                        new Tag("Areas_Trabajos", "Entidad de Areas de Trabajo"),
+                        new Tag("Password", "Maneja las transacciones para el cambio de contraseña via correo"),
+                        new Tag("Servicios_Gastos", "Entidad de gastos en servicios"),
+                        new Tag("Reportes", "Maneja las transacciones para generar los reportes")
                 );
 
     }

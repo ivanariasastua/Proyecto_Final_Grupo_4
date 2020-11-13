@@ -70,7 +70,7 @@ public class EmpleadosServiceImplementation implements IEmpleadosService, UserDe
     @Transactional
     public Optional<EmpleadosDTO> update(EmpleadosDTO empleado, Long id) {
         if (empleadoRepository.findById(id).isPresent()) {
-            encriptarPassword(empleado);
+            //encriptarPassword(empleado);
             Empleados colab = MapperUtils.EntityFromDto(empleado, Empleados.class);
             colab = empleadoRepository.save(colab);
             return Optional.ofNullable(MapperUtils.DtoFromEntity(colab, EmpleadosDTO.class));
