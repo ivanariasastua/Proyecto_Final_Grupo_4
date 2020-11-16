@@ -62,9 +62,8 @@ public class Empleados implements Serializable {
     @Column(length = 50, unique = true)
     private String correo;
     
-    @ManyToOne
-    @JoinColumn(name="jefe")
-    private Empleados jefe;
+    @Column(name="es_jefe", columnDefinition="TINYINT")
+    private Boolean esJefe;
     
     @Column(name = "contrasena_encriptada", length = 30)
     private String contrasenaEncriptada;
@@ -72,9 +71,6 @@ public class Empleados implements Serializable {
     @ManyToOne 
     @JoinColumn(name="rol")
     private Roles rol;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "jefe")
-    private List<Empleados> empleados;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaTrabajo")
     private List<EmpleadosAreasTrabajos> empleadosAreasTrabajo;
@@ -96,6 +92,8 @@ public class Empleados implements Serializable {
         estado = true;
         aprobado = false;
         passwordTemporal = false;
+        esJefe = false;
+        solicitud = false;
     }
     
 }

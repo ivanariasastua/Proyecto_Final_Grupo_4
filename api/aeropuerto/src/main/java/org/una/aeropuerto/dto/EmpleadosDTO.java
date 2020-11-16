@@ -27,7 +27,7 @@ public class EmpleadosDTO {
     private String nombre;
     private String cedula;
     private boolean estado;
-    private EmpleadosDTO jefe;
+    private Boolean esJefe;
     private String contrasenaEncriptada;
     private RolesDTO rol;
     private Boolean passwordTemporal;
