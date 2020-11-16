@@ -28,7 +28,7 @@ import org.una.aeropuerto.dto.IncidentesRegistradosDTO;
  */
 public class ReportBuilder {
 
-    public static JasperPrint reporteGastos(List<ServiciosGastosDTO> lista) {
+    public static JasperPrint reporteGastos(List<ServiciosGastosDTO> lista, HashMap<String, Object> map) {
         try {
             List<ReporteGastos> datos = new ArrayList<>();
             Float costo = 0F;
@@ -36,7 +36,6 @@ public class ReportBuilder {
                 datos.add(new ReporteGastos(gasto));
             });
             costo = datos.stream().map(dato -> Float.valueOf(dato.getCosto())).reduce(costo, (accumulator, _item) -> accumulator + _item);
-            HashMap<String, Object> map = new HashMap<>();
             map.put("costo", String.valueOf(costo));
             map.put("gastos", String.valueOf(datos.size()));
             File file = ResourceUtils.getFile("classpath:rep_servicios_gastos.jrxml");

@@ -26,31 +26,30 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="99" splitType="Stretch">
+		<band height="120" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="910" height="60" forecolor="#FFFFFF" backcolor="#003366" uuid="b73c1fe2-ccd7-4dd9-98c7-a58175feac38"/>
+				<reportElement mode="Transparent" x="0" y="0" width="910" height="120" forecolor="#000000" backcolor="#003366" uuid="b73c1fe2-ccd7-4dd9-98c7-a58175feac38">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="25" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Reporte de Horas Laboradas
-]]></text>
+				<text><![CDATA[Reporte de Horas Laboradas]]></text>
 			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="60" width="910" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="1682fce6-8d66-4b7e-8c94-3a66c95db709"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Sistema Aeropuerto]]></text>
-			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="210" height="120" uuid="d7c01d96-ae0a-4948-8ccf-2365d6b6305e"/>
+				<imageExpression><![CDATA["Logo.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="35" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="190" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="c162aabe-9e8e-4aee-9afe-807a0dd139c4">
+				<reportElement mode="Transparent" x="0" y="0" width="190" height="30" forecolor="#000000" backcolor="#003366" uuid="c162aabe-9e8e-4aee-9afe-807a0dd139c4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="df9191e3-c74f-4cc6-9c94-ac497870c484"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="1" bottomPadding="0" rightPadding="1">
@@ -65,7 +64,7 @@
 				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="190" y="0" width="150" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="ee3b03f7-6a08-498a-b982-65e6eb6da679">
+				<reportElement mode="Transparent" x="190" y="0" width="150" height="30" forecolor="#000000" backcolor="#003366" uuid="ee3b03f7-6a08-498a-b982-65e6eb6da679">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c5b54ad0-57fb-4b9f-bba8-a8c31e96b6ba"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="1" bottomPadding="0" rightPadding="1">
@@ -80,7 +79,7 @@
 				<text><![CDATA[Cédula]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="340" y="0" width="120" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="965db789-bf04-4f61-8e6a-178bb60e6930">
+				<reportElement mode="Transparent" x="340" y="0" width="120" height="30" forecolor="#000000" backcolor="#003366" uuid="965db789-bf04-4f61-8e6a-178bb60e6930">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d4eec9e7-17ce-4745-a3cc-d6426aa3cd49"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="1" bottomPadding="0" rightPadding="1">
@@ -95,7 +94,7 @@
 				<text><![CDATA[Hora de Entrada]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="460" y="0" width="120" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="61512691-f9d2-45d4-a22c-7bb487683d7e">
+				<reportElement mode="Transparent" x="460" y="0" width="120" height="30" forecolor="#000000" backcolor="#003366" uuid="61512691-f9d2-45d4-a22c-7bb487683d7e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c533904e-5103-42a6-a15d-63275ab1d571"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="1" bottomPadding="0" rightPadding="1">
@@ -110,7 +109,7 @@
 				<text><![CDATA[Hora de Salida]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="580" y="0" width="100" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="0045e8ad-608d-4e79-8f33-5eccf627dbd4">
+				<reportElement mode="Transparent" x="580" y="0" width="100" height="30" forecolor="#000000" backcolor="#003366" uuid="0045e8ad-608d-4e79-8f33-5eccf627dbd4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="108df99a-b9bc-4149-bad1-a862dc9e8924"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="1" bottomPadding="0" rightPadding="1">
@@ -125,7 +124,7 @@
 				<text><![CDATA[Día de Entrada]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="680" y="0" width="100" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="4cc3f7ca-b595-45be-9fe6-9c436d6b0a0e">
+				<reportElement mode="Transparent" x="680" y="0" width="100" height="30" forecolor="#000000" backcolor="#003366" uuid="4cc3f7ca-b595-45be-9fe6-9c436d6b0a0e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="106584ea-e14a-4477-b502-d0fabd6ca439"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="1" bottomPadding="0" rightPadding="1">
@@ -140,7 +139,7 @@
 				<text><![CDATA[Día de Salida]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="780" y="0" width="130" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="4e5567a9-d430-4079-a5b2-fb59d2b9f494">
+				<reportElement mode="Transparent" x="780" y="0" width="130" height="30" forecolor="#000000" backcolor="#003366" uuid="4e5567a9-d430-4079-a5b2-fb59d2b9f494">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4c0a4a6-26eb-42e7-b7da-fa5e840d8666"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="1" bottomPadding="0" rightPadding="1">
@@ -231,16 +230,16 @@
 		</band>
 	</detail>
 	<summary>
-		<band height="60" splitType="Stretch">
+		<band height="42" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="210" height="55" uuid="aa51b01d-acfa-4223-9297-9e524fbb66e8"/>
+				<reportElement x="0" y="0" width="210" height="42" uuid="aa51b01d-acfa-4223-9297-9e524fbb66e8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16"/>
 				</textElement>
 				<text><![CDATA[Total de horas:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="210" y="0" width="700" height="60" uuid="aae18e5a-318e-4c89-9479-38ed58387932"/>
+				<reportElement x="210" y="0" width="700" height="42" uuid="aae18e5a-318e-4c89-9479-38ed58387932"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>

@@ -9,8 +9,10 @@ import io.swagger.annotations.Api;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -43,10 +45,12 @@ public class ReportesController {
     
     @Autowired
     private IEmpleadosMarcajesService empMarcajeService;
+
+    private final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
-    @GetMapping("reporteGastos1/{fecha}/{fecha2}/{empresa}/{servicio}/{estPago}/{estGasto}/{responsable}")
+    @GetMapping("reporteGastos1/{fecha}/{fecha2}/{empresa}/{servicio}/{estPago}/{estGasto}/{responsable}/{creador}")
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
-    @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("estGasto")boolean estGasto, @PathVariable("responsable")String responsable){
+    @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("estGasto")boolean estGasto, @PathVariable("responsable")String responsable, @PathVariable("creador")String creador){
         try{
             Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : '%'+empresa+'%', fecha, fecha2, servicio.equals("null") ? "%" : servicio, estPago, estGasto, responsable.equals("null") ? "%" : responsable);
             if(optional.isPresent()){
@@ -54,7 +58,17 @@ public class ReportesController {
                 if(lista == null || lista.isEmpty()){
                     return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
                 }else{
-                    return new ResponseEntity<>(convertirReporte(lista), HttpStatus.OK);
+                    HashMap<String, Object> parametros = new HashMap<>();
+                    parametros.put("fecha_creacion", format.format(new Date()));
+                    parametros.put("fecha_inicial", format.format(fecha));
+                    parametros.put("fecha_final", format.format(fecha2));
+                    parametros.put("servicio", servicio.equals("null") ? "Todos" : servicio);
+                    parametros.put("empresa", empresa.equals("null") ? "Todas" : empresa);
+                    parametros.put("responsable", responsable.equals("null") ? "Todos" : responsable);
+                    parametros.put("creador", creador);
+                    parametros.put("estado_pago", estPago ? "Pagos" : "No pagos");
+                    parametros.put("estado_gasto", estGasto ? "Activos" : "Inactivos");
+                    return new ResponseEntity<>(convertirReporte(lista, parametros), HttpStatus.OK);
                 }
             }else{
                 return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -64,9 +78,9 @@ public class ReportesController {
         }
     }
     
-    @GetMapping("reporteGastos2/{fecha}/{fecha2}/{empresa}/{servicio}/{responsable}")
+    @GetMapping("reporteGastos2/{fecha}/{fecha2}/{empresa}/{servicio}/{responsable}/{creador}")
     public ResponseEntity<?> reporteGastosSinEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
-    @PathVariable("servicio")String servicio, @PathVariable("responsable")String responsable){
+    @PathVariable("servicio")String servicio, @PathVariable("responsable")String responsable, @PathVariable("creador")String creador){
         try{
             Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : empresa, fecha, fecha2, servicio.equals("null") ? "%" : servicio, responsable.equals("null") ? "%" : responsable);
             if(optional.isPresent()){
@@ -74,7 +88,17 @@ public class ReportesController {
                 if(lista == null || lista.isEmpty()){
                     return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
                 }else{
-                    return new ResponseEntity<>(convertirReporte(lista), HttpStatus.OK);
+                    HashMap<String, Object> parametros = new HashMap<>();
+                    parametros.put("fecha_creacion", format.format(new Date()));
+                    parametros.put("fecha_inicial", format.format(fecha));
+                    parametros.put("fecha_final", format.format(fecha2));
+                    parametros.put("servicio", servicio.equals("null") ? "Todos" : servicio);
+                    parametros.put("empresa", empresa.equals("null") ? "Todas" : empresa);
+                    parametros.put("responsable", responsable.equals("null") ? "Todos" : responsable);
+                    parametros.put("creador", creador);
+                    parametros.put("estado_pago", "Todos");
+                    parametros.put("estado_gasto", "Todos");
+                    return new ResponseEntity<>(convertirReporte(lista, parametros), HttpStatus.OK);
                 }
             }else{
                 return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -85,9 +109,9 @@ public class ReportesController {
         }
     }
     
-    @GetMapping("reporteGastos3/{fecha}/{fecha2}/{empresa}/{servicio}/{estPago}/{responsable}")
+    @GetMapping("reporteGastos3/{fecha}/{fecha2}/{empresa}/{servicio}/{estPago}/{responsable}/{creador}")
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
-    @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("responsable")String responsable){
+    @PathVariable("servicio")String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("responsable")String responsable, @PathVariable("creador")String creador){
         try{
             Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : empresa, fecha, fecha2, servicio.equals("null") ? "%" : servicio, estPago, responsable.equals("null") ? "%" : responsable);
             if(optional.isPresent()){
@@ -95,7 +119,17 @@ public class ReportesController {
                 if(lista == null || lista.isEmpty()){
                     return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
                 }else{
-                    return new ResponseEntity<>(convertirReporte(lista), HttpStatus.OK);
+                    HashMap<String, Object> parametros = new HashMap<>();
+                    parametros.put("fecha_creacion", format.format(new Date()));
+                    parametros.put("fecha_inicial", format.format(fecha));
+                    parametros.put("fecha_final", format.format(fecha2));
+                    parametros.put("servicio", servicio.equals("null") ? "Todos" : servicio);
+                    parametros.put("empresa", empresa.equals("null") ? "Todas" : empresa);
+                    parametros.put("responsable", responsable.equals("null") ? "Todos" : responsable);
+                    parametros.put("creador", creador);
+                    parametros.put("estado_pago", estPago ? "Pagos" : "No pagos");
+                    parametros.put("estado_gasto", "Todos");
+                    return new ResponseEntity<>(convertirReporte(lista, parametros), HttpStatus.OK);
                 }
             }else{
                 return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -105,9 +139,9 @@ public class ReportesController {
         }
     }
     
-    @GetMapping("reporteGastos4/{fecha}/{fecha2}/{empresa}/{servicio}/{estGasto}/{responsable}")
+    @GetMapping("reporteGastos4/{fecha}/{fecha2}/{empresa}/{servicio}/{estGasto}/{responsable}/{creador}")
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha")Date fecha, @PathVariable("fecha2")Date fecha2, @PathVariable("empresa")String empresa, 
-    @PathVariable("servicio")String servicio, @PathVariable("responsable")String responsable, @PathVariable("estGasto")boolean estGasto){
+    @PathVariable("servicio")String servicio, @PathVariable("responsable")String responsable, @PathVariable("estGasto")boolean estGasto, @PathVariable("creador")String creador){
         try{
             Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : empresa, fecha, fecha2, servicio.equals("null") ? "%" : servicio, responsable.equals("null") ? "%" : responsable, estGasto);
             if(optional.isPresent()){
@@ -115,7 +149,17 @@ public class ReportesController {
                 if(lista == null || lista.isEmpty()){
                     return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
                 }else{
-                    return new ResponseEntity<>(convertirReporte(lista), HttpStatus.OK);
+                    HashMap<String, Object> parametros = new HashMap<>();
+                    parametros.put("fecha_creacion", format.format(new Date()));
+                    parametros.put("fecha_inicial", format.format(fecha));
+                    parametros.put("fecha_final", format.format(fecha2));
+                    parametros.put("servicio", servicio.equals("null") ? "Todos" : servicio);
+                    parametros.put("empresa", empresa.equals("null") ? "Todas" : empresa);
+                    parametros.put("responsable", responsable.equals("null") ? "Todos" : responsable);
+                    parametros.put("creador", creador);
+                    parametros.put("estado_pago", "Todos");
+                    parametros.put("estado_gasto", estGasto ? "Activos" : "Inactivos");
+                    return new ResponseEntity<>(convertirReporte(lista, parametros), HttpStatus.OK);
                 }
             }else{
                 return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -145,9 +189,9 @@ public class ReportesController {
         }
     }
     
-    private String convertirReporte(List<ServiciosGastosDTO> lista){
+    private String convertirReporte(List<ServiciosGastosDTO> lista, HashMap<String, Object> parametros){
         try {
-            JasperPrint jprint = ReportBuilder.reporteGastos(lista);
+            JasperPrint jprint = ReportBuilder.reporteGastos(lista, parametros);
             ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
             ObjectOutputStream bytes = new ObjectOutputStream(byteArray);
             bytes.writeObject(jprint);
