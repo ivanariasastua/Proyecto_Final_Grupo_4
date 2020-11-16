@@ -51,13 +51,12 @@ public class ReportBuilder {
         }
     }
 
-    public static JasperPrint reporteIncidente(List<IncidentesRegistradosDTO> lista) {
+    public static JasperPrint reporteIncidente(List<IncidentesRegistradosDTO> lista,HashMap<String,Object> map) {
         try {
             List<ReporteIncidentes> datos = new ArrayList<>();
             lista.forEach(x -> {
                 datos.add(new ReporteIncidentes(x));
             });
-            HashMap<String, Object> map = new HashMap<>();
             map.put("total", String.valueOf(datos.size()));
             File file = ResourceUtils.getFile("classpath:rep_incidentes.jrxml");
             JasperReport report = JasperCompileManager.compileReport(file.getAbsolutePath());
