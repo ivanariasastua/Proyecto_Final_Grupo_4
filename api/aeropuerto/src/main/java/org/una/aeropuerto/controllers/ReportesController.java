@@ -47,6 +47,7 @@ public class ReportesController {
     private IEmpleadosMarcajesService empMarcajeService;
 
     private final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private final SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
 
     @GetMapping("reporteGastos1/{fecha}/{fecha2}/{empresa}/{servicio}/{estPago}/{estGasto}/{responsable}/{creador}")
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha") Date fecha, @PathVariable("fecha2") Date fecha2, @PathVariable("empresa") String empresa,
@@ -60,8 +61,8 @@ public class ReportesController {
                 } else {
                     HashMap<String, Object> parametros = new HashMap<>();
                     parametros.put("fecha_creacion", format.format(new Date()));
-                    parametros.put("fecha_inicial", format.format(fecha));
-                    parametros.put("fecha_final", format.format(fecha2));
+                    parametros.put("fecha_inicial", format2.format(fecha));
+                    parametros.put("fecha_final", format2.format(fecha2));
                     parametros.put("servicio", servicio.equals("null") ? "Todos" : servicio);
                     parametros.put("empresa", empresa.equals("null") ? "Todas" : empresa);
                     parametros.put("responsable", responsable.equals("null") ? "Todos" : responsable);
