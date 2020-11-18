@@ -12,6 +12,10 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="total" class="java.lang.String"/>
+	<parameter name="fecha1" class="java.lang.String"/>
+	<parameter name="fecha2" class="java.lang.String"/>
+	<parameter name="encargado" class="java.lang.String"/>
+	<parameter name="fechaCreacion" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -26,10 +30,10 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="120" splitType="Stretch">
+		<band height="128" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement mode="Transparent" x="0" y="0" width="910" height="120" forecolor="#000000" backcolor="#003366" uuid="b73c1fe2-ccd7-4dd9-98c7-a58175feac38">
+				<reportElement mode="Transparent" x="0" y="-10" width="910" height="70" forecolor="#000000" backcolor="#003366" uuid="b73c1fe2-ccd7-4dd9-98c7-a58175feac38">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -41,6 +45,57 @@
 				<reportElement x="0" y="0" width="210" height="120" uuid="d7c01d96-ae0a-4948-8ccf-2365d6b6305e"/>
 				<imageExpression><![CDATA["Logo.png"]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement mode="Transparent" x="230" y="94" width="90" height="34" forecolor="#000000" backcolor="#003366" uuid="c9d6253a-5d68-4084-920d-5a918647c7d4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Encargado:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="320" y="94" width="410" height="34" uuid="177a8351-c7bb-41f8-8c87-f0b96e80f2bb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{encargado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="780" y="0" width="130" height="19" uuid="2f0da8e5-2790-471d-8db6-9ac3030d6a21"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaCreacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="45" width="50" height="30" uuid="09c45ae4-8b3f-4293-9a26-4f578702423b"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Desde:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="340" y="45" width="130" height="30" uuid="4e47b389-aab2-4ed4-bb01-71321780bc65"/>
+				<textElement verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="470" y="45" width="50" height="30" uuid="e03b84d0-4a12-4008-89fe-cdf2b2a25cd5"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Hasta:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="520" y="45" width="150" height="30" uuid="578dcf8c-cf38-46c8-a1b4-14ff8280eb97"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha2}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

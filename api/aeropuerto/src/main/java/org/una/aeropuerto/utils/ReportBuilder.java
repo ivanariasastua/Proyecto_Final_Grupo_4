@@ -7,7 +7,9 @@ package org.una.aeropuerto.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import net.sf.jasperreports.engine.JRException;
@@ -71,12 +73,20 @@ public class ReportBuilder {
         }
     }
     
-    public static JasperPrint reporteHorasLaboradas(List<ReporteHorarios> lista, String totalHoras) throws FileNotFoundException{
+    public static JasperPrint reporteHorasLaboradas(List<ReporteHorarios> lista, String totalHoras, 
+                                                    Date fecha1, Date fecha2, String encargado) throws FileNotFoundException{
         try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+            String f1 = formatoFecha.format(fecha1);
+            String f2 = formatoFecha.format(fecha2);
+            String fActual = formatoFecha.format(new Date());
             File file = ResourceUtils.getFile("classpath:rep_horas_laboradas.jrxml");
-            System.out.println("Entró");
             HashMap<String, Object> map = new HashMap<>();
             map.put("total", totalHoras);
+            map.put("fecha1", f1);
+            map.put("fecha2", f2);
+            map.put("encargado", encargado);
+            map.put("fechaCreacion", fActual);
             JasperReport report = JasperCompileManager.compileReport(file.getAbsolutePath());
             JasperPrint jprint = JasperFillManager.fillReport(report, map, new JRBeanCollectionDataSource(lista));
             return jprint;

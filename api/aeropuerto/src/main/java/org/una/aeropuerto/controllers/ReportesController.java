@@ -170,9 +170,9 @@ public class ReportesController {
         }
     }
 
-    @GetMapping("reporteHoras/{cedula}/{fecha1}/{fecha2}")
+    @GetMapping("reporteHoras/{cedula}/{fecha1}/{fecha2}/{encargado}")
     public ResponseEntity<?> reporteHorasLaboradas(@PathVariable("cedula") String cedula, @PathVariable("fecha1") Date fecha1,
-            @PathVariable("fecha2") Date fecha2) {
+            @PathVariable("fecha2") Date fecha2, @PathVariable("encargado") String encargado) {
         try {
             Optional<List<EmpleadosMarcajesDTO>> optional = empMarcajeService.findByEmpleadoCedulaAndFechas(cedula.equals("null") ? "%" : '%' + cedula + '%', fecha1, fecha2);
             if (optional.isPresent()) {
@@ -180,7 +180,7 @@ public class ReportesController {
                 if (lista == null || lista.isEmpty()) {
                     return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
                 } else {
-                    return new ResponseEntity<>(convertirReporteHorasLaboradas(lista), HttpStatus.OK);
+                    return new ResponseEntity<>(convertirReporteHorasLaboradas(lista,encargado,fecha1,fecha2), HttpStatus.OK);
                 }
             } else {
                 return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -204,12 +204,12 @@ public class ReportesController {
         return "";
     }
 
-    private String convertirReporteHorasLaboradas(List<EmpleadosMarcajesDTO> lista) {
-        ObjectOutputStream bytes = null;
+    private String convertirReporteHorasLaboradas(List<EmpleadosMarcajesDTO> lista ,String encargado, Date fecha1, Date fecha2) {
+        ObjectOutputStream bytes = null; 
         try {
             List<ReporteHorarios> reportes = ReporteHorarios.unirMarcajesSegunHorario(lista);
             String info = ReporteHorarios.sumarHorasLaboradasEmpleados(reportes);
-            JasperPrint jprint = ReportBuilder.reporteHorasLaboradas(reportes, info);
+            JasperPrint jprint = ReportBuilder.reporteHorasLaboradas(reportes, info, fecha1, fecha2, encargado);
             ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
             bytes = new ObjectOutputStream(byteArray);
             bytes.writeObject(jprint);
