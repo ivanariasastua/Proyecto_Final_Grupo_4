@@ -29,23 +29,28 @@ public interface IServiciosGastosRepository extends JpaRepository<ServiciosGasto
     @Query("select sg from ServiciosGastos sg where UPPER(sg.numeroContrato) like CONCAT('%', UPPER(:numeroContrato), '%')")
     public List<ServiciosGastos> findByContrato(String numeroContrato);
     
-    @Query("SELECT s FROM ServiciosGastos s WHERE UPPER(s.servicio.nombre) like CONCAT('%', UPPER(:servicio), '%') "+
-           "and s.fechaRegistro BETWEEN :fecha and :fecha2 and UPPER(s.empresa) like CONCAT('%', UPPER(:empresa), '%') " +
-           "and s.estadoPago = :estPago and s.estadoGasto = :estGasto and UPPER(s.responsable.cedula) like CONCAT('%', UPPER(:responsable), '%')")
-    public List<ServiciosGastos> findByFechaRegistroServicioEmpresaEstados(@Param("fecha") Date fecha, @Param("fecha2")Date fecha2, @Param("empresa")String empresa, @Param("servicio")String servicio,
-                                                                         @Param("estPago")boolean estPago, @Param("estGasto")boolean estGasto, @Param("responsable")String reponsable);
+    @Query("SELECT s FROM ServiciosGastos s WHERE UPPER(s.servicio.nombre) like UPPER(:servicio) "+
+           "and s.fechaRegistro BETWEEN :fecha and :fecha2 and UPPER(s.empresa) like UPPER(:empresa) " +
+           "and s.estadoPago = :estPago and s.estadoGasto = :estGasto and UPPER(s.responsable.cedula) like UPPER(:responsable)")
+    public List<ServiciosGastos> findByFechaRegistroServicioEmpresaEstados(@Param("fecha") Date fecha, @Param("fecha2")Date fecha2, 
+           @Param("empresa")String empresa, @Param("servicio")String servicio,@Param("estPago")boolean estPago, @Param("estGasto")boolean estGasto, 
+           @Param("responsable")String reponsable);
     
-    @Query("SELECT s FROM ServiciosGastos s WHERE UPPER(s.servicio.nombre) like CONCAT('%', UPPER(:servicio), '%') "+
-           "and s.fechaRegistro BETWEEN :fecha and :fecha2 and UPPER(s.empresa) like CONCAT('%', UPPER(:empresa), '%')  and UPPER(s.responsable.cedula) like CONCAT('%', UPPER(:responsable), '%')")
-    public List<ServiciosGastos> findByFechaRegistroServicioEmpresa(@Param("fecha") Date fecha, @Param("fecha2")Date fecha2, @Param("empresa")String empresa, @Param("servicio")String servicio, @Param("responsable")String reponsable);
+    @Query("SELECT s FROM ServiciosGastos s WHERE UPPER(s.servicio.nombre) like UPPER(:servicio) "+
+           "and s.fechaRegistro BETWEEN :fecha and :fecha2 and UPPER(s.empresa) like UPPER(:empresa)  "
+            + " and UPPER(s.responsable.cedula) like UPPER(:responsable)")
+    public List<ServiciosGastos> findByFechaRegistroServicioEmpresa(@Param("fecha") Date fecha, @Param("fecha2")Date fecha2, @Param("empresa")String empresa, 
+           @Param("servicio")String servicio, @Param("responsable")String reponsable);
     
-    @Query("SELECT s FROM ServiciosGastos s WHERE UPPER(s.servicio.nombre) like CONCAT('%', UPPER(:servicio), '%') "+
-           "and s.fechaRegistro BETWEEN :fecha and :fecha2 and UPPER(s.empresa) like CONCAT('%', UPPER(:empresa), '%') " +
-           "and s.estadoPago = :estPago and UPPER(s.responsable.cedula) like CONCAT('%', UPPER(:responsable), '%')")
-    public List<ServiciosGastos> findByFechaRegistroServicioEmpresaEstadoPago(@Param("fecha") Date fecha, @Param("fecha2")Date fecha2, @Param("empresa")String empresa, @Param("servicio")String servicio, @Param("estPago")boolean estPago, @Param("responsable")String reponsable);
+    @Query("SELECT s FROM ServiciosGastos s WHERE UPPER(s.servicio.nombre) like UPPER(:servicio) "+
+           "and s.fechaRegistro BETWEEN :fecha and :fecha2 and UPPER(s.empresa) like UPPER(:empresa) " +
+           "and s.estadoPago = :estPago and UPPER(s.responsable.cedula) like UPPER(:responsable)")
+    public List<ServiciosGastos> findByFechaRegistroServicioEmpresaEstadoPago(@Param("fecha") Date fecha, @Param("fecha2")Date fecha2, 
+           @Param("empresa")String empresa, @Param("servicio")String servicio, @Param("estPago")boolean estPago, @Param("responsable")String reponsable);
     
-    @Query("SELECT s FROM ServiciosGastos s WHERE UPPER(s.servicio.nombre) like CONCAT('%', UPPER(:servicio), '%') "+
-           "and s.fechaRegistro BETWEEN :fecha and :fecha2 and UPPER(s.empresa) like CONCAT('%', UPPER(:empresa), '%') " +
-           "and s.estadoGasto = :estGasto and UPPER(s.responsable.cedula) like CONCAT('%', UPPER(:responsable), '%')")
-    public List<ServiciosGastos> findByFechaRegistroServicioEmpresaEstadoGasto(@Param("fecha") Date fecha, @Param("fecha2")Date fecha2, @Param("empresa")String empresa, @Param("servicio")String servicio, @Param("responsable")String reponsable, @Param("estGasto")boolean estGasto);
+    @Query("SELECT s FROM ServiciosGastos s WHERE UPPER(s.servicio.nombre) like UPPER(:servicio) "+
+           "and s.fechaRegistro BETWEEN :fecha and :fecha2 and UPPER(s.empresa) like UPPER(:empresa) " +
+           "and s.estadoGasto = :estGasto and UPPER(s.responsable.cedula) like UPPER(:responsable)")
+    public List<ServiciosGastos> findByFechaRegistroServicioEmpresaEstadoGasto(@Param("fecha") Date fecha, @Param("fecha2")Date fecha2, 
+            @Param("empresa")String empresa, @Param("servicio")String servicio, @Param("responsable")String reponsable, @Param("estGasto")boolean estGasto);
 }

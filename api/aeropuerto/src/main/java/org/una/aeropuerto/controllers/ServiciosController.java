@@ -86,7 +86,7 @@ public class ServiciosController {
 
     @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de servicios por medio de su nombre", response = ServiciosDTO.class, responseContainer = "List", tags = "Servicios")
-    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE')")
+    @PreAuthorize("hasRole('GESTOR') or hasRole('GERENTE') or hasRole('AUDITOR')")
     public ResponseEntity<?> findByNombre(@PathVariable(value = "term") String term) {
         try {
             Optional<List<ServiciosDTO>> result = serviciosService.findByNombre(term);
