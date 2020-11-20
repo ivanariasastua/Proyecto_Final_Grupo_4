@@ -53,7 +53,7 @@ public class ReportesController {
     public ResponseEntity<?> reporteGastosConEstados(@PathVariable("fecha") Date fecha, @PathVariable("fecha2") Date fecha2, @PathVariable("empresa") String empresa,
             @PathVariable("servicio") String servicio, @PathVariable("estPago") boolean estPago, @PathVariable("estGasto") boolean estGasto, @PathVariable("responsable") String responsable, @PathVariable("creador") String creador) {
         try {
-            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : '%' + empresa + '%', fecha, fecha2, servicio.equals("null") ? "%" : servicio, estPago, estGasto, responsable.equals("null") ? "%" : responsable);
+            Optional<List<ServiciosGastosDTO>> optional = service.serviciosGastos(empresa.equals("null") ? "%" : empresa, fecha, fecha2, servicio.equals("null") ? "%" : servicio, estPago, estGasto, responsable.equals("null") ? "%" : responsable);
             if (optional.isPresent()) {
                 List<ServiciosGastosDTO> lista = optional.get();
                 if (lista == null || lista.isEmpty()) {
