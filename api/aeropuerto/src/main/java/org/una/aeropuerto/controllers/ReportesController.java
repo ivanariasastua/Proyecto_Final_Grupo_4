@@ -57,7 +57,7 @@ public class ReportesController {
             if (optional.isPresent()) {
                 List<ServiciosGastosDTO> lista = optional.get();
                 if (lista == null || lista.isEmpty()) {
-                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>("No hay datos para generar el reporte", HttpStatus.NOT_FOUND);
                 } else {
                     HashMap<String, Object> parametros = new HashMap<>();
                     parametros.put("fecha_creacion", format.format(new Date()));
@@ -72,7 +72,7 @@ public class ReportesController {
                     return new ResponseEntity<>(convertirReporte(lista, parametros), HttpStatus.OK);
                 }
             } else {
-                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("No se puedo hacer la busqueda de los datos", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -87,7 +87,7 @@ public class ReportesController {
             if (optional.isPresent()) {
                 List<ServiciosGastosDTO> lista = optional.get();
                 if (lista == null || lista.isEmpty()) {
-                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>("No hay datos para generar el reporte", HttpStatus.NOT_FOUND);
                 } else {
                     HashMap<String, Object> parametros = new HashMap<>();
                     parametros.put("fecha_creacion", format.format(new Date()));
@@ -102,7 +102,7 @@ public class ReportesController {
                     return new ResponseEntity<>(convertirReporte(lista, parametros), HttpStatus.OK);
                 }
             } else {
-                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("No se puedo hacer la busqueda de los datos", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception ex) {
             System.out.println("reporte: " + ex);
@@ -118,7 +118,7 @@ public class ReportesController {
             if (optional.isPresent()) {
                 List<ServiciosGastosDTO> lista = optional.get();
                 if (lista == null || lista.isEmpty()) {
-                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>("No hay datos para generar el reporte", HttpStatus.NOT_FOUND);
                 } else {
                     HashMap<String, Object> parametros = new HashMap<>();
                     parametros.put("fecha_creacion", format.format(new Date()));
@@ -133,7 +133,7 @@ public class ReportesController {
                     return new ResponseEntity<>(convertirReporte(lista, parametros), HttpStatus.OK);
                 }
             } else {
-                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("No se puedo hacer la busqueda de los datos", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -148,7 +148,7 @@ public class ReportesController {
             if (optional.isPresent()) {
                 List<ServiciosGastosDTO> lista = optional.get();
                 if (lista == null || lista.isEmpty()) {
-                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>("No hay datos para generar el reporte", HttpStatus.NOT_FOUND);
                 } else {
                     HashMap<String, Object> parametros = new HashMap<>();
                     parametros.put("fecha_creacion", format.format(new Date()));
@@ -163,7 +163,7 @@ public class ReportesController {
                     return new ResponseEntity<>(convertirReporte(lista, parametros), HttpStatus.OK);
                 }
             } else {
-                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("No se puedo hacer la busqueda de los datos", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -178,12 +178,12 @@ public class ReportesController {
             if (optional.isPresent()) {
                 List<EmpleadosMarcajesDTO> lista = optional.get();
                 if (lista == null || lista.isEmpty()) {
-                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>("No hay datos para generar el reporte", HttpStatus.NOT_FOUND);
                 } else {
                     return new ResponseEntity<>(convertirReporteHorasLaboradas(lista,encargado,fecha1,fecha2), HttpStatus.OK);
                 }
             } else {
-                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("No se puedo hacer la busqueda de los datos", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -259,7 +259,7 @@ public class ReportesController {
             if (optional.isPresent()) {
                 List<IncidentesRegistradosDTO> lista = optional.get();
                 if (lista == null || lista.isEmpty()) {
-                    return new ResponseEntity<>("La lista está vacía", HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>("No hay datos para generar el reporte", HttpStatus.NOT_FOUND);
                 } else {
                     JasperPrint jprint = ReportBuilder.reporteIncidente(lista, map);
                     ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
@@ -270,7 +270,7 @@ public class ReportesController {
                     return new ResponseEntity<>(temp, HttpStatus.OK);
                 }
             } else {
-                return new ResponseEntity<>("Lista Vacia", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("No se puedo hacer la busqueda de los datos", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
