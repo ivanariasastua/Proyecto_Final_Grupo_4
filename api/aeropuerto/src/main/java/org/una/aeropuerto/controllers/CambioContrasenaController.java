@@ -13,6 +13,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,17 @@ public class CambioContrasenaController {
     
     @Autowired 
     private IEmpleadosService empService;
+    
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    
+    private EmpleadosDTO encriptarPassword(EmpleadosDTO usuario) {
+        String password = usuario.getContrasenaEncriptada();
+        if (!password.isBlank()) {
+            usuario.setContrasenaEncriptada(bCryptPasswordEncoder.encode(password));
+        }
+        return usuario;
+    }
     
     @GetMapping("/sendEmail/{cedula}")
     @ApiOperation(value = "Funcion que permite solicitar una nueva contraseña temporat", tags="Password")
@@ -66,7 +78,7 @@ public class CambioContrasenaController {
                     dto.setPasswordTemporal(Boolean.TRUE);
                     dto.setSolicitud(Boolean.FALSE);
                     dto.setContrasenaEncriptada(temp);
-                    System.out.println(dto.getId());
+                    dto = encriptarPassword(dto);
                     empService.update(dto, dto.getId());
                     Mailer.sendCorreoRespuesta(dto.getNombre(), "Contraseña Temporal: "+temp, "Aquí esta su nueva contraseña: ", dto.getCorreo());
                     return new ResponseEntity<>(Mailer.getRespuesta(emp.get().getNombre(), "Recuerde no compartir con nadie su contraseña", "Pronto recibira un correo con la nueva contraseña"), HttpStatus.OK);
@@ -87,6 +99,7 @@ public class CambioContrasenaController {
             System.out.println(empleado.getPasswordTemporal());
             if(empleado.getPasswordTemporal()){
                 empleado.setPasswordTemporal(Boolean.FALSE);
+                empleado = encriptarPassword(empleado);
                 return new ResponseEntity<>(empService.update(empleado, empleado.getId()), HttpStatus.OK);
             }
             return new ResponseEntity<>("El usuario no ha solicitado un cambio de contraseña", HttpStatus.BAD_REQUEST);
